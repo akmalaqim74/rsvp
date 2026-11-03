@@ -1,0 +1,23 @@
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { LazyMotion, MotionConfig, domAnimation } from 'motion/react';
+import { App } from './App';
+import { I18nProvider } from './lib/i18n';
+import { ConfigProvider } from './lib/siteConfig';
+import './styles.css';
+
+const root = document.getElementById('root');
+if (!root) throw new Error('root element missing');
+
+createRoot(root).render(
+  <StrictMode>
+    {/* reducedMotion "user": people who ask their phone for less motion get no movement, only fades */}
+    <MotionConfig reducedMotion="user"><LazyMotion features={domAnimation} strict>
+      <I18nProvider>
+        <ConfigProvider>
+          <App />
+        </ConfigProvider>
+      </I18nProvider>
+    </LazyMotion></MotionConfig>
+  </StrictMode>
+);

@@ -1,19 +1,18 @@
 # Architecture — RSVP product landing page
 
 ## Stack and why
-- **Static site: plain HTML, CSS and vanilla JS.** No framework, no build step, nothing to install or pay for. Same approach as `rsvp-invite`, so Antigravity and the CEO already know it.
+- **Vite + React + TypeScript + Motion (CEO decision, 2026-11-03).** Builds to plain static files, so hosting stays free. React for reusable components, Motion (lazy, small build) for scroll reveals, entrances and button feedback; reduced-motion users get fades only. Replaced the first plain HTML/CSS/JS version (kept on branch `feature/landing-page`).
 - **Backend: one Google Sheet + one Apps Script web app.** Free, the CEO already uses it, and the Sheet is the dashboard.
 - **Hosting:** Cloudflare Pages (free) on a subdomain. CEO adds one CNAME record at his DNS later. Until then it runs on the free `*.pages.dev` address. Alternative: Netlify or GitHub Pages (same cost, fewer extras).
 
 ## Folder structure
 ```
 rsvp-landing/
-  index.html
-  css/styles.css
-  js/app.js          page logic: config load, i18n, form
-  js/defaults.js     safe default config (used if the Sheet is unreachable)
-  i18n/en.json  i18n/ms.json
-  fonts/             self-hosted woff2
+  index.html  package.json  vite.config.ts  tsconfig.json
+  src/main.tsx  App.tsx  styles.css  motion.ts  types.ts
+  src/components/    Header Hero Sections Booking Footer WhatsAppLink
+  src/lib/           config.ts (defaults, Sheet config, mock) booking.ts i18n.tsx siteConfig.tsx
+  src/i18n/          en.json ms.json
   apps-script/Code.gs  appsscript.json   (pasted into the Sheet by the CEO)
   tests/apps-script.test.js
   docs/
@@ -35,7 +34,7 @@ Business details are not in the code. The page calls `GET ?action=config` on loa
 | notify_email | (CEO) | gets an email per booking; optional |
 
 Rules:
-- **Defaults ship in `defaults.js`** with no phone number and no personal data. Brand name falls back to a neutral placeholder, all four event types visible except funeral.
+- **Defaults ship in `src/lib/config.ts`** with no phone number and no personal data. Brand name falls back to a neutral placeholder, all four event types visible except funeral.
 - **If the config call fails or takes over 3 s:** page renders with defaults; WhatsApp buttons stay hidden (never guess a number); the form still works.
 - Config response is cached in `sessionStorage` for 10 minutes to avoid a Sheet call on every navigation. Because the number can change, the cache is short.
 - **All config text is inserted with `textContent`, never `innerHTML`.** `logo_url` and `demo_url` must start with `https://` or are ignored. `whatsapp_number` must be digits only, 9 to 15 long, or is ignored. The WhatsApp link is built in JS as `https://wa.me/<number>?text=<encoded>`.
@@ -54,12 +53,12 @@ Apps Script cannot see IP addresses, so limits are by content:
 - Client disables the submit button while sending and keeps the same retry rule as `rsvp-invite` for "Busy".
 
 ## Performance budget
-- Lighthouse mobile at least 90 on Performance, Accessibility, Best Practices, SEO.
-- No images in v1 beyond optional logo (CSS/SVG previews). JS under 30 KB, CSS under 25 KB, fonts: two woff2 files, latin subset, `font-display: swap`.
+- Lighthouse mobile at least 90 on Performance, Accessibility, Best Practices, SEO (not yet measured).
+- No images in v1 beyond optional logo; visuals later come from Gemini Flow. JS about 106 KB gzipped (React plus lazy Motion), CSS under 25 KB, system fonts. Animate only the hero, scroll reveals and the form.
 - No third-party scripts.
 
 ## i18n
-- Two JSON files, keys identical. Language chosen from `localStorage`, else BM if `navigator.language` starts with `ms`, else English. Toggle in header. `<html lang>` updated on switch. Missing key falls back to English. Adding a language = one new JSON file plus one toggle button.
+- Two JSON files in `src/i18n/`, keys identical, bundled into the app. Language chosen from `localStorage`, else BM if `navigator.language` starts with `ms`, else English. Toggle in header. `<html lang>` updated on switch. Missing key falls back to English. Adding a language = one new JSON file plus one toggle button.
 
 ## SEO and sharing
 - One page. `<title>` and meta description are static HTML, so they are English in v1 (no `hreflang`). JS updates `<title>` on language switch. Open Graph tags added so the link previews well when shared on WhatsApp.
@@ -67,10 +66,10 @@ Apps Script cannot see IP addresses, so limits are by content:
 ## Decisions log
 | Decision | Alternatives | Reason |
 |---|---|---|
-| Static HTML/CSS/JS | Next.js, Astro | No build, no dependency, owner can edit |
+| Vite + React + TS + Motion | Plain HTML/JS, Next.js, Astro | CEO wants richer animation and UI; Vite keeps it static and free; Next/Astro are overkill for one page |
 | Google Sheet + Apps Script | Supabase, Firebase, form SaaS | CEO decision; free; Sheet is the dashboard |
 | Business details read from Sheet Config | Hard-coded config.js | CEO decision; change number/logo without redeploy |
 | Safe defaults, hide WhatsApp if no config | Hard-coded fallback number | Never show a wrong number; no personal data in the repo |
-| Self-hosted fonts | Google Fonts CDN | Faster, no third-party request |
+| System fonts (v1) | Self-hosted or Google Fonts | No download, fastest; revisit with the Flow visuals |
 | Cloudflare Pages | Netlify, GitHub Pages | Free, simple CNAME for subdomain |
 | Per-phone and daily caps | CAPTCHA | CAPTCHAs add friction and a third party; caps are enough at our volume |
