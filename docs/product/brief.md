@@ -56,10 +56,12 @@ _Status: draft by PO (Claude). Awaiting CEO answers on the open items at the bot
 - Smaller version that still works: hero, event types, demo link, booking form + WhatsApp. Pricing, FAQ and "what you get" can follow.
 - Everything shown must be real. Sample previews use placeholder events and are labelled as samples.
 
-## Open items for the CEO
-1. **Languages:** is Bahasa Melayu + English enough for v1?
-2. **Pricing:** do we show prices/packages, or "contact us for a quote"?
-3. **Domain:** which main domain, and the subdomain name you want (and who manages the DNS)?
-4. **WhatsApp number** to use on the button.
-5. **Branding:** do we have a product name and logo, or should I propose them in the design step?
-6. **Funeral events:** keep as a visible event type on the page, or mention it more quietly?
+## CEO decisions (2026-11-03)
+1. **Languages:** Bahasa Melayu + English for v1.
+2. **Pricing:** none on the page. "Contact us for a quote".
+3. **Domain:** CEO sets up the subdomain and manages the DNS later. Not blocking the build.
+4. **WhatsApp number:** comes from the Google Sheet `Config` tab, not hard-coded.
+5. **Product name and logo:** from the `Config` tab too.
+6. **Funeral event type:** shown or hidden per the `Config` tab.
+
+**Consequence:** the page is a static shell and reads its business details (name, logo, WhatsApp number, which event types to show, contact email) from the Sheet at load. The CEO changes them in the Sheet with no redeploy. The page ships with safe defaults so it still works if the Sheet is slow or down (see `docs/specs/architecture.md`).
