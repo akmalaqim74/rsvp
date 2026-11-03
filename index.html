@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital invitations with RSVP for any event</title>
+<meta name="description" content="One link for every guest. Replies land in a Google Sheet you own. For weddings, birthdays, tahlil and any event.">
+<meta property="og:title" content="Digital invitations with RSVP for any event">
+<meta property="og:description" content="One link for every guest. Replies land in a Google Sheet you own.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#FBF8F2">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+<a class="skip" href="#book" data-i18n="cta.book">Book now</a>
+
+<header class="top">
+  <div class="wrap top-in">
+    <a class="brand" href="#" aria-label="Home"><img id="logo" alt="" hidden><span id="brandName">RSVP</span></a>
+    <div class="top-r">
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" data-lang="ms">BM</button><button type="button" data-lang="en">EN</button>
+      </div>
+      <a class="btn btn-wa btn-sm" data-wa hidden target="_blank" rel="noopener" data-i18n="nav.wa">WhatsApp</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div class="hero-text">
+      <h1 data-i18n="hero.title">Invitations that count your guests for you</h1>
+      <p class="lead" data-i18n="hero.sub"></p>
+      <div class="cta-row">
+        <a class="btn btn-wa" data-wa hidden target="_blank" rel="noopener" data-i18n="cta.wa">WhatsApp us</a>
+        <a class="btn btn-primary" href="#book" data-i18n="cta.book">Book now</a>
+      </div>
+      <p class="price" data-i18n="price.line"></p>
+    </div>
+    <div class="phone" aria-hidden="true">
+      <div class="phone-in">
+        <span class="sample" data-i18n="hero.sample">Sample</span>
+        <p class="m-small" data-i18n="mock.invited"></p>
+        <p class="m-title" data-i18n="mock.title"></p>
+        <p class="m-meta" data-i18n="mock.meta"></p>
+        <div class="m-btns"><span data-i18n="mock.yes"></span><span class="alt" data-i18n="mock.no"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band wrap" id="how">
+    <h2 data-i18n="how.title"></h2>
+    <ol class="cards">
+      <li><span class="num">1</span><h3 data-i18n="how.1t"></h3><p data-i18n="how.1d"></p></li>
+      <li><span class="num">2</span><h3 data-i18n="how.2t"></h3><p data-i18n="how.2d"></p></li>
+      <li><span class="num">3</span><h3 data-i18n="how.3t"></h3><p data-i18n="how.3d"></p></li>
+    </ol>
+  </section>
+
+  <section class="band wrap" id="events">
+    <h2 data-i18n="events.title"></h2>
+    <div class="cards cards-4" id="eventCards">
+      <article data-event="wedding"><h3 data-i18n="event.wedding.t"></h3><p data-i18n="event.wedding.d"></p></article>
+      <article data-event="birthday"><h3 data-i18n="event.birthday.t"></h3><p data-i18n="event.birthday.d"></p></article>
+      <article data-event="funeral" hidden><h3 data-i18n="event.funeral.t"></h3><p data-i18n="event.funeral.d"></p></article>
+      <article data-event="other"><h3 data-i18n="event.other.t"></h3><p data-i18n="event.other.d"></p></article>
+    </div>
+  </section>
+
+  <section class="band wrap demo" id="demo" hidden>
+    <h2 data-i18n="demo.title"></h2>
+    <p data-i18n="demo.note"></p>
+    <a class="btn btn-primary" id="demoLink" target="_blank" rel="noopener" data-i18n="demo.cta"></a>
+  </section>
+
+  <section class="band wrap" id="get">
+    <h2 data-i18n="get.title"></h2>
+    <ul class="ticks">
+      <li data-i18n="get.1"></li><li data-i18n="get.2"></li><li data-i18n="get.3"></li>
+      <li data-i18n="get.4"></li><li data-i18n="get.5"></li><li data-i18n="get.6"></li>
+    </ul>
+  </section>
+
+  <section class="band wrap book" id="book">
+    <div>
+      <h2 data-i18n="form.title"></h2>
+      <p class="lead" data-i18n="form.sub"></p>
+      <a class="btn btn-wa" data-wa hidden target="_blank" rel="noopener" data-i18n="cta.wa">WhatsApp us</a>
+    </div>
+    <form id="bookingForm" novalidate>
+      <p id="closedMsg" class="notice" data-i18n="form.closed" hidden></p>
+      <div class="field"><label for="f-name" data-i18n="form.name"></label><input id="f-name" name="name" autocomplete="name" maxlength="80" required><span class="err" role="alert"></span></div>
+      <div class="field"><label for="f-phone" data-i18n="form.phone"></label><input id="f-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="20" required><span class="err" role="alert"></span></div>
+      <div class="field"><label for="f-type" data-i18n="form.type"></label><select id="f-type" name="eventType" required></select><span class="err" role="alert"></span></div>
+      <div class="field"><label for="f-date" data-i18n="form.date"></label><input id="f-date" name="eventDate" type="date"><span class="err" role="alert"></span></div>
+      <div class="field"><label for="f-note" data-i18n="form.note"></label><textarea id="f-note" name="note" rows="3" maxlength="300"></textarea></div>
+      <div class="hp" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off"></label></div>
+      <button class="btn btn-primary btn-block" id="submitBtn" type="submit" data-i18n="form.submit">Send</button>
+      <p class="status" id="formStatus" role="status" aria-live="polite"></p>
+      <p class="small" data-i18n="form.privacy"></p>
+    </form>
+  </section>
+
+  <section class="band wrap" id="faq">
+    <h2 data-i18n="faq.title"></h2>
+    <details><summary data-i18n="faq.q1"></summary><p data-i18n="faq.a1"></p></details>
+    <details><summary data-i18n="faq.q2"></summary><p data-i18n="faq.a2"></p></details>
+    <details><summary data-i18n="faq.q3"></summary><p data-i18n="faq.a3"></p></details>
+    <details><summary data-i18n="faq.q4"></summary><p data-i18n="faq.a4"></p></details>
+    <details><summary data-i18n="faq.q5"></summary><p data-i18n="faq.a5"></p></details>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p><strong id="footBrand"></strong></p>
+    <p><a data-wa hidden target="_blank" rel="noopener" data-i18n="cta.wa">WhatsApp us</a> <a id="footEmail" hidden></a></p>
+    <p class="small" data-i18n="form.privacy"></p>
+  </div>
+</footer>
+
+<script src="js/defaults.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
