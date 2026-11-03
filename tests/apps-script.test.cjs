@@ -1,4 +1,4 @@
-// Run: node tests/apps-script.test.js
+// Run: npm test
 const assert = require('assert');
 const fs = require('fs');
 const path = require('path');

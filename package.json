@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test": "node tests/apps-script.test.js"
+    "test": "node tests/apps-script.test.cjs"
   },
   "dependencies": {
     "motion": "^14.9.0",
