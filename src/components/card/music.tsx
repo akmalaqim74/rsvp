@@ -29,7 +29,7 @@ async function findTrack(demo: DemoInvite): Promise<string | null> {
   return null;
 }
 
-export function useMusic(demo: DemoInvite, embed: boolean) {
+export function useMusic(demo: DemoInvite) {
   const [src, setSrc] = useState<string | null>(null);
   const [playing, setPlaying] = useState(false);
   const audio = useRef<HTMLAudioElement | null>(null);
@@ -37,11 +37,11 @@ export function useMusic(demo: DemoInvite, embed: boolean) {
   const wanted = useRef(false); // playing before the tab was hidden
 
   useEffect(() => {
-    if (embed || demo.category === 'funeral') return; // tahlil: never any music
+    if (demo.category === 'funeral') return; // tahlil: never any music
     let live = true;
     void findTrack(demo).then((s) => { if (live) setSrc(s); });
     return () => { live = false; };
-  }, [demo, embed]);
+  }, [demo]);
 
   const rampTo = useCallback((el: HTMLAudioElement, to: number, done?: () => void) => {
     window.clearInterval(fade.current);
@@ -99,7 +99,7 @@ export function useMusic(demo: DemoInvite, embed: boolean) {
     };
   }, [play]);
 
-  return { available: Boolean(src) && !embed, playing, start, toggle };
+  return { available: Boolean(src), playing, start, toggle };
 }
 
 export function MusicButton({ playing, onToggle }: { playing: boolean; onToggle: () => void }) {

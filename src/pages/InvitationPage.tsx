@@ -204,7 +204,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   const guest = cleanGuest(params.get('to'));
   const [phase, setPhase] = useState<Phase>('closed');
   const closed = phase === 'closed';
-  const music = useMusic(demo, embed);
+  const music = useMusic(demo);
   const art = useCoverBg(demo);
 
   /* Lock page scroll while the cover is shut, then start at the top. */
