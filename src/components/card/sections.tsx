@@ -190,6 +190,7 @@ export function Section({ title, children, alt, id, hero }: { title?: string; ch
   const cat = useContext(CatCtx);
   return (
     <m.section className={`iv-sec${alt ? ' alt' : ''}${hero ? ' iv-hero' : ''}`} id={id} {...reveal()} aria-label={title}>
+      <span className={`iv-band${hero ? ' iv-band-hero' : ''}`} aria-hidden="true" />
       {!hero && <Divider category={cat} />}
       {title && <h2 className="iv-h">{title}</h2>}
       {children}

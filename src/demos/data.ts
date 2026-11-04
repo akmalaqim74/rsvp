@@ -354,7 +354,7 @@ export const DEMOS: DemoInvite[] = [
   {
     category: 'birthday', id: 'id-3', ...partyExtras(['14:00', '15:00', '16:00'], [{ en: 'Arrival and face painting', ms: 'Ketibaan dan lukisan muka' }, { en: 'Games and magic show', ms: 'Permainan dan persembahan silap mata' }, { en: 'Cake and goodie bags', ms: 'Kek dan beg cenderahati' }], 4), name: { en: 'Bright Balloons', ms: 'Belon Ceria' },
     theme: { paper: '#FFFBF0', paper2: '#FFF1D6', ink: '#1F2A44', muted: '#46506B', accent: '#FF7A59', accentText: '#B2391A',
-      cover: '#2058C9', coverInk: '#FFFFFF', coverLine: '#FFD23F', btn: '#C73E1D', btnInk: '#FFFBF0', seal: '#FFD23F', sealInk: '#1F2A44' },
+      cover: '#D3EAF9', coverInk: '#14306B', coverLine: '#C73E1D', btn: '#C73E1D', btnInk: '#FFFBF0', seal: '#FFD23F', sealInk: '#1F2A44' },
     seal: 'wax', monogram: '5', cover: 'balloons',
     kicker: { en: 'Come and celebrate', ms: 'Jom meriahkan' },
     names: ['Danish'], subtitle: { en: 'is five!', ms: 'genap lima tahun!' }, guest: 'Mak Cik Rina',
@@ -466,7 +466,7 @@ export const DEMOS: DemoInvite[] = [
   {
     category: 'other', id: 'id-2', ...partyExtras(['11:00', '11:30', '12:30'], [{ en: 'Doa selamat', ms: 'Doa selamat' }, { en: 'Aqiqah', ms: 'Aqiqah' }, { en: 'Lunch', ms: 'Makan tengah hari' }], 4), name: { en: 'Dusty Blue Aqiqah', ms: 'Aqiqah Biru Debu' },
     theme: { paper: '#F4F7FA', paper2: '#E6EDF3', ink: '#1E2F40', muted: '#475A6C', accent: '#9DB4C8', accentText: '#33607F',
-      cover: '#4A6A85', coverInk: '#F4F8FB', coverLine: '#C3D4E3', btn: '#33546F', btnInk: '#F4F7FA', seal: '#F4F8FB', sealInk: '#33546F' },
+      cover: '#E6EEF6', coverInk: '#1E3A55', coverLine: '#5C7C99', btn: '#33546F', btnInk: '#F4F7FA', seal: '#F4F8FB', sealInk: '#33546F' },
     seal: 'wax', monogram: 'A',
     cover: 'arch',
     kicker: { en: 'Aqiqah and doa selamat', ms: 'Majlis aqiqah dan doa selamat' },

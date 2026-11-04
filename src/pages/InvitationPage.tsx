@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { m, useReducedMotion } from 'motion/react';
 import { findDemo, type CoverKind, type DemoInvite } from '../demos/data';
@@ -184,6 +184,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   const [phase, setPhase] = useState<Phase>('closed');
   const closed = phase === 'closed';
   const music = useMusic(demo, embed);
+  const art = useCoverBg(demo);
 
   /* Lock page scroll while the cover is shut, then start at the top. */
   useEffect(() => {
@@ -213,7 +214,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   }, [phase]);
 
   return (
-    <div className="iv" data-cat={demo.category} data-layout={coverKind(demo)} data-quiet={demo.quiet || undefined} data-embed={embed || undefined} style={themeStyle(demo.theme)} lang={lang}>
+    <div className="iv" data-cat={demo.category} data-layout={coverKind(demo)} data-quiet={demo.quiet || undefined} data-embed={embed || undefined} style={art ? { ...themeStyle(demo.theme), '--iv-art': `url(${art})` } as CSSProperties : themeStyle(demo.theme)} data-led={art ? 'y' : undefined} lang={lang}>
       {!embed && (
         <div className="iv-top">
           <Link to={{ pathname: '/', hash: 'demos' }}>← {t('inv.back')}</Link>
