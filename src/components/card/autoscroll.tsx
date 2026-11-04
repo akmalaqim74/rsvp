@@ -19,8 +19,8 @@ export function useAutoScroll(active: boolean, reduce: boolean) {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       y = Math.max(y, window.scrollY) + ((now - last) / 1000) * SPEED;
       last = now;
-      if (y >= max - 1) { window.scrollTo(0, max); setRunning(false); return; }
-      window.scrollTo(0, y);
+      if (y >= max - 1) { window.scrollTo({ top: max, behavior: 'instant' }); setRunning(false); return; }
+      window.scrollTo({ top: y, behavior: 'instant' }); // html has scroll-behavior:smooth, which would fight every frame
       raf.current = requestAnimationFrame(tick);
     };
     raf.current = requestAnimationFrame(tick);
