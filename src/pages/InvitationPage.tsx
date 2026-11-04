@@ -7,7 +7,7 @@ import { useSiteConfig } from '../lib/siteConfig';
 import { waHref } from '../lib/config';
 import { WhatsAppLink } from '../components/WhatsAppLink';
 import { LANGS } from '../types';
-import { CoverText, Divider, Frame, isLong, themeStyle } from '../components/card/parts';
+import { CoverText, Divider, Frame, LoopClip, isLong, themeStyle } from '../components/card/parts';
 import { Contact, Countdown, EventBlock, Rsvp, Section } from '../components/card/sections';
 import '../invitation.css';
 
@@ -42,6 +42,7 @@ function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite
   return (
     <m.div className="cover cv-page" style={themeStyle(demo.theme)} role="region" aria-label={demo.kicker[lang]}
       animate={{ opacity: opening && reduce ? 0 : 1 }} transition={{ duration: 0.4 }}>
+      <LoopClip category={demo.category} />
       {door('l')}
       {door('r')}
       <m.div className="cv cv-face" animate={opening ? { opacity: 0, scale: 1.04 } : { opacity: 1, scale: 1 }} transition={{ duration: 0.35 }}>

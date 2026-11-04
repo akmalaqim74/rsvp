@@ -68,3 +68,29 @@ Not needed for Tahlil: that design uses a quiet ring, not a wax seal.
 1. Reload any sample at 375 px. If a file is missing or broken the fallback shows, so nothing breaks.
 2. Check it on both a dark cover and a light paper section, and in the gallery thumbnail (the corner is shown very small there).
 3. If an image is too heavy or too busy, ask Flow for "simpler, thinner lines, more empty space" and swap the file.
+
+---
+
+## Video and animated assets (made in Flow, not by Claude)
+Rule (CEO): any video or animation asset comes from Google Flow. Claude only builds the opening and motion in code (doors, seal, fades). The loop below is optional and does nothing until the file exists.
+
+| File | Where it shows | Format |
+|---|---|---|
+| `loop-<category>.webm` | Soft looping background behind the cover lettering (animated florals, drifting light, shimmer) | **WebM (VP9), 720 x 1280 px portrait, 6 to 8 seconds, seamless loop, no audio track**, 24 fps, **under 400 KB** (about 400 kbps), no alpha needed (the page shows it at 35 percent opacity over the cover colour) |
+
+It is skipped automatically for visitors with reduced motion or data saver on, and when the file is missing. Category names as above (`wedding`, `birthday`, `funeral`, `other`). **Tahlil: do not make one**; that card stays still.
+
+Other ideas, **not wired**, brief only if you want them later (tell Claude and a slot will be added):
+- Seal-stamp clip (seal pressing into the cover): transparent WebM, 400 x 400, 1.5 s, plays once, under 150 KB.
+- Soft confetti or petals falling when the doors open (wedding, birthday only): transparent WebM, 720 x 1280, 3 s, plays once, under 300 KB.
+
+### Prompt: cover loop, wedding
+> A slow, seamless looping background animation for a wedding invitation cover, portrait 9:16: very fine gold line botanical sprigs gently swaying and tiny gold light specks drifting upward on a flat dark sage green (#2F4A3F) background. Subtle, calm, low contrast, large empty centre so text can sit on top. No text, no people, no faces, no camera movement, no flashing. Exactly 6 seconds, the last frame matches the first so it loops without a jump. 720 x 1280, 24 fps.
+
+### Prompt: cover loop, birthday
+> A slow seamless looping background animation for a refined birthday invitation cover, portrait 9:16: soft champagne light specks and thin gold arcs drifting gently on a deep plum (#3E2A3F) background. Calm and grown-up, low contrast, empty centre for text. No balloons, no cartoon, no text, no flashing, no camera movement. 6 seconds, first frame equals last frame for a perfect loop. 720 x 1280, 24 fps.
+
+### Prompt: cover loop, other
+> A slow seamless looping background animation for a formal event invitation cover, portrait 9:16: faint pale-blue geometric lines slowly shimmering on deep ink-blue (#1B2A4E). Minimal, low contrast, empty centre for text. No text, no people, no flashing, no camera movement. 6 seconds, perfect loop. 720 x 1280, 24 fps.
+
+Compress after export (for example HandBrake or `ffmpeg -c:v libvpx-vp9 -b:v 400k -an`) and check the file is under the size above; heavy clips hurt phones.

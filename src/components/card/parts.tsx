@@ -50,6 +50,30 @@ export function useArt(kind: ArtKind, category: EventType): string | null {
   return ok ? src : null;
 }
 
+/* Optional looping background clip for the cover (made in Flow). Only used when the file exists,
+   the visitor has not asked for reduced motion, and data saver is off. Otherwise nothing renders. */
+export function useLoopClip(category: EventType): string | null {
+  const src = `/art/loop-${category}.webm`;
+  const [ok, setOk] = useState(false);
+  useEffect(() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const saver = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true;
+    if (reduce || saver) return;
+    let live = true;
+    fetch(src, { method: 'HEAD' })
+      .then((r) => { if (live) setOk(r.ok && (r.headers.get('content-type') ?? '').startsWith('video/')); })
+      .catch(() => { /* absent: keep the CSS cover */ });
+    return () => { live = false; };
+  }, [src]);
+  return ok ? src : null;
+}
+
+export function LoopClip({ category }: { category: EventType }) {
+  const src = useLoopClip(category);
+  if (!src) return null;
+  return <video className="cv-loop" src={src} autoPlay muted loop playsInline preload="metadata" aria-hidden="true" tabIndex={-1} />;
+}
+
 /* ---- Ornaments (geometric lines only) ------------------------------------------------------- */
 const POS = ['tl', 'tr', 'bl', 'br'] as const;
 
