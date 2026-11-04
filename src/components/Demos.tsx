@@ -1,42 +1,26 @@
-import { useState, type KeyboardEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { lazy, Suspense, useCallback, useState, type KeyboardEvent } from 'react';
 import { AnimatePresence, m } from 'motion/react';
 import { reveal } from '../motion';
 import { useI18n } from '../lib/i18n';
 import { useSiteConfig } from '../lib/siteConfig';
-import { firstDemo } from '../demos/data';
+import { demosFor, type DemoInvite } from '../demos/data';
+import { CoverThumb } from './card/parts';
 import { EVENT_TYPES, type EventType } from '../types';
+import '../invitation.css';
 
-/* All sample content below is labelled "Sample" on screen. The preview is plain CSS, no images. */
-function Preview({ type }: { type: EventType }) {
-  const { t } = useI18n();
-  const quiet = type === 'funeral';
-  return (
-    <div className={`phone${quiet ? ' quiet' : ''}`} aria-hidden="true">
-      <div className="phone-in">
-        <span className="sample">{t('hero.sample')}</span>
-        <p className="m-small">{t(`demo.${type}.line`)}</p>
-        <p className="m-title">{t(`demo.${type}.title`)}</p>
-        <p className="m-meta">{t(`demo.${type}.meta`)}</p>
-        <p className="m-chip">{t('demo.chip')}</p>
-        <div className="m-btns">
-          <span>{t(quiet ? 'demo.attend' : 'mock.yes')}</span>
-          <span className="alt">{t(quiet ? 'demo.decline' : 'mock.no')}</span>
-          <span className="alt map">{t('demo.map')}</span>
-        </div>
-      </div>
-    </div>
-  );
-}
+/* The modal (and the iframe inside it) is only fetched when someone taps a design. */
+const DemoModal = lazy(() => import('./DemoModal').then((mod) => ({ default: mod.DemoModal })));
 
 export function Demos() {
-  const { t } = useI18n();
+  const { t, lang } = useI18n();
   const cfg = useSiteConfig();
   const types = EVENT_TYPES.filter((ty) => cfg.show[ty]);
   const [picked, setPicked] = useState<EventType>('wedding');
+  const [open, setOpen] = useState<DemoInvite | null>(null);
+  const close = useCallback(() => setOpen(null), []);
   const active = types.includes(picked) ? picked : types[0];
   if (!active) return null;
-  const demo = firstDemo(active);
+  const designs = demosFor(active);
 
   function onKeyDown(e: KeyboardEvent) {
     const i = types.indexOf(active);
@@ -65,20 +49,25 @@ export function Demos() {
         </div>
         <div className="stage" id="demo-panel" role="tabpanel" aria-labelledby={`tab-${active}`}>
           <AnimatePresence mode="wait">
-            <m.div key={active} className="stage-in" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
-              <Preview type={active} />
-              <div className="stage-text">
-                <h3>{t(`event.${active}.t`)}</h3>
-                <p>{t(`event.${active}.d`)}</p>
-                {demo
-                  ? <Link className="btn btn-primary" to={`/${demo.category}/${demo.id}`}>{t('demo.open')}</Link>
-                  : <p className="small">{t('demo.soon')}</p>}
-              </div>
+            <m.div key={active} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
+              <p className="stage-d">{t(`event.${active}.d`)}</p>
+              <ul className="gal">
+                {designs.map((d) => (
+                  <li key={d.id}>
+                    <button type="button" className="tile" aria-haspopup="dialog" onClick={() => setOpen(d)}
+                      aria-label={`${t('demo.preview')}: ${d.name[lang]}`}>
+                      <CoverThumb demo={d} lang={lang} />
+                      <span className="tile-cap" aria-hidden="true">{d.name[lang]}<small>{t('demo.tap')}</small></span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+              <p className="small">{t('demo.note')}</p>
             </m.div>
           </AnimatePresence>
         </div>
       </m.div>
+      {open && <Suspense fallback={null}><DemoModal demo={open} onClose={close} /></Suspense>}
     </section>
   );
 }

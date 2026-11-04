@@ -1,134 +1,166 @@
-import { useEffect, useState, type FormEvent } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { AnimatePresence, m } from 'motion/react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
+import { m, useReducedMotion } from 'motion/react';
 import { findDemo, type DemoInvite } from '../demos/data';
 import { useI18n } from '../lib/i18n';
+import { useSiteConfig } from '../lib/siteConfig';
+import { waHref } from '../lib/config';
 import { WhatsAppLink } from '../components/WhatsAppLink';
 import { LANGS } from '../types';
+import { CoverText, Divider, Frame, isLong, themeStyle } from '../components/card/parts';
+import { Contact, Countdown, EventBlock, Rsvp, Section } from '../components/card/sections';
+import '../invitation.css';
 
-const TZ = 'Asia/Kuala_Lumpur';
+/* Guest name comes from the link (?to=Name). It is text only, trimmed and capped. */
+const cleanGuest = (v: string | null): string => (v ?? '').replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, 60);
 
-function useCountdown(iso: string) {
-  const target = new Date(iso).getTime();
-  const [now, setNow] = useState(() => Date.now());
+type Phase = 'closed' | 'opening' | 'open';
+
+function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite; guest: string; phase: Phase; embed: boolean; onOpen: () => void; onDone: () => void }) {
+  const { t, lang } = useI18n();
+  const reduce = useReducedMotion();
+  const btn = useRef<HTMLButtonElement>(null);
+  const opening = phase === 'opening';
+
+  /* In the modal the close button keeps focus, so the dialog stays predictable. */
+  useEffect(() => { if (!embed) btn.current?.focus({ preventScroll: true }); }, [embed]);
   useEffect(() => {
-    const id = setInterval(() => setNow(Date.now()), 1000);
-    return () => clearInterval(id);
-  }, []);
-  const ms = Math.max(0, target - now);
-  return { past: target <= now, days: Math.floor(ms / 86400000), hours: Math.floor(ms / 3600000) % 24, minutes: Math.floor(ms / 60000) % 60 };
-}
+    if (!opening) return;
+    const id = window.setTimeout(onDone, reduce ? 450 : 1500); // safety net if the animation callback never fires
+    return () => window.clearTimeout(id);
+  }, [opening, reduce, onDone]);
 
-function Countdown({ iso }: { iso: string }) {
-  const { t } = useI18n();
-  const c = useCountdown(iso);
-  if (c.past) return <p className="inv-past">{t('inv.past')}</p>;
-  const cells: [number, string][] = [[c.days, 'inv.days'], [c.hours, 'inv.hours'], [c.minutes, 'inv.minutes']];
+  const door = (side: 'l' | 'r') => (
+    <m.div key={side} className={`door door-${side}`} aria-hidden="true"
+      animate={{ x: opening && !reduce ? (side === 'l' ? '-102%' : '102%') : '0%' }}
+      transition={{ duration: 1, delay: 0.3, ease: [0.65, 0, 0.35, 1] }}
+      onAnimationComplete={() => { if (opening && side === 'l') onDone(); }}>
+      <div className="door-in"><Frame category={demo.category} /></div>
+    </m.div>
+  );
+
   return (
-    <div className="count" role="timer" aria-label={t('inv.countdown')}>
-      {cells.map(([n, key]) => (
-        <div key={key}><strong>{n}</strong><span>{t(key)}</span></div>
-      ))}
-    </div>
+    <m.div className="cover cv-page" style={themeStyle(demo.theme)} role="region" aria-label={demo.kicker[lang]}
+      animate={{ opacity: opening && reduce ? 0 : 1 }} transition={{ duration: 0.4 }}>
+      {door('l')}
+      {door('r')}
+      <m.div className="cv cv-face" animate={opening ? { opacity: 0, scale: 1.04 } : { opacity: 1, scale: 1 }} transition={{ duration: 0.35 }}>
+        <CoverText demo={demo} lang={lang} heading>
+          {guest && (
+            <p className="cv-guest"><span>{t('inv.invited')}</span><strong>{guest}</strong></p>
+          )}
+          <button ref={btn} className="cv-open" type="button" onClick={onOpen} disabled={opening}>{t('inv.open')}</button>
+        </CoverText>
+      </m.div>
+    </m.div>
   );
 }
 
-/* The demo reply is simulated: nothing is sent anywhere. */
-function ReplyForm({ quiet }: { quiet: boolean }) {
-  const { t } = useI18n();
-  const [name, setName] = useState('');
-  const [attending, setAttending] = useState<'yes' | 'no' | ''>('');
-  const [pax, setPax] = useState('1');
-  const [errors, setErrors] = useState<{ name?: boolean; attending?: boolean }>({});
-  const [done, setDone] = useState(false);
-
-  function onSubmit(e: FormEvent) {
-    e.preventDefault();
-    const errs = { name: !name.trim(), attending: !attending };
-    setErrors(errs);
-    if (errs.name || errs.attending) return;
-    setDone(true);
-  }
-
-  if (done) return <m.p className="status ok" role="status" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}>{t('inv.thanks')}</m.p>;
-
+function Body({ demo, guest, hidden }: { demo: DemoInvite; guest: string; hidden: boolean }) {
+  const { t, lang } = useI18n();
+  const cfg = useSiteConfig();
+  const hasWa = Boolean(waHref(cfg, lang));
+  const first = demo.events[0];
   return (
-    <form onSubmit={onSubmit} noValidate className="inv-form">
-      <div className={`field${errors.name ? ' bad' : ''}`}>
-        <label htmlFor="r-name">{t('form.name')}</label>
-        <input id="r-name" autoComplete="off" maxLength={80} value={name} onChange={(e) => setName(e.target.value)} />
-        <span className="err" role="alert">{errors.name ? t('err.name') : ''}</span>
-      </div>
-      <fieldset className={`choice${errors.attending ? ' bad' : ''}`}>
-        <legend className="sr-only">{t(quiet ? 'inv.rsvp.quiet' : 'inv.rsvp')}</legend>
-        {(['yes', 'no'] as const).map((v) => (
-          <button key={v} type="button" aria-pressed={attending === v} onClick={() => setAttending(v)}>
-            {t(quiet ? (v === 'yes' ? 'demo.attend' : 'demo.decline') : (v === 'yes' ? 'mock.yes' : 'mock.no'))}
-          </button>
-        ))}
-        <span className="err" role="alert">{errors.attending ? t('inv.pick') : ''}</span>
-      </fieldset>
-      {attending === 'yes' && !quiet && (
-        <div className="field">
-          <label htmlFor="r-pax">{t('inv.pax')}</label>
-          <select id="r-pax" value={pax} onChange={(e) => setPax(e.target.value)}>
-            {[1, 2, 3, 4].map((n) => <option key={n} value={n}>{n}</option>)}
-          </select>
-        </div>
+    <main className="iv-card" inert={hidden} aria-hidden={hidden || undefined} id="iv-main" tabIndex={-1}>
+      <Section hero>
+        <div className="paper-fr"><Frame category={demo.category} /></div>
+        <p className="iv-kicker">{demo.kicker[lang]}</p>
+        <p className={`iv-names${isLong(demo) ? ' long' : ''}`} aria-label={demo.names.join(demo.joiner ? ` ${demo.joiner} ` : ' ')}>
+          {demo.names.map((n, i) => (
+            <span key={n} aria-hidden="true">{i > 0 && demo.joiner && <i>{demo.joiner}</i>}{n}</span>
+          ))}
+        </p>
+        {demo.subtitle && <p className="iv-sub">{demo.subtitle[lang]}</p>}
+        <Divider category={demo.category} />
+        <p className="iv-lead">{demo.invite[lang]}</p>
+        <div className="iv-hosts">{demo.hosts[lang].map((h) => <p key={h}>{h}</p>)}</div>
+      </Section>
+
+      <Section title={t(demo.events.length > 1 ? 'inv.events' : 'inv.event')} alt>
+        {demo.events.map((e) => <EventBlock key={e.start + e.label.en} demo={demo} e={e} />)}
+        {demo.countdown && !demo.quiet && <Countdown iso={first.start} />}
+      </Section>
+
+      <Section title={t('inv.note')}>
+        <p className="iv-lead">{demo.note[lang]}</p>
+      </Section>
+
+      <Section title={t(demo.quiet ? 'inv.rsvp.quiet' : 'inv.rsvp')} alt id="rsvp">
+        <p className="iv-note">{t(demo.quiet ? 'inv.rsvp.sub.quiet' : 'inv.rsvp.sub')}</p>
+        <Rsvp demo={demo} guest={guest} />
+      </Section>
+
+      {hasWa && (
+        <Section title={t('inv.contact')}>
+          <Contact />
+        </Section>
       )}
-      <button className="btn btn-primary btn-block" type="submit">{t('inv.send')}</button>
-    </form>
+
+      <Section alt>
+        <Divider category={demo.category} />
+        <p className="iv-closing">{demo.closing[lang]}</p>
+        <p className="iv-sign">{demo.names.join(demo.joiner ? ` ${demo.joiner} ` : ' · ')}</p>
+      </Section>
+    </main>
   );
 }
 
 function Invitation({ demo }: { demo: DemoInvite }) {
   const { t, lang, setLang } = useI18n();
-  const [opened, setOpened] = useState(false);
-  const quiet = demo.category === 'funeral';
-  const when = new Intl.DateTimeFormat(lang === 'ms' ? 'ms-MY' : 'en-MY', { dateStyle: 'full', timeStyle: 'short', timeZone: TZ }).format(new Date(demo.date));
+  const [params] = useSearchParams();
+  const embed = params.get('embed') === '1';
+  const guest = cleanGuest(params.get('to'));
+  const [phase, setPhase] = useState<Phase>('closed');
+  const closed = phase === 'closed';
+
+  /* Lock page scroll while the cover is shut, then start at the top. */
+  useEffect(() => {
+    if (phase === 'open') return;
+    const root = document.documentElement;
+    root.style.overflow = 'hidden';
+    return () => { root.style.overflow = ''; };
+  }, [phase]);
+
+  /* In the modal, Esc is pressed inside the iframe: tell the page that holds it. */
+  useEffect(() => {
+    if (!embed) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') window.parent.postMessage({ type: 'rsvp-demo-close' }, window.location.origin); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [embed]);
+
+  function onOpen() {
+    window.scrollTo(0, 0);
+    setPhase('opening');
+  }
+  const onDone = useCallback(() => setPhase((p) => (p === 'opening' ? 'open' : p)), []);
+  useEffect(() => {
+    if (phase === 'open') document.getElementById('iv-main')?.focus({ preventScroll: true });
+  }, [phase]);
 
   return (
-    <div className="inv" data-cat={demo.category}>
-      <div className="inv-top">
-        <Link to={{ pathname: '/', hash: 'demos' }}>← {t('inv.back')}</Link>
-        <div className="lang" role="group" aria-label="Language">
-          {LANGS.map((l) => <button key={l} type="button" aria-pressed={lang === l} onClick={() => setLang(l)}>{l.toUpperCase()}</button>)}
+    <div className="iv" data-cat={demo.category} data-embed={embed || undefined} style={themeStyle(demo.theme)} lang={lang}>
+      {!embed && (
+        <div className="iv-top">
+          <Link to={{ pathname: '/', hash: 'demos' }}>← {t('inv.back')}</Link>
+          <span className="iv-sample">{t('hero.sample')}</span>
+          <div className="lang" role="group" aria-label="Language">
+            {LANGS.map((l) => <button key={l} type="button" aria-pressed={lang === l} onClick={() => setLang(l)}>{l.toUpperCase()}</button>)}
+          </div>
         </div>
-      </div>
-      <p className="inv-banner">{t('inv.banner')}</p>
-
-      <AnimatePresence mode="wait">
-        {!opened ? (
-          <m.section key="cover" className="inv-cover" exit={{ opacity: 0, y: -16 }} transition={{ duration: 0.3 }}>
-            <p className="m-small">{t(`demo.${demo.category}.line`)}</p>
-            <h1>{demo.title[lang]}</h1>
-            <p className="inv-hosts">{demo.hosts[lang]}</p>
-            <button className="btn btn-primary" type="button" onClick={() => setOpened(true)}>{t('inv.open')}</button>
-          </m.section>
-        ) : (
-          <m.main key="body" className="inv-body" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-            <h1>{demo.title[lang]}</h1>
-            <p className="inv-hosts">{demo.hosts[lang]}</p>
-            <div className="inv-card">
-              <h2>{t('inv.when')}</h2>
-              <p>{when}</p>
-              <h2>{t('inv.where')}</h2>
-              <p>{demo.venue[lang]}</p>
-              <a className="btn btn-outline" href={demo.mapsUrl} target="_blank" rel="noopener noreferrer">{t('demo.map')}</a>
-            </div>
-            {demo.countdown && <Countdown iso={demo.date} />}
-            <div className="inv-card">
-              <h2>{t(quiet ? 'inv.rsvp.quiet' : 'inv.rsvp')}</h2>
-              <ReplyForm quiet={quiet} />
-            </div>
-          </m.main>
-        )}
-      </AnimatePresence>
-
-      <div className="inv-cta">
-        <Link className="btn btn-primary" to={{ pathname: '/', hash: 'book' }}>{t('inv.cta')}</Link>
-        <WhatsAppLink className="btn btn-wa">{t('cta.wa')}</WhatsAppLink>
-      </div>
+      )}
+      {phase !== 'open' && <Cover demo={demo} guest={guest} phase={phase} embed={embed} onOpen={onOpen} onDone={onDone} />}
+      <Body demo={demo} guest={guest} hidden={closed} />
+      {!embed && (
+        <div className="iv-bar">
+          <p>{t('inv.banner')}</p>
+          <div>
+            <Link className="iv-btn iv-btn-solid" to={{ pathname: '/', hash: 'book' }}>{t('inv.cta')}</Link>
+            <WhatsAppLink className="iv-btn iv-btn-wa">{t('cta.wa')}</WhatsAppLink>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -139,9 +171,9 @@ export function InvitationPage() {
   const demo = findDemo(category, id);
   if (!demo) {
     return (
-      <div className="inv" data-cat="other">
-        <p className="inv-banner">{t('inv.notfound')}</p>
-        <div className="inv-cta"><Link className="btn btn-primary" to="/">{t('inv.home')}</Link></div>
+      <div className="iv iv-missing">
+        <p>{t('inv.notfound')}</p>
+        <Link className="iv-btn iv-btn-solid" to="/">{t('inv.home')}</Link>
       </div>
     );
   }
