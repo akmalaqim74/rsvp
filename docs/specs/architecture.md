@@ -28,7 +28,7 @@ Business details are not in the code. The page calls `GET ?action=config` on loa
 | whatsapp_number | 60xxxxxxxxx | digits with country code |
 | whatsapp_msg_en / whatsapp_msg_ms | Hi, I want to book an invitation | pre-filled text |
 | contact_email | (CEO) | optional, shown in footer |
-| demo_url | https://... | link to `rsvp-invite` demo |
+| demo_wedding_url / demo_birthday_url / demo_funeral_url / demo_other_url | https://... | live demo per event type (https only, optional) |
 | show_wedding / show_birthday / show_funeral / show_other | TRUE/FALSE | which event cards and form options appear |
 | booking_open | TRUE | FALSE hides the form, WhatsApp stays |
 | notify_email | (CEO) | gets an email per booking; optional |

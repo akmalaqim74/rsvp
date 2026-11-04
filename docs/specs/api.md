@@ -21,7 +21,7 @@ Menu `Landing tools > Set up tabs`, `Check setup`.
 JSON, HTTP 200, `{ status: boolean, message: string, data?: object }`. `data` only on success.
 
 ### GET `?action=config`
-Returns only the public keys: brand_name, logo_url, whatsapp_number, whatsapp_msg_en, whatsapp_msg_ms, contact_email, demo_url, show_* flags, booking_open. **Never returns `notify_email`.** Unknown keys are not returned (whitelist).
+Returns only the public keys: brand_name, logo_url, whatsapp_number, whatsapp_msg_en, whatsapp_msg_ms, contact_email, demo_wedding_url, demo_birthday_url, demo_funeral_url, demo_other_url, show_* flags, booking_open. **Never returns `notify_email`.** Unknown keys are not returned (whitelist).
 
 ### POST `{ action:"booking", name, phone, eventType, eventDate, note, lang, website }`
 Steps in order:

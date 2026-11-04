@@ -2,10 +2,9 @@
 
 Header (sticky): logo or name left, BM/EN toggle, small "WhatsApp" button.
 
-1. **Hero.** Headline, one subline, two buttons of equal weight: **WhatsApp us** (green) and **Book now** (terracotta, scrolls to form). Below, a phone mockup of a sample invitation (CSS drawn, labelled Sample).
-2. **How it works.** 3 numbered cards: We design your invitation / You share one link / Replies land in your Sheet.
-3. **For every event.** Cards for Wedding, Birthday, Funeral/tahlil, Other. Each has a one-line benefit and a small sample. Cards are rendered only for event types enabled in Config. Funeral card copy is quiet and respectful (no exclamation marks, no emoji).
-4. **Try it.** "See a live demo" button to `demo_url` (the `rsvp-invite` page). Note: opens a sample event with fake details.
+1. **Hero.** Outcome headline, one subline, **WhatsApp us** as the filled primary button and **Book now** as a quieter outline button that scrolls to the form (pending CEO OK, see critique). Below, a phone mockup of a sample invitation (CSS drawn, labelled Sample).
+2. **Demos (one section, CEO decision 2026-11-04).** Segmented tabs: Wedding, Birthday, Tahlil, Other (only types enabled in Config). One CSS phone preview swaps per tab (sample RSVP count chip, map button, all labelled Sample), a one-line benefit, and one "Open live demo" button to that type's demo URL from Config (hidden if no URL). The Tahlil tab uses a quiet palette and wording. This replaces the old separate event cards and the single demo button.
+3. **How it works.** 3 numbered cards: We design your invitation / You share one link / Replies land in your Sheet.
 5. **What you get.** 6 short items: personal link per guest, shared link, live reply list in Sheet, pax totals, RSVP deadline, map button.
 6. **Book / contact.** Form on the left, WhatsApp button and short promise ("We reply the same day") on the right (stacked on mobile). Privacy line under the form.
 7. **FAQ.** 5 questions, accordion: How much (contact us), Do guests need an app (no), Who owns the data (you), Can it be BM only (yes), How long to set up.
