@@ -597,3 +597,45 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 .iv[data-quiet] .iv-sec{padding-top:40px;padding-bottom:44px}
 .iv:is([data-layout="modern"],[data-layout="ticket"],[data-layout="balloons"],[data-layout="age"],[data-layout="songket"],[data-layout="wreath"],[data-layout="foil"]) .paper-fr{display:none}
 .iv[data-layout="portrait"] .iv-couple{display:block}
+
+/* =====================================================================================================
+   Art-led covers. A design whose public/art/cover-<category>-<n>.webp exists gets .cv-led: the art fills
+   the cover edge to edge, the flat CSS shapes are not rendered, and the lettering sits in the calm centre
+   on a soft veil (no boxes). Typography is chosen per design (--cv-nf names face, --cv-ns size scale).
+   ===================================================================================================== */
+.cv-led .cv-art{background:none}
+.cv-led .cv-art .cv-bg{object-position:50% 40%}
+.cv-led.cv-thumb{background-image:none}
+.cv-led .dv-cover,.cv-led .seal::after{display:none}
+.cv-led .cv-text{position:relative;isolation:isolate}
+.cv-led .cv-text::before{content:"";position:absolute;z-index:-1;inset:-14% -12%;pointer-events:none;
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--iv-cover) 62%,transparent),transparent 92%);filter:blur(8px)}
+.cv-led :is(.cv-names,.cv-kicker,.cv-sub,.cv-date,.cv-join){color:var(--iv-cover-ink);text-shadow:0 1px 14px color-mix(in srgb,var(--iv-cover) 75%,transparent)}
+.cv-led :is(.cv-kicker,.cv-sub,.cv-date){font-family:'Jost',var(--font-body);font-weight:500}
+.cv-led .cv-names{font-family:var(--cv-nf,var(--font-head));font-weight:var(--cv-nw,400);letter-spacing:var(--cv-nl,.01em)}
+.cv-led .cv-name{font-size:calc(1em * var(--cv-ns,1))}
+.cv-led .cv-join{font-family:var(--cv-nf,var(--font-head));letter-spacing:.1em}
+
+/* Per-design pairings (names face, size scale, weight). Labels are always the small-caps sans above. */
+.cv-d-wedding-1,.cv-d-wedding-4{--cv-nf:'Cormorant Garamond',serif;--cv-nw:500;--cv-ns:1.12}
+.cv-d-wedding-2,.cv-d-wedding-8{--cv-nf:'Great Vibes',cursive;--cv-ns:1.18;--cv-nl:0}
+.cv-d-wedding-3,.cv-d-wedding-6,.cv-d-birthday-2,.cv-d-other-4{--cv-nf:'Playfair Display Variable',serif;--cv-nw:500;--cv-ns:.92}
+.cv-d-wedding-5,.cv-d-birthday-4,.cv-d-other-3{--cv-nf:'Pinyon Script',cursive;--cv-ns:1.14;--cv-nl:0}
+.cv-d-wedding-7,.cv-d-other-1{--cv-nf:'Jost',sans-serif;--cv-nw:500;--cv-ns:.9;--cv-nl:.06em}
+.cv-d-birthday-1,.cv-d-birthday-3{--cv-nf:'Fredoka Variable',sans-serif;--cv-nw:600;--cv-ns:1;--cv-nl:0}
+.cv-d-other-2{--cv-nf:'Cormorant Garamond',serif;--cv-nw:500;--cv-ns:1.12}
+
+/* Art-led: every kind gets the same calm-centre layout, whatever its flat fallback looked like. */
+.cv-led.cv-led.cv-led .cv-face{align-self:center;text-align:center;padding:24px 14%}
+.cv-led.cv-led.cv-led .cv-text{align-items:center}
+.cv-led.cv-led.cv-led .cv-text .cv-names{font-family:var(--cv-nf,var(--font-head));font-weight:var(--cv-nw,400);font-size:max(13cqw,var(--fs-min,0px));line-height:1.04;text-transform:none;text-align:center;letter-spacing:var(--cv-nl,.01em)}
+.cv-led.cv-led.cv-led .cv-names.long{font-size:max(8.4cqw,var(--fs-min,0px))}
+.cv-led.cv-led.cv-led .cv-join{display:block;margin:1.6cqw 0;font-size:max(5.2cqw,var(--fs-min,0px))}
+.cv-led.cv-led.cv-led :is(.cv-kicker,.cv-date){text-align:center;padding-left:.2em}
+.cv-led.cv-led.cv-led .cv-sub{display:block}
+.cv-led.cv-led.cv-led .cv-guest{align-self:center;border-radius:12px}
+.cv-led.cv-led.cv-led .cv-open{border-radius:99px}
+.cv-led.cv-thumb .cv-thumb-in{align-items:center;justify-content:center;padding:11cqw 8cqw}
+.cv-led.cv-led.cv-led .cv-thumb-in .cv-names{font-size:11cqw}
+.cv-led.cv-led.cv-led .cv-thumb-in .cv-names.long{font-size:7.2cqw}
+.cv-led.cv-led.cv-led .cv-guest{border:0;background:none;padding:0}

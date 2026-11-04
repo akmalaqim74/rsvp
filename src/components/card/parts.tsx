@@ -2,6 +2,15 @@ import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 import type { CoverKind, DemoInvite, Theme } from '../../demos/data';
 
 import type { EventType, Lang } from '../../types';
+/* Display faces for the art-led covers (latin subset, minimal weights). Browsers fetch a face only when a cover uses it. */
+import '@fontsource/great-vibes/latin-400.css';
+import '@fontsource/pinyon-script/latin-400.css';
+import '@fontsource/cormorant-garamond/latin-500.css';
+import '@fontsource/cormorant-garamond/latin-500-italic.css';
+import '@fontsource/jost/latin-400.css';
+import '@fontsource/jost/latin-500.css';
+import '@fontsource-variable/playfair-display/wght.css';
+import '@fontsource-variable/fredoka/wght.css';
 import { useI18n } from '../../lib/i18n';
 
 export const TZ = 'Asia/Kuala_Lumpur';
@@ -188,6 +197,9 @@ export function useCoverBg(demo: DemoInvite): string | null {
   return ok ? src : null;
 }
 
+/* Class that selects one design's typography and art-led treatment: cv-d-wedding-3 etc. */
+export const designClass = (d: DemoInvite): string => `cv-d-${d.category}-${d.id.replace(/\D/g, '') || '1'}`;
+
 export const coverKind = (d: DemoInvite): CoverKind => d.cover ?? 'classic';
 
 function WreathSvg() {
@@ -226,6 +238,15 @@ export function CoverArt({ demo }: { demo: DemoInvite }) {
   return (
     <div className="cv-art" aria-hidden="true">
       {bg && <img className="cv-bg" src={bg} alt="" decoding="async" />}
+      {!bg && <CoverShapes demo={demo} k={k} mono={mono} />}
+    </div>
+  );
+}
+
+/* Flat CSS composition: the fallback when a design has no art file. */
+function CoverShapes({ demo, k, mono }: { demo: DemoInvite; k: CoverKind; mono: string }) {
+  return (
+    <>
       {k === 'classic' && <Frame category={demo.category} />}
       {k === 'portrait' && <Frame category={demo.category} bare />}
       {k === 'arch' && <><i className="d-line" /><i className="d-arch" /><b className="d-script">{mono}</b></>}
@@ -237,15 +258,16 @@ export function CoverArt({ demo }: { demo: DemoInvite }) {
       {k === 'balloons' && <><i className="d-confetti" /><i className="d-balloon b1" /><i className="d-balloon b2" /><i className="d-balloon b3" /></>}
       {k === 'age' && <><i className="d-disc" /><b className="d-num">{mono}</b></>}
       {k === 'ticket' && <><i className="d-stub" /><i className="d-notch n1" /><i className="d-notch n2" /><i className="d-grid" /></>}
-    </div>
+    </>
   );
 }
 
 /* Static card cover used as a gallery thumbnail. Not interactive. */
 export function CoverThumb({ demo, lang }: { demo: DemoInvite; lang: Lang }) {
   const kind = coverKind(demo);
+  const led = useCoverBg(demo) !== null;
   return (
-    <div className={`cv cv-thumb cv-k-${kind}`} style={themeStyle(demo.theme)} aria-hidden="true">
+    <div className={`cv cv-thumb cv-k-${kind} ${designClass(demo)}${led ? ' cv-led' : ''}`} style={themeStyle(demo.theme)} aria-hidden="true">
       {kind === 'portrait' && <div className="pp-pair"><PortraitPanel side="groom" /><PortraitPanel side="bride" /></div>}
       <CoverArt demo={demo} />
       <div className="cv-thumb-in"><CoverText demo={demo} lang={lang} /></div>

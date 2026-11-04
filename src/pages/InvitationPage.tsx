@@ -7,7 +7,7 @@ import { useSiteConfig } from '../lib/siteConfig';
 import { waHref } from '../lib/config';
 import { WhatsAppLink } from '../components/WhatsAppLink';
 import { LANGS } from '../types';
-import { CoverArt, CoverText, Divider, Frame, LoopClip, PortraitPanel, coverKind, isLong, themeStyle } from '../components/card/parts';
+import { CoverArt, CoverText, Divider, Frame, LoopClip, PortraitPanel, coverKind, designClass, isLong, themeStyle, useCoverBg } from '../components/card/parts';
 import { CatCtx, Countdown, EventBlock, Rsvp, Section } from '../components/card/sections';
 import { Contacts, Gallery, useGallery, Gift, Programme, Story, Wishes } from '../components/card/extras';
 import { BIGDATE, BIGNUM, BigDate, BigNum, CoupleHeader } from '../components/card/layout';
@@ -39,6 +39,7 @@ function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite
   }, [opening, reduce, onDone]);
 
   const kind = coverKind(demo);
+  const led = useCoverBg(demo) !== null;
   const type = OPENING[kind];
   const go = opening && !reduce;
   const shade = (d: number, dur: number) => (
@@ -96,7 +97,7 @@ function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite
   };
 
   return (
-    <m.div className={`cover cv-page cv-k-${kind}`} style={themeStyle(demo.theme)} role="region" aria-label={demo.kicker[lang]}
+    <m.div className={`cover cv-page cv-k-${kind} ${designClass(demo)}${led ? ' cv-led' : ''}`} style={themeStyle(demo.theme)} role="region" aria-label={demo.kicker[lang]}
       animate={opening && reduce ? { opacity: 0, y: -10 } : { opacity: 1, y: 0 }}
       transition={{ duration: reduce ? 1.1 : 0.4, ease: 'easeInOut' }}
       onAnimationComplete={() => { if (opening && reduce) onDone(); }}>
