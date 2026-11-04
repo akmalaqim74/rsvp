@@ -67,3 +67,8 @@ Branch `feature/react-frontend`. Built and reviewed by Claude, no independent ch
 - New wedding design `id-4` "Portrait Doors" / "Pintu Potret": ivory inside card, dark photographic cover. Groom portrait on the left door, bride on the right, thin gold double border, names over a dark scrim, seal on the seam. Sage and Gold moved to `id-5`.
 - Photos: `public/art/portrait-groom.webp` / `portrait-bride.webp`, labelled "Sample photo"; each door falls back on its own to a tonal "Your photo" panel. `fetchpriority=high` only on the real cover, tiles load lazily.
 - Looked at: 375 and 320 px, EN, both photos and groom only, click opens the doors into the ivory card, gallery tile. Not looked at: BM cover screenshot, no photos at all, reduced motion, real phone.
+
+### Portrait Doors, one couple photo
+- Cover now uses ONE photo (`portrait-couple.webp`) split across the two doors; names, date, seal, guest tag and button sit in the clear centre/top, ink on light. Missing file: tonal panel. `portrait-groom/bride.webp` are no longer used.
+- Gallery reads `gallery-<category>-<n>.webp` (tiles and lightbox); missing file is a plain tile with no text.
+- Looked at: 375 and 320 px, BM, door split mid-open, tile and lightbox with one temporary photo. Not looked at: real gallery photos (not yet supplied), EN screenshot of the new cover, desktop, reduced motion.

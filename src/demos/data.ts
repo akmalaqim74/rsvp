@@ -196,7 +196,7 @@ export const DEMOS: DemoInvite[] = [
     category: 'wedding', id: 'id-4', ...weddingExtras('Aisyah', 'Hafiz', ['19:00', '19:30', '20:00', '21:00', '21:30']),
     name: { en: 'Portrait Doors', ms: 'Pintu Potret' },
     theme: { paper: '#FCF8F2', paper2: '#F8ECE7', ink: '#3A2E2C', muted: '#5F504C', accent: '#B8935A', accentText: '#7A5A1E',
-      cover: '#2B2220', coverInk: '#FBF3E6', coverLine: '#C9A96B', btn: '#7A5A2A', btnInk: '#FCF8F2', seal: '#9C4F58', sealInk: '#FFF6F2' },
+      cover: '#F4F2EF', coverInk: '#3A2E2C', coverLine: '#B8935A', btn: '#7A5A2A', btnInk: '#FCF8F2', seal: '#9C4F58', sealInk: '#FFF6F2' },
     seal: 'wax', monogram: 'A·H', portraits: true,
     kicker: { en: 'The wedding of', ms: 'Majlis perkahwinan' },
     names: ['Aisyah', 'Hafiz'], joiner: '&', guest: 'Puan Sri Hasnah',

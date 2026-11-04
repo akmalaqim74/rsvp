@@ -239,10 +239,13 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 
 .iv-gal{display:flex;gap:12px;margin:0 -12px;padding:4px 12px 14px;list-style:none;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;-webkit-overflow-scrolling:touch}
 .iv-gal li{flex:0 0 58%;scroll-snap-align:center}
-.iv-ph{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:100%;aspect-ratio:3/4;padding:0;border:1px solid var(--iv-accent);
+.iv-ph{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;width:100%;aspect-ratio:4/5;padding:0;border:1px solid var(--iv-accent);overflow:hidden;
   background:repeating-linear-gradient(135deg,transparent 0 10px,color-mix(in srgb,var(--iv-accent) 14%,transparent) 10px 11px),color-mix(in srgb,var(--iv-paper) 60%,#fff);color:var(--iv-muted);font:500 14px var(--font-head);cursor:pointer}
 .iv-ph::after{content:"";position:absolute;inset:7px;border:1px solid color-mix(in srgb,var(--iv-accent) 60%,transparent);pointer-events:none}
-.iv-ph small{font:400 22px var(--font-head);color:var(--iv-label)}
+.iv-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.iv-ph-big img{object-fit:contain}
+.pp-groom:not(.pp-empty) .pp-cap{top:auto;bottom:calc(var(--fi,14px) + 8px);left:calc(var(--fi,14px) + 8px);right:auto;text-align:left}
+.pp-bride:not(.pp-empty) .pp-cap{display:none}
 .iv-lb{position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;background:rgba(18,14,12,.92);color:#fff}
 .iv-lb-top{display:flex;align-items:center;justify-content:space-between;padding:6px 8px 6px 18px;font-size:14px}
 .iv-lb-top button,.iv-lb-stage>button{min-width:48px;min-height:48px;border:1px solid rgba(255,255,255,.5);border-radius:50%;background:transparent;color:#fff;font:400 26px/1 var(--font-body);cursor:pointer}
@@ -267,31 +270,29 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 .iv-contacts span{font-size:13px;color:var(--iv-muted)}
 @media (prefers-reduced-motion:reduce){.iv-scroll i{animation:none}}
 
-/* ---------- Portrait Doors: groom on the left door, bride on the right ---------- */
-.pp{position:absolute;inset:0;overflow:hidden;background:linear-gradient(165deg,color-mix(in srgb,var(--iv-cover-line) 38%,var(--iv-cover)),color-mix(in srgb,var(--iv-cover-line) 12%,var(--iv-cover)) 75%)}
-.pp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%}
-.pp::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(20,14,12,.12) 0,transparent 22%,rgba(20,14,12,.55) 52%,rgba(20,14,12,.9) 100%);pointer-events:none}
-.pp-empty::before{content:"";position:absolute;inset:11% 12% 46%;border:1px solid color-mix(in srgb,var(--iv-cover-line) 70%,transparent)}
-.pp-cap{position:absolute;z-index:1;left:0;right:0;top:calc(var(--fi,14px) + 12px);text-align:center;font:500 max(2.4cqw,10px)/1.3 var(--font-body);letter-spacing:.16em;text-transform:uppercase;color:var(--iv-cover-ink);text-shadow:0 1px 3px rgba(0,0,0,.6)}
-.pp-empty .pp-cap{top:auto;bottom:auto;inset:11% 12% 46%;display:grid;place-items:center;text-shadow:none;opacity:.85}
+/* ---------- Portrait Doors: ONE couple photo (groom cut by the left edge, bride by the right), split across the two doors ---------- */
+.pp{position:absolute;inset:0;overflow:hidden;background:#F4F2EF}
+.pp img{position:absolute;bottom:0;left:0;width:200%;height:auto;max-width:none}
+.pp-bride img{left:-100%}
+.pp-empty{background:linear-gradient(165deg,#F6F2EB,#E9E1D4)}
+.pp-empty::before{content:"";position:absolute;inset:44% 14% 12%;border:1px solid color-mix(in srgb,var(--iv-cover-line) 60%,transparent)}
+.pp-cap{position:absolute;z-index:1;left:0;right:0;top:calc(var(--fi,14px) + 10px);text-align:center;font:500 max(2.4cqw,10px)/1.3 var(--font-body);letter-spacing:.16em;text-transform:uppercase;color:var(--iv-label)}
+.pp-empty .pp-cap{top:auto;inset:44% 14% 12%;display:grid;place-items:center;opacity:.9}
 .pp-pair{position:absolute;inset:0;display:flex}
 .pp-pair .pp{position:relative;flex:1}
 .cv-portrait .door-in{background:none}
-.cv-portrait .door .pp .pp-cap{top:calc(var(--fi,14px) + 14px)}
-/* lettering sits across the bottom, over the scrim; seal stays on the seam */
-.cv-portrait .cv-page,.cv-portrait.cover{align-items:end}
-.cv-portrait.cover .cv-face{align-self:end;padding-bottom:20px}
-.cv-portrait .cv-kicker{margin-bottom:2cqw}
-.cv-portrait .cv-names{font-size:max(9.5cqw,var(--fs-min,0px));line-height:1.05}
-.cv-portrait .cv-names>span{display:inline}
-.cv-portrait .cv-join{display:inline;margin:0 .35em;font-size:.6em}
+/* lettering sits in the clear centre and upper area, never over the faces */
+.cv-portrait.cover{place-items:start center}
+.cv-portrait.cover .cv-face{padding:calc(var(--fi,14px) + 30px) 12% 0;width:min(100%,440px)}
+.cv-portrait .cv-text{max-width:72%;margin:0 auto}
+.cv-portrait .cv-open{white-space:nowrap;padding:0 22px}
+.cv-portrait .cv-names{font-size:max(11cqw,var(--fs-min,0px))}
 .cv-portrait .cv-sub,.cv-portrait .dv-cover{display:none}
-.cv-portrait .cv-date{margin:2.4cqw 0 3.4cqw}
-.cv-portrait .cv-guest{margin:3cqw 0 2.4cqw;padding:1.4cqw 5cqw;background:rgba(20,14,12,.35)}
-.cv-portrait .cv-text{text-shadow:0 1px 8px rgba(0,0,0,.45)}
-.cv-portrait .cv-open{box-shadow:0 4px 14px rgba(0,0,0,.4)}
-.cv-portrait.cv-thumb .cv-thumb-in{justify-content:flex-end;padding-bottom:9cqw}
-.cv-portrait.cv-thumb .cv-names{font-size:9cqw}
+.cv-portrait .cv-date{margin:3cqw 0 3.4cqw}
+.cv-portrait .cv-guest{margin:3cqw 0 3cqw;padding:1.4cqw 4cqw;background:rgba(255,255,255,.55)}
+.cv-portrait .cv-open{box-shadow:0 4px 14px rgba(58,46,44,.25)}
+.cv-portrait.cv-thumb .cv-thumb-in{justify-content:flex-start;padding:13cqw 12cqw 0}
+.cv-portrait.cv-thumb .cv-text{flex:0 0 auto;max-width:none}
+.cv-portrait.cv-thumb .cv-names{font-size:11cqw}
 .cv-portrait.cv-thumb{background-image:none}
-.cv-portrait .seal{margin:0 auto}
 .cv-thumb .pp-cap{display:none}

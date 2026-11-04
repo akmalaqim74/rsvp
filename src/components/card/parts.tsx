@@ -25,7 +25,7 @@ export const fmtDate = (iso: string, lang: Lang, opts: Intl.DateTimeFormatOption
    Optional images made by the CEO in Gemini Flow live in public/art/. If a file is missing the
    clean CSS/SVG fallback is shown. Results are cached so a missing file is asked for only once. */
 const probe = new Map<string, Promise<boolean>>();
-function artExists(src: string): Promise<boolean> {
+export function artExists(src: string): Promise<boolean> {
   let p = probe.get(src);
   if (!p) {
     p = new Promise<boolean>((resolve) => {
@@ -39,9 +39,9 @@ function artExists(src: string): Promise<boolean> {
   return p;
 }
 
-/* Portrait photos for the "Portrait Doors" design: public/art/portrait-groom.webp and portrait-bride.webp. */
-export function usePortrait(side: 'groom' | 'bride'): string | null {
-  const src = `/art/portrait-${side}.webp`;
+/* One continuous couple photo for the "Portrait Doors" design: public/art/portrait-couple.webp (groom cut by the left edge, bride by the right). */
+export function usePortrait(): string | null {
+  const src = '/art/portrait-couple.webp';
   const [ok, setOk] = useState(false);
   useEffect(() => {
     let live = true;
@@ -162,10 +162,10 @@ export function CoverText({ demo, lang, heading, children }: { demo: DemoInvite;
   );
 }
 
-/* One half of the portrait cover. Missing photo: a quiet tonal panel with a thin outline and a caption. */
+/* One half of the portrait cover: the same photo in both halves, each showing its own side. Missing photo: a quiet tonal panel with a thin outline and a caption. */
 export function PortraitPanel({ side, priority }: { side: 'groom' | 'bride'; priority?: boolean }) {
   const { t } = useI18n();
-  const src = usePortrait(side);
+  const src = usePortrait();
   return (
     <div className={`pp pp-${side}${src ? '' : ' pp-empty'}`} aria-hidden="true">
       {src && <img src={src} alt="" decoding="async" loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'low'} />}

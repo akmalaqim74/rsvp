@@ -94,7 +94,7 @@ function Body({ demo, guest, hidden }: { demo: DemoInvite; guest: string; hidden
         </Section>
 
         {demo.programme && <Section title={t('inv.programme')} alt={flip()}><Programme demo={demo} /></Section>}
-        {demo.gallery && !quiet && <Section title={t('inv.gallery')} alt={flip()}><Gallery count={demo.gallery} /></Section>}
+        {demo.gallery && !quiet && <Section title={t('inv.gallery')} alt={flip()}><Gallery count={demo.gallery} category={demo.category} /></Section>}
         {demo.gift && <Section title={t('inv.gift')} alt={flip()}><Gift demo={demo} /></Section>}
 
         <Section title={t(quiet ? 'inv.rsvp.quiet' : 'inv.rsvp')} alt={flip()} id="rsvp">
