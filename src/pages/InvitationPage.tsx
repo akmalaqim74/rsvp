@@ -34,7 +34,7 @@ function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite
   useEffect(() => { if (!embed) btn.current?.focus({ preventScroll: true }); }, [embed]);
   useEffect(() => {
     if (!opening) return;
-    const id = window.setTimeout(onDone, reduce ? 450 : 2300); // safety net if the animation callback never fires
+    const id = window.setTimeout(onDone, reduce ? 1300 : 3000); // safety net only: must outlast the longest swing (~1.7 s incl. delay) and the 1.1 s reduced dissolve
     return () => window.clearTimeout(id);
   }, [opening, reduce, onDone]);
 
@@ -55,7 +55,7 @@ function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite
     <m.div key={side} className={`door door-${side}`} aria-hidden="true"
       animate={go ? { rotateY: side === 'l' ? -deg : deg, ...extra } : { rotateY: 0, scale: 1, opacity: 1 }}
       transition={{ duration: dur, delay, ease }}
-      onAnimationComplete={() => { if (opening && side === 'l') onDone(); }}>
+      onAnimationComplete={() => { if (go && side === 'l') onDone(); }}>
       {photo(side === 'l' ? 'groom' : 'bride')}
       {art()}
       {shade(delay, dur * 0.8)}
@@ -68,14 +68,14 @@ function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite
       case 'book':
         return (
           <m.div className="door pn-full pn-book" aria-hidden="true" animate={{ rotateY: go ? -168 : 0 }} transition={{ duration: 1.4, delay: 0.3, ease }}
-            onAnimationComplete={() => { if (opening) onDone(); }}>
+            onAnimationComplete={() => { if (go) onDone(); }}>
             {art()}{shade(0.3, 1.1)}
           </m.div>
         );
       case 'unfold':
         return (
           <m.div className="door pn-full pn-up" aria-hidden="true" animate={{ rotateX: go ? 104 : 0 }} transition={{ duration: 1.3, delay: 0.3, ease }}
-            onAnimationComplete={() => { if (opening) onDone(); }}>
+            onAnimationComplete={() => { if (go) onDone(); }}>
             {art()}{shade(0.3, 1)}
           </m.div>
         );
@@ -83,7 +83,7 @@ function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite
         return (
           <>
             <m.div className="door pn-full pn-pocket" aria-hidden="true" animate={{ y: go ? '5%' : 0, opacity: go ? 0 : 1 }} transition={{ duration: 0.5, delay: 0.95, ease: 'easeIn' }}
-              onAnimationComplete={() => { if (opening) onDone(); }}>
+              onAnimationComplete={() => { if (go) onDone(); }}>
               {art()}
             </m.div>
             <m.div className="door pn-flap" aria-hidden="true" animate={{ rotateX: go ? 172 : 0 }} transition={{ duration: 1, delay: 0.3, ease }}>
@@ -97,10 +97,12 @@ function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite
 
   return (
     <m.div className={`cover cv-page cv-k-${kind}`} style={themeStyle(demo.theme)} role="region" aria-label={demo.kicker[lang]}
-      animate={{ opacity: opening && reduce ? 0 : 1 }} transition={{ duration: 0.4 }}>
+      animate={opening && reduce ? { opacity: 0, y: -10 } : { opacity: 1, y: 0 }}
+      transition={{ duration: reduce ? 1.1 : 0.4, ease: 'easeInOut' }}
+      onAnimationComplete={() => { if (opening && reduce) onDone(); }}>
       <LoopClip category={demo.category} />
       {panels()}
-      <m.div className="cv cv-face" animate={opening ? { opacity: 0, scale: 1.04 } : { opacity: 1, scale: 1 }} transition={{ duration: 0.35 }}>
+      <m.div className="cv cv-face" animate={opening ? { opacity: 0, scale: reduce ? 1 : 1.04 } : { opacity: 1, scale: 1 }} transition={{ duration: reduce ? 0.5 : 0.35 }}>
         <CoverText demo={demo} lang={lang} heading>
           {guest && (
             <p className="cv-guest"><span>{t('inv.invited')}</span><strong>{guest}</strong></p>
