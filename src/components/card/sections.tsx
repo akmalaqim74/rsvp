@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useRef, useState, type CSSProperties, type FormEvent, type ReactNode } from 'react';
 import { m } from 'motion/react';
 import { mapsUrl, wazeUrl, type DemoEvent, type DemoInvite } from '../../demos/data';
 import { useI18n } from '../../lib/i18n';
@@ -95,9 +95,10 @@ export function EventBlock({ demo, e }: { demo: DemoInvite; e: DemoEvent }) {
     <article className="iv-event">
       <h3 className="iv-label">{e.label[lang]}</h3>
       <p className="iv-when">{fmtDate(e.start, lang, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>
-      <p className="iv-time">{time}</p>
-      <p className="iv-venue">{e.venue[lang]}</p>
-      <p className="iv-addr">{e.address}</p>
+      <dl className="iv-rows">
+        <div><dt>{t('inv.time')}</dt><dd className="iv-time">{time}</dd></div>
+        <div><dt>{t('inv.venue')}</dt><dd><span className="iv-venue">{e.venue[lang]}</span><span className="iv-addr">{e.address}</span></dd></div>
+      </dl>
       <div className="iv-acts">
         <a className="iv-btn iv-btn-ghost" href={mapsUrl(e, lang)} target="_blank" rel="noopener noreferrer">{t('inv.maps')}</a>
         <a className="iv-btn iv-btn-ghost" href={wazeUrl(e, lang)} target="_blank" rel="noopener noreferrer">{t('inv.waze')}</a>
@@ -186,13 +187,25 @@ export function Rsvp({ demo, guest }: { demo: DemoInvite; guest: string }) {
 /* ---- Paper section: a "page" of the card with the divider art on top and a gentle reveal ---- */
 export const CatCtx = createContext<EventType>('wedding');
 
-export function Section({ title, children, alt, id, hero }: { title?: string; children: ReactNode; alt?: boolean; id?: string; hero?: boolean }) {
+/* Ornamental divider drawn from the design's accent colour (currentColor): a hairline, a small star, a hairline. */
+export function Orn() {
+  return (
+    <svg className="iv-orn" viewBox="0 0 220 20" role="presentation" aria-hidden="true" focusable="false">
+      <path d="M6 10h84M130 10h84" stroke="currentColor" strokeWidth="1" fill="none" />
+      <path d="M110 1l3.2 6.4 6.8 1.1-5 4.6 1.3 7.1L110 17l-6.3 3.2 1.3-7.1-5-4.6 6.8-1.1z" fill="currentColor" transform="translate(0 -0.5) scale(1)" />
+      <circle cx="96" cy="10" r="1.8" fill="currentColor" /><circle cx="124" cy="10" r="1.8" fill="currentColor" />
+    </svg>
+  );
+}
+
+/* tone: "art" = full-bleed cover art under a veil; "paper" = paper with the art's top/bottom edge as header/footer band. */
+export function Section({ title, children, tone = 'paper', bt, bb, ap, id, hero }: { title?: string; children: ReactNode; tone?: 'art' | 'paper'; bt?: boolean; bb?: boolean; ap?: string; id?: string; hero?: boolean }) {
   const cat = useContext(CatCtx);
   return (
-    <m.section className={`iv-sec${alt ? ' alt' : ''}${hero ? ' iv-hero' : ''}`} id={id} {...reveal()} aria-label={title}>
-      <span className={`iv-band${hero ? ' iv-band-hero' : ''}`} aria-hidden="true" />
+    <m.section className={`iv-sec ${tone}${bt ? ' bt' : ''}${bb ? ' bb' : ''}${hero ? ' iv-hero' : ''}`} id={id} {...reveal()} aria-label={title} style={ap ? ({ '--ap': ap } as CSSProperties) : undefined}>
       {!hero && <Divider category={cat} />}
       {title && <h2 className="iv-h">{title}</h2>}
+      {title && <Orn />}
       {children}
     </m.section>
   );

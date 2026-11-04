@@ -8,13 +8,14 @@ import { useSiteConfig } from '../lib/siteConfig';
 import { waHref } from '../lib/config';
 import { WhatsAppLink } from '../components/WhatsAppLink';
 import { LANGS } from '../types';
-import { CoverArt, CoverText, Divider, Frame, LoopClip, PortraitPanel, coverKind, designClass, isLong, themeStyle, useCoverBg } from '../components/card/parts';
-import { CatCtx, Countdown, EventBlock, Rsvp, Section } from '../components/card/sections';
+import { CoverArt, CoverText, Frame, LoopClip, PortraitPanel, coverKind, designClass, fmtDate, isLong, themeStyle, useCoverBg } from '../components/card/parts';
+import { CatCtx, Countdown, EventBlock, Orn, Rsvp, Section } from '../components/card/sections';
 import { Contacts, Gallery, useGallery, Gift, Programme, Story, Wishes } from '../components/card/extras';
 import { BIGDATE, BIGNUM, BigDate, BigNum, CoupleHeader } from '../components/card/layout';
 import { MusicButton, useMusic } from '../components/card/music';
 import { AutoScrollButton, useAutoScroll } from '../components/card/autoscroll';
 import '../invitation.css';
+import '../interior.css';
 
 /* Guest name comes from the link (?to=Name). It is text only, trimmed and capped. */
 const cleanGuest = (v: string | null): string => (v ?? '').replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, 60);
@@ -133,6 +134,10 @@ function Cover({ demo, guest, phase, embed, slow, reduce, onOpen, onDone }: { de
   );
 }
 
+type Tone = 'art' | 'paper';
+const PREFERS_ART = new Set(['hero', 'count', 'gal', 'rsvp', 'wish', 'close']);
+const ART_POS = ['0%', '100%', '38%', '72%'];
+
 function Body({ demo, guest, hidden }: { demo: DemoInvite; guest: string; hidden: boolean }) {
   const { t, lang } = useI18n();
   const cfg = useSiteConfig();
@@ -141,12 +146,33 @@ function Body({ demo, guest, hidden }: { demo: DemoInvite; guest: string; hidden
   const quiet = demo.quiet;
   const kind = coverKind(demo);
   const photos = useGallery(demo.category, demo.gallery ?? 0);
-  let alt = false;
-  const flip = () => (alt = !alt); // alternate paper tone page by page
+  const showGal = Boolean(demo.gallery) && !quiet && photos.some(Boolean);
+
+  /* Section rhythm: the hero, countdown, gallery, RSVP, wishes and the closing sit on full-bleed cover art; story, events,
+     programme and gift sit on paper. Never more than two paper sections in a row: the next one is promoted to art. */
+  const keys = ['hero', demo.countdown && !quiet && 'count', demo.story && 'story', 'events', demo.programme && 'prog', showGal && 'gal', demo.gift && 'gift', 'rsvp', demo.wishes && !quiet && 'wish', hasWa && demo.contacts && 'contact', 'close']
+    .filter((k): k is string => typeof k === 'string');
+  const plan: Record<string, { tone: Tone; bt: boolean; bb: boolean; ap: string }> = {};
+  let run = 0;
+  let arts = 0;
+  keys.forEach((k) => {
+    const tone: Tone = PREFERS_ART.has(k) || run >= 2 ? 'art' : 'paper';
+    run = tone === 'paper' ? run + 1 : 0;
+    plan[k] = { tone, bt: false, bb: false, ap: ART_POS[arts % ART_POS.length] };
+    if (tone === 'art') arts++;
+  });
+  keys.forEach((k, i) => {
+    if (plan[k].tone !== 'paper') return;
+    plan[k].bt = i === 0 || plan[keys[i - 1]].tone === 'art';
+    plan[k].bb = i === keys.length - 1 || plan[keys[i + 1]].tone === 'art';
+  });
+  const sec = (k: string) => ({ tone: plan[k].tone, bt: plan[k].bt, bb: plan[k].bb, ap: plan[k].ap });
+  const dateLine = fmtDate(first.start, lang, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
   return (
     <CatCtx.Provider value={demo.category}>
       <main className="iv-card" inert={hidden} aria-hidden={hidden || undefined} id="iv-main" tabIndex={-1}>
-        <Section hero>
+        <Section hero {...sec('hero')}>
           {kind === 'portrait' && <CoupleHeader />}
           <div className="paper-fr"><Frame category={demo.category} /></div>
           <p className="iv-kicker">{demo.kicker[lang]}</p>
@@ -158,36 +184,38 @@ function Body({ demo, guest, hidden }: { demo: DemoInvite; guest: string; hidden
           {demo.subtitle && <p className="iv-sub">{demo.subtitle[lang]}</p>}
           {BIGDATE.has(kind) && <BigDate iso={first.start} lang={lang} />}
           {BIGNUM.has(kind) && <BigNum demo={demo} />}
-          <Divider category={demo.category} />
+          <p className="iv-herodate">{dateLine}</p>
+          <Orn />
           <p className="iv-lead">{demo.invite[lang]}</p>
           <div className="iv-hosts">{demo.hosts[lang].map((h) => <p key={h}>{h}</p>)}</div>
-          {kind === 'foil' && demo.countdown && !quiet && <Countdown iso={first.start} />}
           <p className="iv-scroll" aria-hidden="true"><span>{t('inv.scroll')}</span><i /></p>
         </Section>
 
-        {demo.story && <Section title={t('inv.story')} alt={flip()}><Story demo={demo} /></Section>}
+        {plan.count && <Section title={t('inv.countdown')} {...sec('count')}><Countdown iso={first.start} /><p className="iv-note iv-after">{dateLine}</p></Section>}
 
-        <Section title={t(demo.events.length > 1 ? 'inv.events' : 'inv.event')} alt={flip()}>
+        {demo.story && <Section title={t('inv.story')} {...sec('story')}><Story demo={demo} /></Section>}
+
+        <Section title={t(demo.events.length > 1 ? 'inv.events' : 'inv.event')} {...sec('events')}>
           {demo.events.map((e) => <EventBlock key={e.start + e.label.en} demo={demo} e={e} />)}
-          {demo.countdown && !quiet && kind !== 'foil' && <Countdown iso={first.start} />}
           <p className="iv-note iv-park">{demo.note[lang]}</p>
         </Section>
 
-        {demo.programme && <Section title={t('inv.programme')} alt={flip()}><Programme demo={demo} /></Section>}
-        {demo.gallery && !quiet && photos.some(Boolean) && <Section title={t('inv.gallery')} alt={flip()}><Gallery srcs={photos} /></Section>}
-        {demo.gift && <Section title={t('inv.gift')} alt={flip()}><Gift demo={demo} /></Section>}
+        {demo.programme && <Section title={t('inv.programme')} {...sec('prog')}><Programme demo={demo} /></Section>}
+        {plan.gal && <Section title={t('inv.gallery')} {...sec('gal')}><Gallery srcs={photos} /></Section>}
+        {demo.gift && <Section title={t('inv.gift')} {...sec('gift')}><Gift demo={demo} /></Section>}
 
-        <Section title={t(quiet ? 'inv.rsvp.quiet' : 'inv.rsvp')} alt={flip()} id="rsvp">
+        <Section title={t(quiet ? 'inv.rsvp.quiet' : 'inv.rsvp')} id="rsvp" {...sec('rsvp')}>
           <p className="iv-note">{t(quiet ? 'inv.rsvp.sub.quiet' : 'inv.rsvp.sub')}</p>
           <Rsvp demo={demo} guest={guest} />
         </Section>
 
-        {demo.wishes && !quiet && <Section title={t('inv.wishes')} alt={flip()}><Wishes demo={demo} guest={guest} /></Section>}
-        {hasWa && demo.contacts && <Section title={t('inv.contact')} alt={flip()}><Contacts demo={demo} /></Section>}
+        {plan.wish && <Section title={t('inv.wishes')} {...sec('wish')}><Wishes demo={demo} guest={guest} /></Section>}
+        {plan.contact && demo.contacts && <Section title={t('inv.contact')} {...sec('contact')}><Contacts demo={demo} /></Section>}
 
-        <Section alt={flip()}>
+        <Section {...sec('close')}>
           <p className="iv-closing">{demo.closing[lang]}</p>
           <p className="iv-sign">{demo.names.join(demo.joiner ? ` ${demo.joiner} ` : ' · ')}</p>
+          <span className="iv-foot" aria-hidden="true" />
         </Section>
       </main>
     </CatCtx.Provider>
@@ -237,7 +265,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   }, [phase]);
 
   return (
-    <div className="iv" data-cat={demo.category} data-layout={demo.layout ?? coverKind(demo)} data-quiet={demo.quiet || undefined} data-embed={embed || undefined} data-rm={reduce || undefined} data-phase={phase} style={art ? { ...themeStyle(demo.theme), '--iv-art': `url(${art})` } as CSSProperties : themeStyle(demo.theme)} data-led={art ? 'y' : undefined} lang={lang}>
+    <div className="iv" data-cat={demo.category} data-look={demo.layout ?? coverKind(demo)} data-layout={art ? undefined : demo.layout ?? coverKind(demo)} data-quiet={demo.quiet || undefined} data-embed={embed || undefined} data-rm={reduce || undefined} data-phase={phase} style={art ? { ...themeStyle(demo.theme), '--iv-art': `url(${art})` } as CSSProperties : themeStyle(demo.theme)} data-led={art ? 'y' : undefined} lang={lang}>
       {!embed && (
         <div className="iv-top">
           <Link to={{ pathname: '/', hash: 'demos' }}>← {t('inv.back')}</Link>

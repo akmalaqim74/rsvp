@@ -653,19 +653,6 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 .cv-d-birthday-2{--cv-ns:1.15}
 .cv-d-wedding-6{--cv-ns:1}
 
-/* Interior bands: the cover art, cropped and faded, as a soft header on each section (art-led designs only). */
-.iv-band{display:none}
-.iv[data-led] .iv-band{display:block;position:absolute;left:0;right:0;top:0;height:120px;pointer-events:none;z-index:0;
-  background:var(--iv-art) center top/cover no-repeat;opacity:.42;
-  -webkit-mask-image:linear-gradient(to bottom,#000 10%,transparent);mask-image:linear-gradient(to bottom,#000 10%,transparent)}
-.iv[data-led] .iv-sec.alt .iv-band{top:auto;bottom:0;background-position:center bottom;-webkit-mask-image:linear-gradient(to top,#000 10%,transparent);mask-image:linear-gradient(to top,#000 10%,transparent)}
-.iv[data-led] .iv-band-hero{height:220px;opacity:.6}
-.iv[data-led] .iv-sec>*:not(.iv-band){position:relative;z-index:1}
-.iv[data-led] .iv-hero{padding-top:150px}
-.iv[data-led] .iv-band-hero{height:170px;opacity:.55}
-.iv[data-led] .iv-sec:not(.iv-hero){padding-top:70px}
-.iv[data-led] .iv-band{height:100px;opacity:.34}
-
 .cv-d-birthday-1{--cv-veil:82%}.cv-d-wedding-6{--cv-veil:76%}.cv-d-wedding-5{--cv-veil:70%}
 
 /* Tap feedback: the button (and with it the seal area) presses in for 200 ms before the swing starts. */
