@@ -11,16 +11,20 @@ import '../invitation.css';
 /* The modal (and the iframe inside it) is only fetched when someone taps a design. */
 const DemoModal = lazy(() => import('./DemoModal').then((mod) => ({ default: mod.DemoModal })));
 
+const FIRST = 8; // designs shown per category before "Show all"
+
 export function Demos() {
   const { t, lang } = useI18n();
   const cfg = useSiteConfig();
   const types = EVENT_TYPES.filter((ty) => cfg.show[ty]);
   const [picked, setPicked] = useState<EventType>('wedding');
   const [open, setOpen] = useState<DemoInvite | null>(null);
+  const [showAll, setShowAll] = useState<EventType | null>(null); // category whose full list is expanded
   const close = useCallback(() => setOpen(null), []);
   const active = types.includes(picked) ? picked : types[0];
   if (!active) return null;
   const designs = demosFor(active);
+  const shown = showAll === active ? designs : designs.slice(0, FIRST);
 
   function onKeyDown(e: KeyboardEvent) {
     const i = types.indexOf(active);
@@ -52,7 +56,7 @@ export function Demos() {
             <m.div key={active} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} transition={{ duration: 0.25 }}>
               <p className="stage-d">{t(`event.${active}.d`)}</p>
               <ul className="gal">
-                {designs.map((d) => (
+                {shown.map((d) => (
                   <li key={d.id}>
                     <button type="button" className="tile" aria-haspopup="dialog" onClick={() => setOpen(d)}
                       aria-label={`${t('demo.preview')}: ${d.name[lang]}`}>
@@ -62,6 +66,9 @@ export function Demos() {
                   </li>
                 ))}
               </ul>
+              {designs.length > shown.length && (
+                <button type="button" className="btn btn-outline more" onClick={() => setShowAll(active)}>{t('demo.more')} ({designs.length})</button>
+              )}
               <p className="small">{t('demo.note')}</p>
             </m.div>
           </AnimatePresence>

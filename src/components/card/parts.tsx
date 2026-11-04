@@ -230,7 +230,7 @@ export function CoverArt({ demo, thumb }: { demo: DemoInvite; thumb?: boolean })
   const bg = useCoverBg(demo);
   return (
     <div className="cv-art" aria-hidden="true">
-      {bg && <img className="cv-bg" src={bg} alt="" decoding="async" loading={thumb ? 'lazy' : 'eager'} fetchPriority={thumb ? 'low' : 'high'} />}
+      {bg && <img className="cv-bg" src={thumb ? bg.replace('/art/', '/art/thumbs/') : bg} alt="" decoding="async" {...(thumb ? { width: 240, height: 427 } : {})} loading={thumb ? 'lazy' : 'eager'} fetchPriority={thumb ? 'low' : 'high'} />}
       {!bg && <CoverShapes demo={demo} k={k} mono={mono} />}
     </div>
   );

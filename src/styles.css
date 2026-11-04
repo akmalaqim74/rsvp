@@ -116,3 +116,6 @@ details p{padding:0 16px;color:var(--muted)}
 .band#demos h2{font-size:20px;margin-bottom:0}
 .tabs{margin:12px 0}
 @media (min-width:760px){.band#demos .lead{display:block}.stage-d{display:block}.band#demos{padding-top:28px}.band#demos h2{font-size:28px}}
+/* Gallery with 20+ designs: tiles reserve their size (no shift) and are skipped by layout until near the viewport. */
+.gal li{content-visibility:auto;contain-intrinsic-size:auto 330px}
+.btn.more{display:flex;margin:24px auto 0}

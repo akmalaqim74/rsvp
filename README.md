@@ -39,7 +39,10 @@ Open `/?mock=1` on localhost to preview with sample config and a fake booking su
 `src/i18n/ms.json` and `src/i18n/en.json` hold every visible word. To add a language, copy `en.json`, translate, import it in `src/lib/i18n.tsx` and add the code to `LANGS` in `src/types.ts`.
 
 ## Images, icons, video
-None are used yet (the phone preview is plain CSS, animated with Motion). When we want real ones they are made in Gemini Flow, not generated here.
+Cover art is made in Gemini Flow, not generated here. Each design's cover is `public/art/cover-<category>-<n>.webp` (720x1280).
+
+## Adding cover art (`npm run thumbs`)
+After dropping new `cover-*.webp` files into `public/art/`, run `npm run thumbs`. It makes a small tile thumbnail for each in `public/art/thumbs/` (240x427, about 10 KB) and rewrites `src/demos/coverArt.ts`. `npm run build` does this first automatically. A design in `src/demos/more.ts` appears in the gallery and its route works only when its cover art exists; the older designs (wedding 4, tahlil 1-3) always show. `npm test` fails if a cover has no thumbnail or the list is out of date.
 
 ## Music credits
 Invitation pages can play optional background music from `public/audio/<category>-<n>.mp3` (fallback `<category>.mp3`). Tracks are royalty-free (Pixabay Content License); titles and links are in `public/audio/SOURCES.md`. Music starts only after the guest taps "Open invitation", can be muted with the round button, and never plays in the landing-page demo modal. No file means no button.
