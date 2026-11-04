@@ -10,6 +10,7 @@ import { LANGS } from '../types';
 import { CoverText, Divider, Frame, LoopClip, PortraitPanel, isLong, themeStyle } from '../components/card/parts';
 import { CatCtx, Countdown, EventBlock, Rsvp, Section } from '../components/card/sections';
 import { Contacts, Gallery, useGallery, Gift, Programme, Story, Wishes } from '../components/card/extras';
+import { MusicButton, useMusic } from '../components/card/music';
 import '../invitation.css';
 
 /* Guest name comes from the link (?to=Name). It is text only, trimmed and capped. */
@@ -123,6 +124,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   const guest = cleanGuest(params.get('to'));
   const [phase, setPhase] = useState<Phase>('closed');
   const closed = phase === 'closed';
+  const music = useMusic(demo, embed);
 
   /* Lock page scroll while the cover is shut, then start at the top. */
   useEffect(() => {
@@ -142,6 +144,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   }, [embed]);
 
   function onOpen() {
+    music.start();
     window.scrollTo(0, 0);
     setPhase('opening');
   }
@@ -163,6 +166,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
       )}
       {phase !== 'open' && <Cover demo={demo} guest={guest} phase={phase} embed={embed} onOpen={onOpen} onDone={onDone} />}
       <Body demo={demo} guest={guest} hidden={closed} />
+      {music.available && !closed && <MusicButton playing={music.playing} onToggle={music.toggle} />}
       {!embed && (
         <div className="iv-bar">
           <p>{t('inv.banner')}</p>

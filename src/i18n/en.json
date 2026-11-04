@@ -141,5 +141,7 @@
  "inv.scroll": "Scroll",
  "inv.wa": "WhatsApp",
  "inv.photo.sample": "Sample photo",
- "inv.photo.yours": "Your photo"
+ "inv.photo.yours": "Your photo",
+ "inv.music.on": "Play music",
+ "inv.music.off": "Pause music"
 }

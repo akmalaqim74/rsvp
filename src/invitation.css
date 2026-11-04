@@ -303,3 +303,5 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 .cv-portrait.cv-thumb .cv-names{font-size:11cqw}
 .cv-portrait.cv-thumb{background-image:none}
 .cv-thumb .pp-cap{display:none}
+.iv-music{position:fixed;top:60px;right:12px;z-index:25;display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid var(--iv-accent);border-radius:50%;background:color-mix(in srgb,var(--iv-paper) 88%,transparent);color:var(--iv-label);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.iv[data-embed] .iv-music{top:12px}

@@ -40,3 +40,6 @@ Open `/?mock=1` on localhost to preview with sample config and a fake booking su
 
 ## Images, icons, video
 None are used yet (the phone preview is plain CSS, animated with Motion). When we want real ones they are made in Gemini Flow, not generated here.
+
+## Music credits
+Invitation pages can play optional background music from `public/audio/<category>-<n>.mp3` (fallback `<category>.mp3`). Tracks are royalty-free (Pixabay Content License); titles and links are in `public/audio/SOURCES.md`. Music starts only after the guest taps "Open invitation", can be muted with the round button, and never plays in the landing-page demo modal. No file means no button.
