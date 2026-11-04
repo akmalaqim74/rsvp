@@ -15,7 +15,7 @@ export const DEFAULT_CONFIG: SiteConfig = {
   whatsapp_msg_en: '',
   whatsapp_msg_ms: '',
   contact_email: '',
-  show: { wedding: true, birthday: true, funeral: false, other: true },
+  show: { wedding: true, engagement: true, aqiqah: true, birthday: true, funeral: false, other: true },
   booking_open: true
 };
 
@@ -61,7 +61,7 @@ export async function loadConfig(): Promise<unknown> {
     return {
       brand_name: 'Sample Brand', whatsapp_number: '60123456789', whatsapp_msg_en: 'Hi, I want to book.',
       whatsapp_msg_ms: 'Hai, saya nak tempah.', contact_email: 'hello@example.com',
-      show_wedding: true, show_birthday: true, show_funeral: mockMode === 'funeral', show_other: true,
+      show_wedding: true, show_engagement: true, show_aqiqah: true, show_birthday: true, show_funeral: mockMode === 'funeral', show_other: true,
       booking_open: mockMode !== 'closed'
     };
   }

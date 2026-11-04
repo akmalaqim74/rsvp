@@ -1,5 +1,5 @@
 import type { CoverFont, CoverKind, DemoEvent, DemoInvite, InsideLayout, L, Theme } from './data';
-import { SAMPLE_NOTE_PARK, TAHLIL_PROG, partyExtras, upcoming, weddingExtras } from './data';
+import { SAMPLE_NOTE_PARK, TAHLIL_PROG, WISHES, partyExtras, upcoming, weddingExtras } from './data';
 
 /* Designs 9-20 (wedding), 5-20 (birthday), 4-20 (tahlil) and 5-20 (other). Every name, venue and address is invented.
    Each is built from a short row; the design only appears once its cover art exists (see registry.ts).
@@ -221,6 +221,84 @@ const OTHER: Other[] = [
   { id: 19, en: 'Charity Gala', ms: 'Gala Amal', h: 355, s: 45, tone: 'light', font: 'playfair', kind: 'songket', layout: 'glam', kicker: P('Charity gala', 'Gala amal'), names: ['Gala Amal Contoh'], sub: P('An evening for a good cause', 'Malam untuk kebaikan'), mono: 'GA', invite: P('Join us for an elegant evening of dinner and giving. All proceeds go to a sample charity.', 'Sertai kami untuk malam anggun makan malam dan derma. Semua hasil disalurkan kepada badan amal contoh.'), hosts: P('From the Sample Foundation', 'Daripada Yayasan Contoh'), label: P('Charity gala', 'Gala amal'), wd: 5, lead: 55, time: '19:30', hours: 4, venue: ['Sample Grand Hotel', 'Hotel Besar Contoh'], addr: 'Jalan Contoh 40, 50450 Kuala Lumpur', note: P('Formal attire.', 'Pakaian formal.'), closing: P('Thank you for giving.', 'Terima kasih atas sumbangan anda.'), prog: [['19:30', P('Reception', 'Majlis alu-aluan')], ['20:15', P('Dinner', 'Makan malam')], ['21:15', P('Charity auction', 'Lelongan amal')]] },
   { id: 20, en: 'Hajj Send-off', ms: 'Kenduri Doa Selamat Haji', h: 45, s: 35, tone: 'dark', font: 'cormorant', kind: 'arch', layout: 'geo', kicker: P('Doa selamat haji', 'Kenduri doa selamat haji'), names: ['Hj. Kamal dan Hjh. Zaitun'], sub: P('Before departing for the Holy Land', 'Sebelum berangkat ke Tanah Suci'), mono: 'H', invite: P('We invite you to a doa selamat before our journey to the Holy Land. Your prayers mean so much.', 'Kami menjemput anda ke majlis doa selamat sebelum kami berangkat ke Tanah Suci. Doa anda amat bermakna.'), hosts: P('Encik Kamal and Puan Zaitun', 'Encik Kamal dan Puan Zaitun'), label: P('Doa selamat haji', 'Doa selamat haji'), wd: 6, lead: 44, time: '11:00', hours: 3, venue: ['Sample Surau', 'Surau Contoh'], addr: 'Lorong Contoh 4, 43650 Bandar Baru Bangi', note: P('Lunch is served after the doa.', 'Makan tengah hari selepas doa.'), closing: P('May Allah accept our hajj and your prayers.', 'Semoga Allah menerima haji kami dan doa anda.'), prog: [['11:00', P('Guests arrive', 'Ketibaan tetamu')], ['11:30', P('Doa selamat', 'Doa selamat')], ['12:15', P('Lunch', 'Makan tengah hari')]] }
 ];
+
+/* ======================================================= Aqiqah and engagement (new categories) =======================================================
+   Listed even before their cover art exists (flat CSS cover until public/art/cover-<category>-<n>.webp is added). */
+interface Aqiqah extends Look { baby: string; girl: boolean; pa: [string, string]; venue: [string, string]; addr: string; lead: number; time: string }
+
+const aqiqah = (a: Aqiqah): DemoInvite => ({
+  ...base('aqiqah', a),
+  ...partyExtras(
+    [a.time, `${String(Number(a.time.slice(0, 2)) + 1).padStart(2, '0')}:00`, `${String(Number(a.time.slice(0, 2)) + 2).padStart(2, '0')}:00`],
+    [{ en: 'Doa and marhaban', ms: 'Bacaan doa dan marhaban' }, { en: 'Cukur jambul', ms: 'Majlis cukur jambul' }, { en: 'Lunch is served', ms: 'Jamuan makan tengah hari' }],
+    0
+  ),
+  seal: 'ring', monogram: a.baby[0],
+  kicker: { en: 'Aqiqah and cukur jambul', ms: 'Majlis aqiqah dan cukur jambul' },
+  names: [a.baby], subtitle: { en: 'our newest blessing', ms: 'cahaya mata kami' }, guest: ['Nenek Zaiton', 'Kak Liyana', 'Pak Long Rashid', 'Cik Hanis'][a.id % 4],
+  invite: {
+    en: `Alhamdulillah, Allah has blessed us with ${a.baby}. We invite you to join us in doa and thanksgiving.`,
+    ms: `Alhamdulillah, Allah mengurniakan kami ${a.baby}. Kami menjemput anda bersama-sama dalam doa dan kesyukuran.`
+  },
+  hosts: { en: [`Encik ${a.pa[0]} and Puan ${a.pa[1]}`], ms: [`Encik ${a.pa[0]} dan Puan ${a.pa[1]}`] },
+  events: [ev({ en: 'Aqiqah and cukur jambul', ms: 'Aqiqah dan cukur jambul' }, upcoming(0, a.lead, a.time), 3, { en: a.venue[0], ms: a.venue[1] }, a.addr)],
+  countdown: true,
+  note: { en: 'Parking is on the street in front of the house. Please come in modest dress.', ms: 'Tempat letak kereta di bahu jalan depan rumah. Sila hadir berpakaian sopan.' },
+  closing: {
+    en: `May ${a.baby} grow up ${a.girl ? 'a pious daughter' : 'a pious son'}, a joy to the family and the community.`,
+    ms: `Semoga ${a.baby} membesar menjadi ${a.girl ? 'anak yang solehah' : 'anak yang soleh'}, penyejuk mata keluarga dan masyarakat.`
+  },
+  quiet: false
+});
+
+const AQIQAH: Aqiqah[] = [
+  { id: 1, en: 'Soft Sage', ms: 'Hijau Sage Lembut', h: 140, s: 25, tone: 'dark', font: 'cormorant', kind: 'oval', baby: 'Aisyah', girl: true, pa: ['Hafizuddin', 'Nadia'], venue: ['Residence of the family', 'Kediaman keluarga'], addr: 'No. 12, Jalan Contoh 3, 43000 Kajang', lead: 24, time: '10:00' },
+  { id: 2, en: 'Baby Blue Clouds', ms: 'Awan Biru Bayi', h: 205, s: 45, tone: 'dark', font: 'fredoka', kind: 'wreath', layout: 'rounded', baby: 'Muhammad Adam', girl: false, pa: ['Faizal', 'Syazwani'], venue: ['Sample Surau', 'Surau Contoh'], addr: 'Lorong Contoh 5, 40100 Shah Alam', lead: 31, time: '10:30' },
+  { id: 3, en: 'Blush Crescent', ms: 'Bulan Sabit Merah Jambu', h: 345, s: 45, tone: 'dark', font: 'greatvibes', kind: 'arch', baby: 'Nur Safiyya', girl: true, pa: ['Amirul', 'Hasanah'], venue: ['Sample Hall', 'Dewan Contoh'], addr: 'Jalan Contoh 8, 47500 Subang Jaya', lead: 38, time: '11:00' },
+  { id: 4, en: 'Cream Boho', ms: 'Krim Boho', h: 35, s: 30, tone: 'dark', font: 'pinyon', kind: 'classic', layout: 'soft', baby: 'Zayd Harith', girl: false, pa: ['Shahrul', 'Liyana'], venue: ['Residence of the family', 'Kediaman keluarga'], addr: 'No. 7, Jalan Contoh 9, 68000 Ampang', lead: 45, time: '10:00' },
+  { id: 5, en: 'Night Stars', ms: 'Bintang Malam', h: 225, s: 45, tone: 'light', font: 'playfair', kind: 'modern', layout: 'geo', baby: 'Hana Sofea', girl: true, pa: ['Ridzuan', 'Aina'], venue: ['Sample Banquet Room', 'Bilik Jamuan Contoh'], addr: 'Jalan Contoh 14, 50480 Kuala Lumpur', lead: 52, time: '11:00' }
+];
+
+interface Engage extends Look { a: string; d: string; pa: [string, string]; pd: [string, string]; venue: [string, string]; addr: string; lead: number; time: string; story?: boolean }
+
+const engagement = (g: Engage): DemoInvite => ({
+  ...base('engagement', g),
+  programme: [
+    { time: g.time, label: { en: 'Guests arrive', ms: 'Ketibaan tetamu' } },
+    { time: `${String(Number(g.time.slice(0, 2)) + 1).padStart(2, '0')}:00`, label: { en: 'Arrival of the groom’s party', ms: 'Ketibaan rombongan pihak lelaki' } },
+    { time: `${String(Number(g.time.slice(0, 2)) + 1).padStart(2, '0')}:30`, label: { en: 'Exchange of rings', ms: 'Upacara sarung cincin' } },
+    { time: `${String(Number(g.time.slice(0, 2)) + 2).padStart(2, '0')}:00`, label: { en: 'Doa and lunch', ms: 'Bacaan doa dan jamuan' } }
+  ],
+  ...(g.story ? { story: weddingExtras(g.a, g.d, ['', '', '', '', '']).story } : {}),
+  gallery: 4, wishes: WISHES,
+  contacts: [{ name: 'Hamdan (Sample)', role: { en: 'Bride’s family', ms: 'Keluarga pihak perempuan' } }],
+  seal: 'wax', monogram: `${g.a[0]}·${g.d[0]}`,
+  kicker: { en: 'Engagement ceremony', ms: 'Majlis pertunangan' },
+  names: [g.a, g.d], joiner: '&', subtitle: { en: 'are getting engaged', ms: 'bertunang' }, guest: ['Datin Norlela', 'Auntie Mei Ling', 'Encik Kumar', 'Cik Hanis'][g.id % 4],
+  invite: {
+    en: `With the blessing of both families, ${g.a} and ${g.d} invite you to witness their engagement.`,
+    ms: `Dengan restu kedua-dua keluarga, ${g.a} dan ${g.d} menjemput anda menyaksikan majlis pertunangan mereka.`
+  },
+  hosts: {
+    en: [`Daughter of ${g.pa[0]} and ${g.pa[1]}`, `Son of ${g.pd[0]} and ${g.pd[1]}`],
+    ms: [`Puteri kepada ${g.pa[0]} dan ${g.pa[1]}`, `Putera kepada ${g.pd[0]} dan ${g.pd[1]}`]
+  },
+  events: [ev({ en: 'Engagement ceremony', ms: 'Majlis pertunangan' }, upcoming(6, g.lead, g.time), 4, { en: g.venue[0], ms: g.venue[1] }, g.addr)],
+  countdown: true, note: SAMPLE_NOTE_PARK,
+  closing: { en: 'Your prayers and presence mean the world to us as we take this first step together.', ms: 'Doa dan kehadiran anda amat bermakna buat kami dalam melangkah bersama.' },
+  quiet: false
+});
+
+const ENGAGEMENT: Engage[] = [
+  { id: 1, en: 'Pearl Blush', ms: 'Mutiara Merah Jambu', h: 350, s: 35, tone: 'dark', font: 'greatvibes', kind: 'oval', a: 'Nabila', d: 'Hakim', pa: ['Encik Zamri', 'Puan Aini'], pd: ['Encik Rahim', 'Puan Fauziah'], venue: ['Residence of the bride’s family', 'Kediaman pihak perempuan'], addr: 'No. 18, Jalan Contoh 4, 40150 Shah Alam', lead: 30, time: '11:00', story: true },
+  { id: 2, en: 'Navy and Gold', ms: 'Biru Tua dan Emas', h: 225, s: 45, tone: 'light', font: 'playfair', kind: 'songket', layout: 'glam', a: 'Irfan', d: 'Sofea', pa: ['Encik Kamal', 'Puan Rohani'], pd: ['Encik Jamil', 'Puan Aminah'], venue: ['Sample Banquet Hall', 'Dewan Jamuan Contoh'], addr: 'Jalan Contoh 14, 50200 Kuala Lumpur', lead: 37, time: '12:00' },
+  { id: 3, en: 'Sage Garden', ms: 'Taman Sage', h: 130, s: 25, tone: 'dark', font: 'cormorant', kind: 'arch', a: 'Aiman', d: 'Sakinah', pa: ['Encik Roslan', 'Puan Zainab'], pd: ['Encik Mansor', 'Puan Hasnah'], venue: ['Sample Garden Pavilion', 'Pavilion Taman Contoh'], addr: 'Jalan Contoh 6, 47810 Petaling Jaya', lead: 44, time: '11:30', story: true },
+  { id: 4, en: 'Terracotta Boho', ms: 'Terakota Boho', h: 20, s: 40, tone: 'dark', font: 'pinyon', kind: 'wreath', layout: 'soft', a: 'Hafiz', d: 'Qistina', pa: ['Encik Anuar', 'Puan Salina'], pd: ['Encik Din', 'Puan Marlia'], venue: ['Sample Studio Garden', 'Taman Studio Contoh'], addr: 'Jalan Contoh 2, 43650 Bandar Baru Bangi', lead: 51, time: '14:00' },
+  { id: 5, en: 'Emerald Hantaran', ms: 'Hantaran Zamrud', h: 160, s: 50, tone: 'light', font: 'playfair', kind: 'classic', layout: 'geo', a: 'Zaid', d: 'Maisarah', pa: ['Encik Omar', 'Puan Faridah'], pd: ['Encik Bakri', 'Puan Normah'], venue: ['Sample Grand Hall', 'Dewan Besar Contoh'], addr: 'Jalan Contoh 12, 50088 Kuala Lumpur', lead: 58, time: '12:30' }
+];
+
+/* New categories: always listed (a flat CSS cover until their art is added). */
+export const OCCASION_DEMOS: DemoInvite[] = [...ENGAGEMENT.map(engagement), ...AQIQAH.map(aqiqah)];
 
 export const MORE_DEMOS: DemoInvite[] = [
   ...WEDDING.map(wed),
