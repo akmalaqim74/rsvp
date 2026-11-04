@@ -125,6 +125,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   /* In the modal, Esc is pressed inside the iframe: tell the page that holds it. */
   useEffect(() => {
     if (!embed) return;
+    window.parent.postMessage({ type: 'rsvp-demo-ready' }, window.location.origin);
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') window.parent.postMessage({ type: 'rsvp-demo-close' }, window.location.origin); };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);

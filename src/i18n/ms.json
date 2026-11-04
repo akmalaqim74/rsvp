@@ -117,5 +117,6 @@
  "inv.contact": "Ada soalan?",
  "inv.contact.d": "Hubungi tuan rumah melalui WhatsApp.",
  "inv.contact.btn": "WhatsApp tuan rumah",
- "inv.contact.sample": "Dalam jemputan sebenar, ini ialah nombor tuan rumah sendiri. Di sini ia sampai kepada pasukan kami."
+ "inv.contact.sample": "Dalam jemputan sebenar, ini ialah nombor tuan rumah sendiri. Di sini ia sampai kepada pasukan kami.",
+ "inv.copyfail": "Tidak dapat menyalin. Tekan lama pada alamat untuk menyalin."
 }

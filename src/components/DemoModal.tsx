@@ -39,11 +39,15 @@ export function DemoModal({ demo, onClose }: { demo: DemoInvite; onClose: () => 
     const onMessage = (e: MessageEvent<unknown>) => {
       const d = e.data;
       if (e.origin !== window.location.origin || e.source !== frame.current?.contentWindow) return;
-      if (typeof d === 'object' && d !== null && 'type' in d && d.type === 'rsvp-demo-close') onClose();
+      if (typeof d !== 'object' || d === null || !('type' in d)) return;
+      if (d.type === 'rsvp-demo-close') onClose();
+      if (d.type === 'rsvp-demo-ready') setLoaded(true);
     };
+    const failsafe = window.setTimeout(() => setLoaded(true), 8000);
     document.addEventListener('keydown', onKey);
     window.addEventListener('message', onMessage);
     return () => {
+      window.clearTimeout(failsafe);
       document.removeEventListener('keydown', onKey);
       window.removeEventListener('message', onMessage);
       document.documentElement.style.overflow = prevOverflow;
@@ -65,7 +69,7 @@ export function DemoModal({ demo, onClose }: { demo: DemoInvite; onClose: () => 
         </div>
         <div className="modal-frame">
           {!loaded && <p className="modal-load">{t('demo.loading')}</p>}
-          <iframe ref={frame} title={`${t('demo.preview')}: ${title}`} src={`${demoPath(demo)}?embed=1&to=${to}`} onLoad={() => setLoaded(true)} />
+          <iframe ref={frame} title={`${t('demo.preview')}: ${title}`} src={`${demoPath(demo)}?embed=1&to=${to}`} style={{ visibility: loaded ? 'visible' : 'hidden' }} />
         </div>
         <div className="modal-foot">
           <p>{t('inv.banner')}</p>

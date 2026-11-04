@@ -79,16 +79,14 @@ async function copyText(text: string): Promise<boolean> {
 /* ---- One event: date, venue, map buttons ---------------------------------------------------- */
 export function EventBlock({ demo, e }: { demo: DemoInvite; e: DemoEvent }) {
   const { t, lang } = useI18n();
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<'ok' | 'fail' | null>(null);
   const timer = useRef<number | undefined>(undefined);
   useEffect(() => () => window.clearTimeout(timer.current), []);
 
   async function onCopy() {
-    if (await copyText(`${e.venue[lang]}, ${e.address}`)) {
-      setCopied(true);
-      window.clearTimeout(timer.current);
-      timer.current = window.setTimeout(() => setCopied(false), 2200);
-    }
+    setCopied((await copyText(`${e.venue[lang]}, ${e.address}`)) ? 'ok' : 'fail');
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => setCopied(null), 2600);
   }
   const end = new Date(new Date(e.start).getTime() + e.hours * 3600000).toISOString();
   const time = `${fmtDate(e.start, lang, { hour: 'numeric', minute: '2-digit' })} – ${fmtDate(end, lang, { hour: 'numeric', minute: '2-digit' })}`;
@@ -106,7 +104,7 @@ export function EventBlock({ demo, e }: { demo: DemoInvite; e: DemoEvent }) {
         <button className="iv-btn iv-btn-ghost" type="button" onClick={onCopy}>{t('inv.copy')}</button>
         <button className="iv-btn iv-btn-ghost" type="button" onClick={() => downloadIcs(demo, e, lang)}>{t('inv.cal')}</button>
       </div>
-      <p className="iv-copied" role="status">{copied ? t('inv.copied') : ''}</p>
+      <p className="iv-copied" role="status">{copied === 'ok' ? t('inv.copied') : copied === 'fail' ? t('inv.copyfail') : ''}</p>
     </article>
   );
 }

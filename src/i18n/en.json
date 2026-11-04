@@ -117,5 +117,6 @@
  "inv.contact": "Questions?",
  "inv.contact.d": "Message the host on WhatsApp.",
  "inv.contact.btn": "WhatsApp the host",
- "inv.contact.sample": "In a real invitation this is the host’s own number. Here it reaches our team."
+ "inv.contact.sample": "In a real invitation this is the host’s own number. Here it reaches our team.",
+ "inv.copyfail": "Could not copy. Press and hold the address to copy it."
 }
