@@ -96,3 +96,33 @@ Other ideas, **not wired**, brief only if you want them later (tell Claude and a
 > A slow seamless looping background animation for a formal event invitation cover, portrait 9:16: faint pale-blue geometric lines slowly shimmering on deep ink-blue (#1B2A4E). Minimal, low contrast, empty centre for text. No text, no people, no flashing, no camera movement. 6 seconds, perfect loop. 720 x 1280, 24 fps.
 
 Compress after export (for example HandBrake or `ffmpeg -c:v libvpx-vp9 -b:v 400k -an`) and check the file is under the size above; heavy clips hurt phones.
+
+---
+
+## Cover backgrounds per design (optional slot, made in Gemini)
+Every design already has a finished CSS/SVG cover (see the composition names below). To lift one, drop a full-bleed background named `cover-<category>-<n>.webp` into `public/art/` (n = the number in the design id, e.g. `/wedding/id-6` = `cover-wedding-6.webp`). It is drawn **behind** the CSS ornaments and the lettering, so leave the area where text sits calm and low contrast.
+
+**Spec for all:** WebP, **720 x 1280 px portrait**, under **140 KB**, no text, no letters, no people unless stated, flat or soft-painted, lots of quiet space where the names go (the centre or the lower half, as noted). Text on top is dark ink on light art or light ink on dark art, so keep the matching tone.
+
+| File | Design (composition, opening) | Prompt |
+|---|---|---|
+| `cover-wedding-1.webp` | Ivory and Gold: framed paper, doors fold open | Warm ivory handmade paper texture with a very faint gold botanical watermark pattern, soft vignette at the edges, large calm empty centre. No text. 720x1280. |
+| `cover-wedding-2.webp` | Blush Rose: arch window, book opening | Soft blush-pink watercolour wash with a few translucent rose petals drifting in the lower right corner and a pale arch-shaped glow in the upper middle, painterly, very low contrast, empty lower-left for lettering. No text. 720x1280. |
+| `cover-wedding-3.webp` | Midnight Navy: starfield, envelope flap | Deep midnight-navy gradient sky with fine hand-placed gold foil stars and a few thin gold constellation lines, a faint glow in the lower centre, flat metallic foil feel, nothing in the middle. No text, no moon. 720x1280. |
+| `cover-wedding-5.webp` | Sage and Gold: botanical oval, ribbon | Dark sage-green linen texture with delicate gold line leaves and eucalyptus sprigs curling around an empty oval in the centre, restrained and elegant. No text. 720x1280. |
+| `cover-wedding-6.webp` | Malay Songket: woven bands, arch gate | Deep maroon silk songket brocade with subtle gold metallic thread woven in a diamond lattice, a lighter central panel left plain for lettering, rich but not busy. No text. 720x1280. |
+| `cover-wedding-7.webp` | Minimal Modern: huge monogram, unfolds up | Pale warm-grey paper with a barely visible fine grain and one soft diagonal shadow from a window, lots of empty space, very minimal, no objects. No text. 720x1280. |
+| `cover-wedding-8.webp` | Garden Watercolour: wreath splits | Pastel lilac and sage watercolour wash with loose wildflower buds in the four corners and a soft white bloom in the centre, airy, hand-painted, empty centre. No text. 720x1280. |
+| `cover-birthday-1.webp` | Warm Terracotta (milestone number) | Warm terracotta paper with soft peach sun-rays radiating from the upper middle and tiny gold dots, calm. No text, no numbers. 720x1280. |
+| `cover-birthday-2.webp` | Plum and Champagne (foil) | Deep plum background with champagne-gold foil confetti and thin arcs falling softly, grown-up, empty centre. No text. 720x1280. |
+| `cover-birthday-3.webp` | Bright Balloons (kids) | Bright cobalt blue background with a few flat paper-cut balloons and streamers at the top and scattered confetti dots, playful but tidy, empty lower half. No text. 720x1280. |
+| `cover-birthday-4.webp` | Garden Party | Soft pale-green watercolour with loose leaves and small pastel blooms at the top-left and bottom-right, sunlit, empty centre. No text. 720x1280. |
+| `cover-other-1.webp` | Ink Blue Dinner (ticket) | Deep ink-blue paper with a very subtle diagonal weave and a fine lighter band on the right, corporate and calm. No text. 720x1280. |
+| `cover-other-2.webp` | Dusty Blue Aqiqah (arch) | Dusty-blue watercolour wash with a soft cloud and tiny stars, a gentle arch of light in the upper half, empty lower-left. No text. 720x1280. |
+| `cover-other-3.webp` | Soft Pink Aqiqah (oval) | Pale rose-pink linen texture with fine gold-pink botanical line sprigs framing an empty oval, tender and clean. No text. 720x1280. |
+| `cover-other-4.webp` | Graduation Day (modern) | Near-black paper with a faint gold foil line pattern in one corner and a soft spotlight glow, minimal. No text, no mortarboard drawing. 720x1280. |
+| `cover-funeral-<n>.webp` | Tahlil: not needed (keep the quiet CSS covers) | None. |
+
+## Photo files
+- `portrait-couple.webp` (720 x 1280), `gallery-wedding-1..6.webp` (800 x 1000, 4:5): see the table at the top.
+- Music: `public/audio/<category>-<n>.mp3`, about 1 MB, 96 to 128 kbps, instrumental, royalty-free; no file means the music button is hidden. Not for Tahlil.

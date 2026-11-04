@@ -175,6 +175,19 @@ export function PortraitPanel({ side, priority }: { side: 'groom' | 'bride'; pri
   );
 }
 
+/* Optional full-bleed cover background per design: public/art/cover-<category>-<n>.webp (n from the id). */
+export function useCoverBg(demo: DemoInvite): string | null {
+  const n = demo.id.replace(/\D/g, '') || '1';
+  const src = `/art/cover-${demo.category}-${n}.webp`;
+  const [ok, setOk] = useState(false);
+  useEffect(() => {
+    let live = true;
+    void artExists(src).then((v) => { if (live) setOk(v); });
+    return () => { live = false; };
+  }, [src]);
+  return ok ? src : null;
+}
+
 export const coverKind = (d: DemoInvite): CoverKind => d.cover ?? 'classic';
 
 function WreathSvg() {
@@ -209,8 +222,10 @@ function Sprig({ cls }: { cls: string }) {
 export function CoverArt({ demo }: { demo: DemoInvite }) {
   const k = coverKind(demo);
   const mono = demo.monogram.replace(/[^\p{L}\p{N}]/gu, '');
+  const bg = useCoverBg(demo);
   return (
     <div className="cv-art" aria-hidden="true">
+      {bg && <img className="cv-bg" src={bg} alt="" decoding="async" />}
       {k === 'classic' && <Frame category={demo.category} />}
       {k === 'portrait' && <Frame category={demo.category} bare />}
       {k === 'arch' && <><i className="d-line" /><i className="d-arch" /><b className="d-script">{mono}</b></>}
