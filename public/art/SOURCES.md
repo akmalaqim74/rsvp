@@ -24,3 +24,7 @@ cover-corporate-1 | Abner Velázquez | https://www.pexels.com/photo/34330481/
 cover-corporate-2 | Amar Preciado | https://www.pexels.com/photo/13045655/
 cover-corporate-3 | Filip Sestrenek | https://www.pexels.com/photo/11474213/
 cover-corporate-4 | Matheus Bertelli | https://www.pexels.com/photo/16985103/
+cover-funeral-4 | Anastasia Ilina-Makarova | https://www.pexels.com/photo/12084093/
+cover-funeral-5 | Mostafa Ft.shots | https://www.pexels.com/photo/11963115/
+cover-funeral-7 | Beyza Aşık | https://www.pexels.com/photo/38267146/
+cover-funeral-8 | Content Pixie | https://www.pexels.com/photo/15156661/
