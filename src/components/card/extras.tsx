@@ -39,7 +39,7 @@ export function Programme({ demo }: { demo: DemoInvite }) {
 
 /* ---- Photo gallery: swipeable strip + lightbox. Photos are optional files public/art/gallery-<category>-<n>.webp
    (4:5, 800x1000). A missing file shows a plain neutral tile with no text. */
-function useGallery(category: EventType, count: number): (string | null)[] {
+export function useGallery(category: EventType, count: number): (string | null)[] {
   const [srcs, setSrcs] = useState<(string | null)[]>(() => Array<string | null>(count).fill(null));
   useEffect(() => {
     let live = true;
@@ -97,10 +97,10 @@ function Lightbox({ srcs, start, onClose }: { srcs: (string | null)[]; start: nu
   );
 }
 
-export function Gallery({ count, category }: { count: number; category: EventType }) {
+export function Gallery({ srcs }: { srcs: (string | null)[] }) {
   const { t } = useI18n();
   const [open, setOpen] = useState<number | null>(null);
-  const srcs = useGallery(category, count);
+  const count = srcs.length;
   return (
     <>
       <p className="iv-note">{t('inv.gallery.hint')}</p>

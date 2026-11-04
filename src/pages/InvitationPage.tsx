@@ -9,7 +9,7 @@ import { WhatsAppLink } from '../components/WhatsAppLink';
 import { LANGS } from '../types';
 import { CoverText, Divider, Frame, LoopClip, PortraitPanel, isLong, themeStyle } from '../components/card/parts';
 import { CatCtx, Countdown, EventBlock, Rsvp, Section } from '../components/card/sections';
-import { Contacts, Gallery, Gift, Programme, Story, Wishes } from '../components/card/extras';
+import { Contacts, Gallery, useGallery, Gift, Programme, Story, Wishes } from '../components/card/extras';
 import '../invitation.css';
 
 /* Guest name comes from the link (?to=Name). It is text only, trimmed and capped. */
@@ -65,6 +65,7 @@ function Body({ demo, guest, hidden }: { demo: DemoInvite; guest: string; hidden
   const hasWa = Boolean(waHref(cfg, lang));
   const first = demo.events[0];
   const quiet = demo.quiet;
+  const photos = useGallery(demo.category, demo.gallery ?? 0);
   let alt = false;
   const flip = () => (alt = !alt); // alternate paper tone page by page
   return (
@@ -94,7 +95,7 @@ function Body({ demo, guest, hidden }: { demo: DemoInvite; guest: string; hidden
         </Section>
 
         {demo.programme && <Section title={t('inv.programme')} alt={flip()}><Programme demo={demo} /></Section>}
-        {demo.gallery && !quiet && <Section title={t('inv.gallery')} alt={flip()}><Gallery count={demo.gallery} category={demo.category} /></Section>}
+        {demo.gallery && !quiet && photos.some(Boolean) && <Section title={t('inv.gallery')} alt={flip()}><Gallery srcs={photos} /></Section>}
         {demo.gift && <Section title={t('inv.gift')} alt={flip()}><Gift demo={demo} /></Section>}
 
         <Section title={t(quiet ? 'inv.rsvp.quiet' : 'inv.rsvp')} alt={flip()} id="rsvp">
