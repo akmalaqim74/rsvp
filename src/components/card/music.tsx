@@ -37,7 +37,7 @@ export function useMusic(demo: DemoInvite, embed: boolean) {
   const wanted = useRef(false); // playing before the tab was hidden
 
   useEffect(() => {
-    if (embed) return;
+    if (embed || demo.category === 'funeral') return; // tahlil: never any music
     let live = true;
     void findTrack(demo).then((s) => { if (live) setSrc(s); });
     return () => { live = false; };

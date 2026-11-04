@@ -191,7 +191,8 @@ export function useCoverBg(demo: DemoInvite): string | null {
   return COVER_ART.has(`${demo.category}-${n}`) ? `/art/cover-${demo.category}-${n}.webp` : null;
 }
 
-export const designClass = (d: DemoInvite): string => `cv-d-${d.category}-${d.id.replace(/\D/g, '') || '1'}`;
+export const designClass = (d: DemoInvite): string =>
+  `cv-d-${d.category}-${d.id.replace(/\D/g, '') || '1'}${d.font ? ` cv-f-${d.font}` : ''}${d.place === 'upper-middle' ? ' cv-p-um' : d.place === 'upper' ? ' cv-p-up' : ''}`;
 
 export const coverKind = (d: DemoInvite): CoverKind => d.cover ?? 'classic';
 

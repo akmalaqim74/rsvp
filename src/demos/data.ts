@@ -4,8 +4,8 @@ import type { EventType, Lang } from '../types';
    To add a design, add an entry to DEMOS: it is served at /{category}/{id}.
    Dates are computed from today so a sample never shows "event is over". */
 
-type L = Record<Lang, string>;
-type LL = Record<Lang, string[]>;
+export type L = Record<Lang, string>;
+export type LL = Record<Lang, string[]>;
 
 /* Colours are tokens. Text pairs were measured for WCAG AA (see docs/reviews/TASK-build-review.md). */
 export interface Theme {
@@ -29,6 +29,9 @@ export type SealStyle = 'wax' | 'ring';
 /* Cover composition. Each kind has its own layout, frame shape, ornament and opening (see covers.css and
    OPENING in InvitationPage). Adding a design = one DEMOS entry; a new kind = one CSS block + one case. */
 export type CoverKind = 'classic' | 'portrait' | 'arch' | 'foil' | 'oval' | 'songket' | 'modern' | 'wreath' | 'balloons' | 'age' | 'ticket';
+
+export type CoverFont = 'cormorant' | 'greatvibes' | 'playfair' | 'pinyon' | 'jost' | 'fredoka';
+export type InsideLayout = 'rounded' | 'geo' | 'glam' | 'soft';
 
 export interface DemoEvent {
   label: L;
@@ -57,6 +60,9 @@ export interface DemoInvite {
   note: L;            // parking, surau, dress code
   closing: L;         // doa or closing message
   cover?: CoverKind;  // cover composition and opening; default 'classic'
+  font?: CoverFont;   // names typeface on art-led covers (see .cv-f-* in invitation.css)
+  place?: 'centre' | 'upper-middle' | 'upper'; // where the lettering sits on the art (the calm area)
+  layout?: InsideLayout; // inside layout family when it should differ from the cover kind
   quiet: boolean;     // tahlil: no countdown flourish, respectful wording, single counter
   /* Optional sections. A design shows only the ones it defines. All content is sample. */
   story?: { when: L; title: L; text: L }[];
@@ -67,15 +73,15 @@ export interface DemoInvite {
   contacts?: { name: string; role: L }[];
 }
 
-type Extras = Pick<DemoInvite, 'story' | 'programme' | 'gallery' | 'gift' | 'wishes' | 'contacts'>;
+export type Extras = Pick<DemoInvite, 'story' | 'programme' | 'gallery' | 'gift' | 'wishes' | 'contacts'>;
 
-const WISHES: Extras['wishes'] = [
+export const WISHES: Extras['wishes'] = [
   { from: 'Kak Liyana', text: { en: 'Congratulations! Wishing you a lifetime of happiness.', ms: 'Tahniah! Semoga berbahagia hingga ke akhir hayat.' } },
   { from: 'Uncle Jeffri', text: { en: 'May Allah bless your home with love and calm.', ms: 'Semoga Allah memberkati rumah tangga anda dengan kasih dan ketenangan.' } }
 ];
 
 /* Sample extras for wedding designs; only the names change. */
-const weddingExtras = (a: string, d: string, times: [string, string, string, string, string]): Extras => ({
+export const weddingExtras = (a: string, d: string, times: [string, string, string, string, string]): Extras => ({
   story: [
     { when: { en: '2019', ms: '2019' }, title: { en: 'How we met', ms: 'Bagaimana kami bertemu' },
       text: { en: `A friend introduced ${a} and ${d} at a book club. They talked until the cafe closed.`, ms: `Seorang rakan memperkenalkan ${a} dan ${d} di kelab buku. Mereka berbual sehingga kafe tutup.` } },
@@ -100,7 +106,7 @@ const weddingExtras = (a: string, d: string, times: [string, string, string, str
   ]
 });
 
-const partyExtras = (times: [string, string, string], labels: [L, L, L], gallery: number): Extras => ({
+export const partyExtras = (times: [string, string, string], labels: [L, L, L], gallery: number): Extras => ({
   programme: times.map((time, i) => ({ time, label: labels[i] })),
   gallery, wishes: WISHES,
   contacts: [{ name: 'Salwa (Sample)', role: { en: 'Host', ms: 'Tuan rumah' } }]
@@ -109,7 +115,7 @@ const partyExtras = (times: [string, string, string], labels: [L, L, L], gallery
 const TZ_OFFSET = '+08:00';
 
 /* Next given weekday (0 Sun .. 6 Sat), at least minDays from today in Kuala Lumpur, at HH:mm. */
-function upcoming(weekday: number, minDays: number, time: string): string {
+export function upcoming(weekday: number, minDays: number, time: string): string {
   const now = new Date(Date.now() + 8 * 3600000); // shift so UTC getters read Kuala Lumpur time
   const base = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()) + minDays * 86400000;
   const d = new Date(base);
@@ -118,19 +124,19 @@ function upcoming(weekday: number, minDays: number, time: string): string {
   return `${d.getUTCFullYear()}-${p(d.getUTCMonth() + 1)}-${p(d.getUTCDate())}T${time}:00${TZ_OFFSET}`;
 }
 
-const SAMPLE_NOTE_PARK: L = {
+export const SAMPLE_NOTE_PARK: L = {
   en: 'Parking is free behind the hall. A prayer room (surau) is on the ground floor.',
   ms: 'Tempat letak kereta percuma di belakang dewan. Surau disediakan di tingkat bawah.'
 };
 
-const TAHLIL_PROG: Extras['programme'] = [
+export const TAHLIL_PROG: Extras['programme'] = [
   { time: '20:00', label: { en: 'Surah Yasin', ms: 'Bacaan Yasin' } },
   { time: '20:20', label: { en: 'Tahlil', ms: 'Tahlil' } },
   { time: '20:40', label: { en: 'Doa', ms: 'Doa' } },
   { time: '21:00', label: { en: 'Light refreshments', ms: 'Jamuan ringan' } }
 ];
 
-export const DEMOS: DemoInvite[] = [
+export const BASE_DEMOS: DemoInvite[] = [
   /* ---------- Wedding (the lead design is ivory, gold and blush; sage stays as a later option) ---------- */
   {
     category: 'wedding', id: 'id-1', ...weddingExtras('Amira', 'Daniel', ['19:00', '19:30', '20:00', '21:00', '21:30']),
@@ -516,11 +522,6 @@ export const DEMOS: DemoInvite[] = [
     quiet: false
   },
 ];
-
-export const findDemo = (category: string, id: string): DemoInvite | undefined =>
-  DEMOS.find((d) => d.category === category && d.id === id);
-
-export const demosFor = (category: EventType): DemoInvite[] => DEMOS.filter((d) => d.category === category);
 
 export const demoPath = (d: DemoInvite): string => `/${d.category}/${d.id}`;
 

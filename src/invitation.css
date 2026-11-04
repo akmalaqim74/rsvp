@@ -679,3 +679,56 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 .iv[data-rm] .iv-card{transition:transform 1.1s ease .2s}
 .iv[data-rm][data-phase="closed"] .iv-card{transform:scale(.98)}
 .iv[data-rm][data-phase="opening"] .iv-card{transform:scale(1)}
+
+/* =====================================================================================================
+   More designs (more.ts): names typeface per design, lettering placement on the art, and four extra inside families.
+   ===================================================================================================== */
+.cv-f-cormorant{--cv-nf:'Cormorant Garamond',serif;--cv-nw:500;--cv-ns:1.12}
+.cv-f-greatvibes{--cv-nf:'Great Vibes',cursive;--cv-ns:1.18;--cv-nl:0}
+.cv-f-playfair{--cv-nf:'Playfair Display Variable',serif;--cv-nw:500;--cv-ns:.92}
+.cv-f-pinyon{--cv-nf:'Pinyon Script',cursive;--cv-ns:1.14;--cv-nl:0}
+.cv-f-jost{--cv-nf:'Jost',sans-serif;--cv-nw:500;--cv-ns:.9;--cv-nl:.06em}
+.cv-f-fredoka{--cv-nf:'Fredoka Variable',sans-serif;--cv-nw:600;--cv-ns:1.25;--cv-nl:0}
+.cv-p-um{--cv-pb:30svh}
+.cv-p-up{--cv-pb:42svh}
+.cv-p-um.cv-thumb .cv-thumb-in{padding-bottom:36cqw}
+.cv-p-up.cv-thumb .cv-thumb-in{padding-bottom:50cqw}
+
+/* rounded: kids. Soft cards, round dots, friendly type. */
+.iv[data-layout="rounded"] .iv-card{padding:0 10px;background:var(--iv-paper2)}
+.iv[data-layout="rounded"] .iv-sec{margin:12px 0;border-radius:30px;background-image:none;box-shadow:0 6px 20px color-mix(in srgb,var(--iv-ink) 10%,transparent);overflow:hidden}
+.iv[data-layout="rounded"] .iv-sec:not(.iv-hero)::before,.iv[data-layout="rounded"] .iv-sec:not(.iv-hero)::after{display:none}
+.iv[data-layout="rounded"] .iv-sec .dv-art{display:none}
+.iv[data-layout="rounded"] .dv::before,.iv[data-layout="rounded"] .dv::after{height:6px;max-width:90px;background:radial-gradient(circle,var(--iv-accent) 2.4px,transparent 3px) 0 0/12px 6px repeat-x}
+.iv[data-layout="rounded"] .dv i{width:12px;height:12px;border-radius:50%;transform:none;background:var(--iv-accent);border:0}
+.iv[data-layout="rounded"] .iv-names,.iv[data-layout="rounded"] .iv-h{font-family:'Fredoka Variable',var(--font-body);font-weight:600}
+.iv[data-layout="rounded"] .iv-h{letter-spacing:.1em}
+.iv[data-layout="rounded"] .iv-btn,.iv[data-layout="rounded"] .iv-choice label{border-radius:16px}
+
+/* geo: Islamic. Eight-point stars and a geometric band top and bottom of each section. */
+.iv[data-layout="geo"] .iv-sec:not(.iv-hero)::before{inset:0 0 auto 0;height:12px;border:0;background:repeating-conic-gradient(var(--iv-accent) 0 25%,transparent 0 50%) 0 0/12px 12px;opacity:.5}
+.iv[data-layout="geo"] .iv-sec:not(.iv-hero)::after{inset:auto 0 0 0;height:12px;border:0;background:repeating-conic-gradient(var(--iv-accent) 0 25%,transparent 0 50%) 0 0/12px 12px;opacity:.5}
+.iv[data-layout="geo"] .iv-sec .dv-art{display:none}
+.iv[data-layout="geo"] .dv i{width:18px;height:18px;border:0;transform:none;background:var(--iv-accent);clip-path:polygon(50% 0,62% 24%,85% 15%,76% 38%,100% 50%,76% 62%,85% 85%,62% 76%,50% 100%,38% 76%,15% 85%,24% 62%,0 50%,24% 38%,15% 15%,38% 24%)}
+.iv[data-layout="geo"] .iv-h{letter-spacing:.34em}
+.iv[data-layout="geo"] .iv-hero::after{content:"";display:block;height:12px;margin-top:32px;background:repeating-conic-gradient(var(--iv-accent) 0 25%,transparent 0 50%) 0 0/12px 12px;opacity:.5}
+
+/* glam: foil lines. Double rules, capital headings, square buttons. */
+.iv[data-layout="glam"] .iv-sec:not(.iv-hero)::before{inset:14px;border:1px solid var(--iv-accent)}
+.iv[data-layout="glam"] .iv-sec:not(.iv-hero)::after{inset:20px;border:1px solid color-mix(in srgb,var(--iv-accent) 60%,transparent)}
+.iv[data-layout="glam"] .iv-sec .dv-art{display:none}
+.iv[data-layout="glam"] .dv::before,.iv[data-layout="glam"] .dv::after{max-width:120px;height:3px;background:none;border-top:1px solid currentColor;border-bottom:1px solid currentColor}
+.iv[data-layout="glam"] .iv-names{font-family:'Playfair Display Variable',var(--font-head);text-transform:uppercase;letter-spacing:.08em;font-size:clamp(34px,11vw,48px);font-weight:500}
+.iv[data-layout="glam"] .iv-h{display:flex;align-items:center;gap:14px;letter-spacing:.3em}
+.iv[data-layout="glam"] .iv-h::before,.iv[data-layout="glam"] .iv-h::after{content:"";height:1px;flex:1;background:var(--iv-accent)}
+.iv[data-layout="glam"] .iv-btn{border-radius:0;letter-spacing:.14em;text-transform:uppercase}
+
+/* soft: quiet. No frames, hairlines, generous space, italic names. */
+.iv[data-layout="soft"] .iv-sec:not(.iv-hero)::before,.iv[data-layout="soft"] .iv-sec:not(.iv-hero)::after{display:none}
+.iv[data-layout="soft"] .iv-sec{padding-top:56px;padding-bottom:60px}
+.iv[data-layout="soft"] .iv-sec+.iv-sec{border-top:1px solid color-mix(in srgb,var(--iv-accent) 40%,transparent)}
+.iv[data-layout="soft"] .iv-sec .dv-art{display:none}
+.iv[data-layout="soft"] .dv::before,.iv[data-layout="soft"] .dv::after{max-width:48px}
+.iv[data-layout="soft"] .dv i{border-radius:50%;transform:none;width:5px;height:5px;background:currentColor}
+.iv[data-layout="soft"] .iv-names{font-style:italic;font-weight:300}
+.iv[data-layout="soft"] .iv-h{letter-spacing:.22em;font-weight:400}

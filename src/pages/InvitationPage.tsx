@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { m, MotionConfig, useReducedMotion } from 'motion/react';
-import { findDemo, type CoverKind, type DemoInvite } from '../demos/data';
+import type { CoverKind, DemoInvite } from '../demos/data';
+import { findDemo } from '../demos/registry';
 import { useI18n } from '../lib/i18n';
 import { useSiteConfig } from '../lib/siteConfig';
 import { waHref } from '../lib/config';
@@ -234,7 +235,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   }, [phase]);
 
   return (
-    <div className="iv" data-cat={demo.category} data-layout={coverKind(demo)} data-quiet={demo.quiet || undefined} data-embed={embed || undefined} data-rm={reduce || undefined} data-phase={phase} style={art ? { ...themeStyle(demo.theme), '--iv-art': `url(${art})` } as CSSProperties : themeStyle(demo.theme)} data-led={art ? 'y' : undefined} lang={lang}>
+    <div className="iv" data-cat={demo.category} data-layout={demo.layout ?? coverKind(demo)} data-quiet={demo.quiet || undefined} data-embed={embed || undefined} data-rm={reduce || undefined} data-phase={phase} style={art ? { ...themeStyle(demo.theme), '--iv-art': `url(${art})` } as CSSProperties : themeStyle(demo.theme)} data-led={art ? 'y' : undefined} lang={lang}>
       {!embed && (
         <div className="iv-top">
           <Link to={{ pathname: '/', hash: 'demos' }}>← {t('inv.back')}</Link>
