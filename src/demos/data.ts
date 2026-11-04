@@ -57,7 +57,7 @@ export interface DemoInvite {
   /* Optional sections. A design shows only the ones it defines. All content is sample. */
   story?: { when: L; title: L; text: L }[];
   programme?: { time: string; label: L }[];      // time "HH:mm", Kuala Lumpur
-  gallery?: number;                              // number of "your photo here" slots
+  gallery?: number;                              // number of photo slots (files gallery-<category>-<n>.webp)
   gift?: { bank: L; holder: string; account: string };
   wishes?: { from: string; text: L }[];
   contacts?: { name: string; role: L }[];
@@ -142,9 +142,9 @@ export const DEMOS: DemoInvite[] = [
       ms: ['Puteri kepada Encik Hamdan dan Puan Rohana', 'Putera kepada Encik Richard dan Puan Mariam']
     },
     events: [
-      { label: { en: 'Akad nikah', ms: 'Akad nikah' }, start: upcoming(6, 35, '10:00'), hours: 2,
+      { label: { en: 'Akad nikah', ms: 'Akad nikah' }, start: upcoming(6, 42, '10:00'), hours: 2,
         venue: { en: 'Sample Mosque', ms: 'Masjid Contoh' }, address: 'Jalan Contoh 1, Seksyen 7, 40000 Shah Alam' },
-      { label: { en: 'Reception', ms: 'Majlis resepsi' }, start: upcoming(6, 35, '19:30'), hours: 4,
+      { label: { en: 'Reception', ms: 'Majlis resepsi' }, start: upcoming(6, 42, '19:30'), hours: 4,
         venue: { en: 'Sample Hall', ms: 'Dewan Contoh' }, address: 'Jalan Contoh 2, 50450 Kuala Lumpur' }
     ],
     countdown: true, note: SAMPLE_NOTE_PARK,
@@ -228,9 +228,9 @@ export const DEMOS: DemoInvite[] = [
       ms: ['Puteri kepada Encik Hamdan dan Puan Rohana', 'Putera kepada Encik Richard dan Puan Mariam']
     },
     events: [
-      { label: { en: 'Akad nikah', ms: 'Akad nikah' }, start: upcoming(6, 35, '10:00'), hours: 2,
+      { label: { en: 'Akad nikah', ms: 'Akad nikah' }, start: upcoming(6, 42, '10:00'), hours: 2,
         venue: { en: 'Sample Mosque', ms: 'Masjid Contoh' }, address: 'Jalan Contoh 1, Seksyen 7, 40000 Shah Alam' },
-      { label: { en: 'Reception', ms: 'Majlis resepsi' }, start: upcoming(6, 35, '19:30'), hours: 4,
+      { label: { en: 'Reception', ms: 'Majlis resepsi' }, start: upcoming(6, 42, '19:30'), hours: 4,
         venue: { en: 'Sample Hall', ms: 'Dewan Contoh' }, address: 'Jalan Contoh 2, 50450 Kuala Lumpur' }
     ],
     countdown: true, note: SAMPLE_NOTE_PARK,
@@ -324,7 +324,7 @@ export const DEMOS: DemoInvite[] = [
     invite: { en: 'Sample Company invites you and a guest to an evening of dinner, awards and a look back at the year.', ms: 'Syarikat Contoh menjemput anda dan seorang tetamu ke malam makan malam, anugerah dan imbasan tahun ini.' },
     hosts: { en: ['From the management team'], ms: ['Daripada pihak pengurusan'] },
     events: [
-      { label: { en: 'Annual dinner', ms: 'Makan malam tahunan' }, start: upcoming(5, 40, '19:00'), hours: 4,
+      { label: { en: 'Annual dinner', ms: 'Makan malam tahunan' }, start: upcoming(5, 35, '19:00'), hours: 4,
         venue: { en: 'Sample Convention Hall', ms: 'Dewan Konvensyen Contoh' }, address: 'Jalan Contoh 20, 50490 Kuala Lumpur' }
     ],
     countdown: true,

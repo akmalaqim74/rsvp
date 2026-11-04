@@ -38,8 +38,15 @@
 @media (hover:hover){.iv-btn-ghost:hover{background:var(--iv-ink);color:var(--iv-paper)}.iv-btn-solid:hover,.iv-btn-wa:hover{filter:brightness(1.12)}}
 
 /* ---------- cover: paper doors ---------- */
-.cover{position:fixed;inset:52px 0 92px;z-index:30;display:grid;grid-template-columns:minmax(0,1fr);place-items:center;overflow:hidden;background:transparent}
-.door{position:absolute;top:0;bottom:0;width:50%;overflow:hidden;background:var(--iv-cover);will-change:transform}
+.cover{perspective:1500px;position:fixed;inset:52px 0 92px;z-index:30;display:grid;grid-template-columns:minmax(0,1fr);place-items:center;overflow:hidden;background:transparent}
+.door{position:absolute;top:0;bottom:0;width:50%;overflow:hidden;background:var(--iv-cover);will-change:transform;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.door-l{transform-origin:0 50%}.door-r{transform-origin:100% 50%}
+/* soft shading while the panel turns, and a faint paper edge on the seam side */
+.door-shade{position:absolute;inset:0;opacity:0;pointer-events:none;z-index:3}
+.door-l .door-shade{background:linear-gradient(to right,rgba(20,14,10,.05),rgba(20,14,10,.55))}
+.door-r .door-shade{background:linear-gradient(to left,rgba(20,14,10,.05),rgba(20,14,10,.55))}
+.door::after{content:"";position:absolute;top:0;bottom:0;width:2px;z-index:3;background:linear-gradient(to bottom,rgba(255,255,255,.35),rgba(255,255,255,.12));pointer-events:none}
+.door-l::after{right:0}.door-r::after{left:0}
 .door-l{left:0;box-shadow:2px 0 12px rgba(0,0,0,.2)}
 .door-r{right:0;box-shadow:-2px 0 12px rgba(0,0,0,.2)}
 .door-in{position:absolute;top:0;bottom:0;width:200%;--fi:14px;--fg:5px;--fc:44px;--fa:min(42vw,28svh);

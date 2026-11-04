@@ -72,3 +72,8 @@ Branch `feature/react-frontend`. Built and reviewed by Claude, no independent ch
 - Cover now uses ONE photo (`portrait-couple.webp`) split across the two doors; names, date, seal, guest tag and button sit in the clear centre/top, ink on light. Missing file: tonal panel. `portrait-groom/bride.webp` are no longer used.
 - Gallery reads `gallery-<category>-<n>.webp` (tiles and lightbox); missing file is a plain tile with no text.
 - Looked at: 375 and 320 px, BM, door split mid-open, tile and lightbox with one temporary photo. Not looked at: real gallery photos (not yet supplied), EN screenshot of the new cover, desktop, reduced motion.
+
+### Hinged-card opening and dates
+- Doors now swing open like a folded card: each panel hinges on its outer edge (rotateY -105 / +105 deg, perspective on the cover, 1.1 s), with shading and a faint paper edge; transform and opacity only. Reduced motion: plain fade. All ten designs use the same two-panel cover.
+- Dates were already computed from today in `upcoming()` (Kuala Lumpur time); wedding leads moved to about 6 weeks, other to about 5. There is no RSVP deadline in the cards. No date unit test exists; tests that need a fixed date should set the system time before importing `demos/data`.
+- Looked at: mid-open frame at 375 px, button hit-test and no sideways scroll at 320 px for five designs. Not looked at: the full swing frame by frame (the preview pane pauses animation frames), real phone, Safari 3D rendering.

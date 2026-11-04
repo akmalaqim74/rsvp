@@ -27,17 +27,18 @@ function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite
   useEffect(() => { if (!embed) btn.current?.focus({ preventScroll: true }); }, [embed]);
   useEffect(() => {
     if (!opening) return;
-    const id = window.setTimeout(onDone, reduce ? 450 : 1500); // safety net if the animation callback never fires
+    const id = window.setTimeout(onDone, reduce ? 450 : 1900); // safety net if the animation callback never fires
     return () => window.clearTimeout(id);
   }, [opening, reduce, onDone]);
 
   const door = (side: 'l' | 'r') => (
     <m.div key={side} className={`door door-${side}`} aria-hidden="true"
-      animate={{ x: opening && !reduce ? (side === 'l' ? '-102%' : '102%') : '0%' }}
-      transition={{ duration: 1, delay: 0.3, ease: [0.65, 0, 0.35, 1] }}
+      animate={{ rotateY: opening && !reduce ? (side === 'l' ? -105 : 105) : 0 }}
+      transition={{ duration: 1.1, delay: 0.3, ease: [0.45, 0.05, 0.2, 1] }}
       onAnimationComplete={() => { if (opening && side === 'l') onDone(); }}>
       {demo.portraits && <PortraitPanel side={side === 'l' ? 'groom' : 'bride'} priority />}
       <div className="door-in"><Frame category={demo.category} bare={demo.portraits} /></div>
+      <m.span className="door-shade" animate={{ opacity: opening && !reduce ? 1 : 0 }} transition={{ duration: 0.9, delay: 0.3, ease: 'easeIn' }} />
     </m.div>
   );
 
