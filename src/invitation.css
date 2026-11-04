@@ -33,6 +33,8 @@
   font:600 14px/1.2 var(--font-body);letter-spacing:.02em;text-decoration:none;cursor:pointer;text-align:center;transition:background-color .2s,color .2s,transform .2s}
 .iv-btn-solid{background:var(--iv-btn);color:var(--iv-btn-ink)}
 .iv-btn-wa{background:var(--wa);color:#fff}
+.iv{--iv-field:color-mix(in srgb,var(--iv-paper) 55%,#fff)}
+.iv[data-layout="foil"]{--iv-field:color-mix(in srgb,var(--iv-paper) 80%,#000);--error:#FF9E9E}
 .iv-btn-ghost{background:transparent;color:var(--iv-ink);border-color:var(--iv-muted)}
 .iv-block{width:100%;min-height:48px}
 @media (hover:hover){.iv-btn-ghost:hover{background:var(--iv-ink);color:var(--iv-paper)}.iv-btn-solid:hover,.iv-btn-wa:hover{filter:brightness(1.12)}}
@@ -158,19 +160,19 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 .iv-form{background:none;border:0;padding:0;box-shadow:none;text-align:left}
 .iv-field{margin-bottom:18px}
 .iv-field label{display:block;margin-bottom:6px;font-weight:500;font-size:14px;color:var(--iv-ink)}
-.iv-field input,.iv-field textarea{width:100%;min-height:48px;padding:10px 12px;border:1px solid var(--iv-muted);border-radius:6px;background:color-mix(in srgb,var(--iv-paper) 55%,#fff);color:var(--iv-ink);font:400 16px var(--font-body)}
+.iv-field input,.iv-field textarea{width:100%;min-height:48px;padding:10px 12px;border:1px solid var(--iv-muted);border-radius:6px;background:var(--iv-field);color:var(--iv-ink);font:400 16px var(--font-body)}
 .iv-field textarea{min-height:92px;resize:vertical}
 .iv-field.bad input,.iv-field.bad textarea,.iv-choice.bad label{border-color:var(--error)}
 .iv-err{display:block;margin-top:4px;color:var(--error);font-size:13px;min-height:0}
 .iv-choice{display:grid;grid-template-columns:1fr 1fr;gap:10px;border:0;padding:0;margin:0 0 18px;min-width:0}
 .iv-choice label{position:relative;display:flex;align-items:center;justify-content:center;min-height:52px;padding:6px 10px;border:1px solid var(--iv-muted);border-radius:6px;
-  background:color-mix(in srgb,var(--iv-paper) 55%,#fff);color:var(--iv-ink);font:500 15px/1.25 var(--font-body);text-align:center;cursor:pointer;margin:0;transition:background-color .2s,color .2s}
+  background:var(--iv-field);color:var(--iv-ink);font:500 15px/1.25 var(--font-body);text-align:center;cursor:pointer;margin:0;transition:background-color .2s,color .2s}
 .iv-choice label.on{background:var(--iv-btn);border-color:var(--iv-btn);color:var(--iv-btn-ink)}
 .iv-choice input{position:absolute;inset:0;width:100%;height:100%;min-height:0;margin:0;opacity:0;cursor:pointer}
 .iv-choice label:focus-within{outline:3px solid var(--iv-ink);outline-offset:3px}
 .iv-choice .iv-err{grid-column:1/-1}
 .iv-steps{display:grid;gap:10px;margin-bottom:18px}
-.iv-step{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 6px 6px 14px;border:1px solid color-mix(in srgb,var(--iv-accent) 80%,transparent);border-radius:6px;background:color-mix(in srgb,var(--iv-paper) 55%,#fff)}
+.iv-step{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 6px 6px 14px;border:1px solid color-mix(in srgb,var(--iv-accent) 80%,transparent);border-radius:6px;background:var(--iv-field)}
 .iv-step>span{font-size:15px;font-weight:500}
 .iv-step div{display:flex;align-items:center}
 .iv-step button{width:44px;height:44px;border:1px solid var(--iv-muted);border-radius:50%;background:transparent;color:var(--iv-ink);font:500 22px/1 var(--font-body);cursor:pointer}
@@ -268,11 +270,11 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 .iv-acct{margin:2px 0 14px;font:400 24px var(--font-head);letter-spacing:.08em;font-variant-numeric:tabular-nums}
 
 .iv-wishes{list-style:none;margin:0 0 24px;padding:0;display:grid;gap:12px;text-align:left}
-.iv-wishes li{padding:14px 16px;border-left:3px solid var(--iv-accent);background:color-mix(in srgb,var(--iv-paper) 55%,#fff)}
+.iv-wishes li{padding:14px 16px;border-left:3px solid var(--iv-accent);background:var(--iv-field)}
 .iv-wishes p{margin:0 0 6px;font:400 16px/1.55 var(--font-head)}
 .iv-wishes span{font:500 12px var(--font-head);letter-spacing:.2em;text-transform:uppercase;color:var(--iv-label)}
 .iv-contacts{list-style:none;margin:0;padding:0;display:grid;gap:12px;text-align:left}
-.iv-contacts li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--iv-accent) 80%,transparent);background:color-mix(in srgb,var(--iv-paper) 55%,#fff)}
+.iv-contacts li{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--iv-accent) 80%,transparent);background:var(--iv-field)}
 .iv-contacts strong{display:block;font:500 16px var(--font-head)}
 .iv-contacts span{font-size:13px;color:var(--iv-muted)}
 @media (prefers-reduced-motion:reduce){.iv-scroll i{animation:none}}
@@ -469,3 +471,133 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 .cv-k-ticket .cv-thumb-in{align-items:flex-start;padding:10cqw 26cqw 10cqw 9cqw}
 .cv-k-ticket .cv-thumb-in .cv-names{font-size:10cqw}
 .cv-art .cv-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* =====================================================================================================
+   Inside layouts. data-layout = the cover kind. Same sections, different structure.
+   ===================================================================================================== */
+.iv-bigdate,.iv-bignum,.iv-couple{display:none}
+.iv-couple{margin:-72px -36px 28px}
+.iv-couple img{display:block;width:100%;height:auto}
+
+/* classic: centred, gold double frames (the base styles) */
+
+/* arch (Blush Rose): left-aligned editorial, big serif numerals, petal frames, soft dividers */
+.iv[data-layout="arch"] .iv-card{text-align:left}
+.iv[data-layout="arch"] .iv-sec{padding:44px 30px 52px 34px}
+.iv[data-layout="arch"] .iv-sec:not(.iv-hero)::before{inset:0 auto 0 18px;width:1px;border:0;background:color-mix(in srgb,var(--iv-accent) 60%,transparent)}
+.iv[data-layout="arch"] .iv-sec:not(.iv-hero)::after{display:none}
+.iv[data-layout="arch"] .iv-sec .dv-art,.iv[data-layout="arch"] .iv-sec .dv{margin-left:0;max-width:200px;opacity:.7}
+.iv[data-layout="arch"] .iv-h{padding-left:0;font-style:italic;text-transform:none;letter-spacing:.04em;font-size:22px;font-weight:400}
+.iv[data-layout="arch"] .iv-kicker,.iv[data-layout="arch"] .iv-sub,.iv[data-layout="arch"] .iv-label{padding-left:0}
+.iv[data-layout="arch"] .iv-names{font-style:italic;font-weight:300}
+.iv[data-layout="arch"] .iv-lead,.iv[data-layout="arch"] .iv-note,.iv[data-layout="arch"] .iv-sim{margin-left:0}
+.iv[data-layout="arch"] .iv-closing{margin-left:0}
+.iv[data-layout="arch"] .iv-bigdate{display:flex;align-items:baseline;flex-wrap:wrap;gap:6px 14px;margin:6px 0 18px;color:var(--iv-ink)}
+.iv[data-layout="arch"] .iv-bigdate b{font:300 92px/.9 var(--font-head);color:var(--iv-label)}
+.iv[data-layout="arch"] .iv-bigdate span{font:500 13px var(--font-head);letter-spacing:.24em;text-transform:uppercase}
+.iv[data-layout="arch"] .iv-bigdate i{flex-basis:100%;font:italic 400 18px var(--font-head);color:var(--iv-muted)}
+.iv[data-layout="arch"] .iv-ph{border-radius:70% 0 70% 0/60% 0 60% 0;border-width:1px}
+.iv[data-layout="arch"] .iv-ph::after{border-radius:70% 0 70% 0/60% 0 60% 0}
+.iv[data-layout="arch"] .iv-acts{grid-template-columns:1fr}
+.iv[data-layout="arch"] .iv-btn{border-radius:99px}
+
+/* foil (Midnight Navy): dark, constellation dividers, countdown block up front */
+.iv[data-layout="foil"] .iv-sec{--iv-grain:none}
+.iv[data-layout="foil"] .iv-sec .dv-art{display:none}
+.iv[data-layout="foil"] .iv-sec .dv,.iv[data-layout="foil"] .iv-hero .dv{display:flex;margin:0 auto 24px;color:var(--iv-accent)}
+.iv[data-layout="foil"] .dv::before,.iv[data-layout="foil"] .dv::after{height:0;border-top:1px dotted currentColor;background:none}
+.iv[data-layout="foil"] .dv i{width:9px;height:9px;transform:none;background:none;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);background:currentColor}
+.iv[data-layout="foil"] .iv-count{margin:28px 0 8px;border:1px solid color-mix(in srgb,var(--iv-accent) 80%,transparent);border-radius:999px 999px 8px 8px;padding-top:8px}
+.iv[data-layout="foil"] .iv-count strong{font-size:38px}
+.iv[data-layout="foil"] .iv-names{letter-spacing:.06em}
+.iv[data-layout="foil"] .iv-sec:not(.iv-hero)::before{border-radius:999px 999px 0 0;inset:12px 12px 12px}
+
+/* portrait (Portrait Doors): photo-led, "He / She" two-column family block */
+.iv[data-layout="portrait"] .iv-hosts{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:12px;text-align:center}
+.iv[data-layout="portrait"] .iv-hosts p{position:relative;padding:34px 8px 4px;font-size:14px}
+.iv[data-layout="portrait"] .iv-hosts p+p{border-left:1px solid color-mix(in srgb,var(--iv-accent) 70%,transparent)}
+.iv[data-layout="portrait"] .iv-hosts p::before{position:absolute;top:0;left:0;right:0;font:500 10px/1.4 var(--font-head);letter-spacing:.12em;text-transform:uppercase;color:var(--iv-label)}
+.iv[data-layout="portrait"][lang="en"] .iv-hosts p:first-child::before{content:"The bride"}
+.iv[data-layout="portrait"][lang="en"] .iv-hosts p+p::before{content:"The groom"}
+.iv[data-layout="portrait"][lang="ms"] .iv-hosts p:first-child::before{content:"Pengantin perempuan"}
+.iv[data-layout="portrait"][lang="ms"] .iv-hosts p+p::before{content:"Pengantin lelaki"}
+
+/* oval (Sage and Gold): botanical, leaf corner on every section, vertical timeline with dots */
+.iv[data-layout="oval"] .iv-sec:not(.iv-hero)::before{border-radius:46% 46% 8px 8px/10% 10% 8px 8px}
+.iv[data-layout="oval"] .iv-sec:not(.iv-hero)::after{inset:auto 18px 18px auto;width:74px;height:46px;border:0;background:var(--iv-accent);opacity:.8;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Cg fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M116 36C80 34 40 26 4 8'/%3E%3Cpath d='M98 33c4-9 0-15-7-17c-1 8 1 14 7 17zM78 30c4-9 0-15-7-17c-1 8 1 14 7 17zM58 25c4-9 0-15-7-17c-1 8 1 14 7 17zM38 18c4-9 0-15-7-17c-1 8 1 14 7 17z'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat;
+  mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 40'%3E%3Cg fill='none' stroke='%23000' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M116 36C80 34 40 26 4 8'/%3E%3Cpath d='M98 33c4-9 0-15-7-17c-1 8 1 14 7 17zM78 30c4-9 0-15-7-17c-1 8 1 14 7 17zM58 25c4-9 0-15-7-17c-1 8 1 14 7 17zM38 18c4-9 0-15-7-17c-1 8 1 14 7 17z'/%3E%3C/g%3E%3C/svg%3E") center/contain no-repeat}
+.iv[data-layout="oval"] .iv-prog,.iv[data-layout="oval"] .iv-story{position:relative;padding-left:30px;text-align:left}
+.iv[data-layout="oval"] .iv-prog::before,.iv[data-layout="oval"] .iv-story::before{content:"";position:absolute;left:7px;top:14px;bottom:14px;width:1px;background:var(--iv-accent)}
+.iv[data-layout="oval"] .iv-prog li,.iv[data-layout="oval"] .iv-story li{position:relative;border-bottom:0}
+.iv[data-layout="oval"] .iv-prog li::before,.iv[data-layout="oval"] .iv-story li::before{content:"";position:absolute;left:-28px;top:20px;width:11px;height:11px;border-radius:50%;background:var(--iv-paper);border:2px solid var(--iv-accent);margin:0;height:11px}
+.iv[data-layout="oval"] .iv-story li+li::before{display:block}
+.iv[data-layout="oval"] .iv-story p{margin-left:0}
+
+/* songket (Malay): woven band top and bottom of every section, names in a cartouche */
+.iv[data-layout="songket"] .iv-sec:not(.iv-hero)::before{inset:0;height:14px;border:0;background:
+  linear-gradient(45deg,var(--iv-accent) 25%,transparent 25% 75%,var(--iv-accent) 75%) 0 0/10px 10px,linear-gradient(45deg,var(--iv-accent) 25%,transparent 25% 75%,var(--iv-accent) 75%) 5px 5px/10px 10px;opacity:.55;bottom:auto}
+.iv[data-layout="songket"] .iv-sec:not(.iv-hero)::after{inset:auto 0 0 0;height:14px;border:0;background:
+  linear-gradient(45deg,var(--iv-accent) 25%,transparent 25% 75%,var(--iv-accent) 75%) 0 0/10px 10px,linear-gradient(45deg,var(--iv-accent) 25%,transparent 25% 75%,var(--iv-accent) 75%) 5px 5px/10px 10px;opacity:.55}
+.iv[data-layout="songket"] .iv-sec:not(.iv-hero){padding-top:56px;padding-bottom:64px}
+.iv[data-layout="songket"] .iv-sec .dv-art{display:none}
+.iv[data-layout="songket"] .iv-hero .iv-names{display:inline-block;padding:18px 26px;border:1px solid var(--iv-accent);border-radius:14px;box-shadow:0 0 0 5px var(--iv-paper),0 0 0 6px var(--iv-accent)}
+.iv[data-layout="songket"] .iv-h{border-bottom:1px solid var(--iv-accent);display:inline-block;padding-bottom:8px}
+
+/* modern (Minimal): left-aligned, numbered sections, hairlines, huge date */
+.iv[data-layout="modern"] .iv-card{text-align:left;counter-reset:sec}
+.iv[data-layout="modern"] .iv-sec{padding:48px 28px 56px 36px;counter-increment:sec;background-image:none}
+.iv[data-layout="modern"] .iv-sec:not(.iv-hero)::before{inset:0 auto 0 20px;width:1px;border:0;background:var(--iv-accent)}
+.iv[data-layout="modern"] .iv-sec:not(.iv-hero)::after{display:none}
+.iv[data-layout="modern"] .iv-sec .dv-art,.iv[data-layout="modern"] .iv-sec .dv{display:none}
+.iv[data-layout="modern"] .iv-h,.iv[data-layout="modern"] .iv-kicker,.iv[data-layout="modern"] .iv-sub,.iv[data-layout="modern"] .iv-label,.iv[data-layout="modern"] .iv-sign{padding-left:0;font-family:var(--font-body);letter-spacing:.2em;font-weight:500}
+.iv[data-layout="modern"] .iv-h::before{content:counter(sec,decimal-leading-zero) "  ";color:var(--iv-muted)}
+.iv[data-layout="modern"] .iv-names{font:300 clamp(40px,13vw,56px)/1.05 var(--font-body);letter-spacing:.1em;text-transform:uppercase}
+.iv[data-layout="modern"] .iv-lead,.iv[data-layout="modern"] .iv-note,.iv[data-layout="modern"] .iv-sim,.iv[data-layout="modern"] .iv-closing{margin-left:0;font-family:var(--font-body)}
+.iv[data-layout="modern"] .iv-bigdate{display:flex;flex-direction:column;margin:6px 0 20px;color:var(--iv-ink)}
+.iv[data-layout="modern"] .iv-bigdate b{font:200 110px/.9 var(--font-body);letter-spacing:-.04em}
+.iv[data-layout="modern"] .iv-bigdate span,.iv[data-layout="modern"] .iv-bigdate i{font:500 13px var(--font-body);letter-spacing:.2em;text-transform:uppercase;font-style:normal;color:var(--iv-muted)}
+.iv[data-layout="modern"] .iv-btn,.iv[data-layout="modern"] .iv-field input,.iv[data-layout="modern"] .iv-field textarea,.iv[data-layout="modern"] .iv-choice label{border-radius:0}
+
+/* wreath (Garden): soft rounded cards, arched photo frames, centred */
+.iv[data-layout="wreath"] .iv-card{padding-left:10px;padding-right:10px;background:var(--iv-paper2)}
+.iv[data-layout="wreath"] .iv-sec{margin:10px 0;border-radius:32px;background-image:none;box-shadow:0 2px 18px color-mix(in srgb,var(--iv-accent) 30%,transparent)}
+.iv[data-layout="wreath"] .iv-sec:not(.iv-hero)::before{inset:10px;border-radius:24px;border-style:dashed;opacity:.7}
+.iv[data-layout="wreath"] .iv-sec:not(.iv-hero)::after{display:none}
+.iv[data-layout="wreath"] .iv-ph,.iv[data-layout="wreath"] .iv-ph::after{border-radius:999px 999px 14px 14px}
+.iv[data-layout="wreath"] .iv-names{font-style:italic;font-weight:300}
+.iv[data-layout="wreath"] .iv-btn{border-radius:99px}
+
+/* balloons (kids): playful rounded cards, confetti-dot dividers, big number */
+.iv[data-layout="balloons"] .iv-card{padding-left:10px;padding-right:10px;background:var(--iv-paper2)}
+.iv[data-layout="balloons"] .iv-sec{margin:12px 0;border-radius:26px;background-image:none;border:3px solid var(--iv-accent)}
+.iv[data-layout="balloons"] .iv-sec:not(.iv-hero)::before,.iv[data-layout="balloons"] .iv-sec:not(.iv-hero)::after{display:none}
+.iv[data-layout="balloons"] .iv-sec .dv-art{display:none}
+.iv[data-layout="balloons"] .dv::before,.iv[data-layout="balloons"] .dv::after{height:6px;max-width:90px;background:radial-gradient(circle,var(--iv-accent) 2.4px,transparent 3px) 0 0/12px 6px repeat-x}
+.iv[data-layout="balloons"] .dv i{width:12px;height:12px;border-radius:50%;transform:none}
+.iv[data-layout="balloons"] .iv-names{font:800 clamp(44px,14vw,60px)/1 var(--font-body)}
+.iv[data-layout="balloons"] .iv-h{font-family:var(--font-body);font-weight:800;letter-spacing:.08em}
+.iv[data-layout="balloons"] .iv-btn,.iv[data-layout="balloons"] .iv-choice label{border-radius:14px}
+.iv[data-layout="balloons"] .iv-bignum,.iv[data-layout="age"] .iv-bignum{display:grid;place-items:center;width:120px;aspect-ratio:1;margin:0 auto 14px;border-radius:50%;background:var(--iv-accent);color:var(--iv-paper);font:800 64px/1 var(--font-body)}
+.iv[data-layout="balloons"] .iv-bignum{background:var(--iv-btn);color:var(--iv-btn-ink)}
+.iv[data-layout="age"] .iv-bignum{font-family:var(--font-head);font-weight:700;background:var(--iv-btn);color:var(--iv-btn-ink)}
+
+/* ticket (corporate): left-aligned clean grid, events side by side, programme as a table */
+.iv[data-layout="ticket"] .iv-card{text-align:left}
+.iv[data-layout="ticket"] .iv-sec{background-image:none;border-top:4px solid var(--iv-ink);padding:36px 28px 44px}
+.iv[data-layout="ticket"] .iv-sec:not(.iv-hero)::before,.iv[data-layout="ticket"] .iv-sec:not(.iv-hero)::after{display:none}
+.iv[data-layout="ticket"] .iv-sec .dv-art,.iv[data-layout="ticket"] .iv-sec .dv{display:none}
+.iv[data-layout="ticket"] .iv-h,.iv[data-layout="ticket"] .iv-kicker,.iv[data-layout="ticket"] .iv-sub,.iv[data-layout="ticket"] .iv-label,.iv[data-layout="ticket"] .iv-sign{padding-left:0;font-family:var(--font-body);font-weight:700;letter-spacing:.14em}
+.iv[data-layout="ticket"] .iv-names{font:700 clamp(36px,11vw,48px)/1.05 var(--font-body)}
+.iv[data-layout="ticket"] .iv-lead,.iv[data-layout="ticket"] .iv-note,.iv[data-layout="ticket"] .iv-sim,.iv[data-layout="ticket"] .iv-closing{margin-left:0;font-family:var(--font-body)}
+.iv[data-layout="ticket"] .iv-prog{border:1px solid var(--iv-accent)}
+.iv[data-layout="ticket"] .iv-prog li{padding:12px 14px;gap:0}
+.iv[data-layout="ticket"] .iv-prog time{min-width:96px;padding-right:14px;margin-right:14px;border-right:1px solid var(--iv-accent)}
+.iv[data-layout="ticket"] .iv-btn{border-radius:6px}
+
+/* tahlil: quiet, centred, minimal (single frame, no ornament) */
+.iv[data-quiet] .iv-sec:not(.iv-hero)::after{display:none}
+.iv[data-quiet] .iv-sec .dv-art{display:none}
+.iv[data-quiet] .iv-sec{padding-top:40px;padding-bottom:44px}
+.iv:is([data-layout="modern"],[data-layout="ticket"],[data-layout="balloons"],[data-layout="age"],[data-layout="songket"],[data-layout="wreath"],[data-layout="foil"]) .paper-fr{display:none}
+.iv[data-layout="portrait"] .iv-couple{display:block}

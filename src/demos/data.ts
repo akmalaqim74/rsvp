@@ -178,8 +178,8 @@ export const DEMOS: DemoInvite[] = [
   },
   {
     category: 'wedding', id: 'id-3', ...weddingExtras('Sarah', 'Adam', ['19:30', '20:00', '20:30', '21:30', '22:00']), name: { en: 'Midnight Navy', ms: 'Biru Malam' },
-    theme: { paper: '#F8F5EE', paper2: '#EEE9DC', ink: '#14233F', muted: '#4B5668', accent: '#C7A55A', accentText: '#74591B',
-      cover: '#14233F', coverInk: '#F2E8CF', coverLine: '#C7A55A', btn: '#14233F', btnInk: '#F8F5EE', seal: '#C7A55A', sealInk: '#14233F' },
+    theme: { paper: '#101D36', paper2: '#182A4B', ink: '#F4ECD6', muted: '#C3CBDB', accent: '#C7A55A', accentText: '#E2C57E',
+      cover: '#14233F', coverInk: '#F2E8CF', coverLine: '#C7A55A', btn: '#C7A55A', btnInk: '#101D36', seal: '#C7A55A', sealInk: '#14233F' },
     seal: 'wax', monogram: 'S·A',
     cover: 'foil',
     kicker: { en: 'The wedding of', ms: 'Majlis perkahwinan' },

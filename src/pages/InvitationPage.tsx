@@ -10,6 +10,7 @@ import { LANGS } from '../types';
 import { CoverArt, CoverText, Divider, Frame, LoopClip, PortraitPanel, coverKind, isLong, themeStyle } from '../components/card/parts';
 import { CatCtx, Countdown, EventBlock, Rsvp, Section } from '../components/card/sections';
 import { Contacts, Gallery, useGallery, Gift, Programme, Story, Wishes } from '../components/card/extras';
+import { BIGDATE, BIGNUM, BigDate, BigNum, CoupleHeader } from '../components/card/layout';
 import { MusicButton, useMusic } from '../components/card/music';
 import '../invitation.css';
 
@@ -117,6 +118,7 @@ function Body({ demo, guest, hidden }: { demo: DemoInvite; guest: string; hidden
   const hasWa = Boolean(waHref(cfg, lang));
   const first = demo.events[0];
   const quiet = demo.quiet;
+  const kind = coverKind(demo);
   const photos = useGallery(demo.category, demo.gallery ?? 0);
   let alt = false;
   const flip = () => (alt = !alt); // alternate paper tone page by page
@@ -124,6 +126,7 @@ function Body({ demo, guest, hidden }: { demo: DemoInvite; guest: string; hidden
     <CatCtx.Provider value={demo.category}>
       <main className="iv-card" inert={hidden} aria-hidden={hidden || undefined} id="iv-main" tabIndex={-1}>
         <Section hero>
+          {kind === 'portrait' && <CoupleHeader />}
           <div className="paper-fr"><Frame category={demo.category} /></div>
           <p className="iv-kicker">{demo.kicker[lang]}</p>
           <p className={`iv-names${isLong(demo) ? ' long' : ''}`} aria-label={demo.names.join(demo.joiner ? ` ${demo.joiner} ` : ' ')}>
@@ -132,9 +135,12 @@ function Body({ demo, guest, hidden }: { demo: DemoInvite; guest: string; hidden
             ))}
           </p>
           {demo.subtitle && <p className="iv-sub">{demo.subtitle[lang]}</p>}
+          {BIGDATE.has(kind) && <BigDate iso={first.start} lang={lang} />}
+          {BIGNUM.has(kind) && <BigNum demo={demo} />}
           <Divider category={demo.category} />
           <p className="iv-lead">{demo.invite[lang]}</p>
           <div className="iv-hosts">{demo.hosts[lang].map((h) => <p key={h}>{h}</p>)}</div>
+          {kind === 'foil' && demo.countdown && !quiet && <Countdown iso={first.start} />}
           <p className="iv-scroll" aria-hidden="true"><span>{t('inv.scroll')}</span><i /></p>
         </Section>
 
@@ -142,7 +148,7 @@ function Body({ demo, guest, hidden }: { demo: DemoInvite; guest: string; hidden
 
         <Section title={t(demo.events.length > 1 ? 'inv.events' : 'inv.event')} alt={flip()}>
           {demo.events.map((e) => <EventBlock key={e.start + e.label.en} demo={demo} e={e} />)}
-          {demo.countdown && !quiet && <Countdown iso={first.start} />}
+          {demo.countdown && !quiet && kind !== 'foil' && <Countdown iso={first.start} />}
           <p className="iv-note iv-park">{demo.note[lang]}</p>
         </Section>
 
@@ -204,7 +210,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   }, [phase]);
 
   return (
-    <div className="iv" data-cat={demo.category} data-embed={embed || undefined} style={themeStyle(demo.theme)} lang={lang}>
+    <div className="iv" data-cat={demo.category} data-layout={coverKind(demo)} data-quiet={demo.quiet || undefined} data-embed={embed || undefined} style={themeStyle(demo.theme)} lang={lang}>
       {!embed && (
         <div className="iv-top">
           <Link to={{ pathname: '/', hash: 'demos' }}>← {t('inv.back')}</Link>
