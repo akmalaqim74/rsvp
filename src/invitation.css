@@ -609,7 +609,7 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 .cv-led .dv-cover,.cv-led .seal::after{display:none}
 .cv-led .cv-text{position:relative;isolation:isolate}
 .cv-led .cv-text::before{content:"";position:absolute;z-index:-1;inset:-14% -12%;pointer-events:none;
-  background:radial-gradient(closest-side,color-mix(in srgb,var(--iv-cover) 62%,transparent),transparent 92%);filter:blur(8px)}
+  background:radial-gradient(closest-side,color-mix(in srgb,var(--iv-cover) var(--cv-veil,62%),transparent),transparent 92%);filter:blur(8px)}
 .cv-led :is(.cv-names,.cv-kicker,.cv-sub,.cv-date,.cv-join){color:var(--iv-cover-ink);text-shadow:0 1px 14px color-mix(in srgb,var(--iv-cover) 75%,transparent)}
 .cv-led :is(.cv-kicker,.cv-sub,.cv-date){font-family:'Jost',var(--font-body);font-weight:500}
 .cv-led .cv-names{font-family:var(--cv-nf,var(--font-head));font-weight:var(--cv-nw,400);letter-spacing:var(--cv-nl,.01em)}
@@ -665,3 +665,5 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 .iv[data-led] .iv-band-hero{height:170px;opacity:.55}
 .iv[data-led] .iv-sec:not(.iv-hero){padding-top:70px}
 .iv[data-led] .iv-band{height:100px;opacity:.34}
+
+.cv-d-birthday-1{--cv-veil:82%}.cv-d-wedding-6{--cv-veil:76%}.cv-d-wedding-5{--cv-veil:70%}

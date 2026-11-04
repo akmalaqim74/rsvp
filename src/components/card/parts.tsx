@@ -2,6 +2,7 @@ import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 import type { CoverKind, DemoInvite, Theme } from '../../demos/data';
 
 import type { EventType, Lang } from '../../types';
+import { COVER_ART } from '../../demos/coverArt';
 /* Display faces for the art-led covers (latin subset, minimal weights). Browsers fetch a face only when a cover uses it. */
 import '@fontsource/great-vibes/latin-400.css';
 import '@fontsource/pinyon-script/latin-400.css';
@@ -187,17 +188,9 @@ export function PortraitPanel({ side, priority }: { side: 'groom' | 'bride'; pri
 /* Optional full-bleed cover background per design: public/art/cover-<category>-<n>.webp (n from the id). */
 export function useCoverBg(demo: DemoInvite): string | null {
   const n = demo.id.replace(/\D/g, '') || '1';
-  const src = `/art/cover-${demo.category}-${n}.webp`;
-  const [ok, setOk] = useState(false);
-  useEffect(() => {
-    let live = true;
-    void artExists(src).then((v) => { if (live) setOk(v); });
-    return () => { live = false; };
-  }, [src]);
-  return ok ? src : null;
+  return COVER_ART.has(`${demo.category}-${n}`) ? `/art/cover-${demo.category}-${n}.webp` : null;
 }
 
-/* Class that selects one design's typography and art-led treatment: cv-d-wedding-3 etc. */
 export const designClass = (d: DemoInvite): string => `cv-d-${d.category}-${d.id.replace(/\D/g, '') || '1'}`;
 
 export const coverKind = (d: DemoInvite): CoverKind => d.cover ?? 'classic';
@@ -231,13 +224,13 @@ function Sprig({ cls }: { cls: string }) {
 
 /* The cover's artwork: everything that is not lettering. It lives inside each opening panel (so it splits,
    folds or lifts with the paper) and, unchanged, in the gallery thumbnail. CSS in covers.css does the work. */
-export function CoverArt({ demo }: { demo: DemoInvite }) {
+export function CoverArt({ demo, thumb }: { demo: DemoInvite; thumb?: boolean }) {
   const k = coverKind(demo);
   const mono = demo.monogram.replace(/[^\p{L}\p{N}]/gu, '');
   const bg = useCoverBg(demo);
   return (
     <div className="cv-art" aria-hidden="true">
-      {bg && <img className="cv-bg" src={bg} alt="" decoding="async" />}
+      {bg && <img className="cv-bg" src={bg} alt="" decoding="async" loading={thumb ? 'lazy' : 'eager'} fetchPriority={thumb ? 'low' : 'high'} />}
       {!bg && <CoverShapes demo={demo} k={k} mono={mono} />}
     </div>
   );
@@ -269,7 +262,7 @@ export function CoverThumb({ demo, lang }: { demo: DemoInvite; lang: Lang }) {
   return (
     <div className={`cv cv-thumb cv-k-${kind} ${designClass(demo)}${led ? ' cv-led' : ''}`} style={themeStyle(demo.theme)} aria-hidden="true">
       {kind === 'portrait' && <div className="pp-pair"><PortraitPanel side="groom" /><PortraitPanel side="bride" /></div>}
-      <CoverArt demo={demo} />
+      <CoverArt demo={demo} thumb />
       <div className="cv-thumb-in"><CoverText demo={demo} lang={lang} /></div>
     </div>
   );

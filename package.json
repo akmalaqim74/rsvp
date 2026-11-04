@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "test": "node tests/apps-script.test.cjs"
+    "test": "node tests/apps-script.test.cjs && node tests/cover-art.test.cjs"
   },
   "dependencies": {
     "@fontsource-variable/fraunces": "^5.3.0",

@@ -224,6 +224,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
           </div>
         </div>
       )}
+      {art && <link rel="preload" as="image" href={art} fetchPriority="high" />}
       {phase !== 'open' && <Cover demo={demo} guest={guest} phase={phase} embed={embed} onOpen={onOpen} onDone={onDone} />}
       <Body demo={demo} guest={guest} hidden={closed} />
       {music.available && !closed && <MusicButton playing={music.playing} onToggle={music.toggle} />}
