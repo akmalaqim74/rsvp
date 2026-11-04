@@ -287,21 +287,184 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 .pp-empty .pp-cap{top:auto;inset:44% 14% 12%;display:grid;place-items:center;opacity:.9}
 .pp-pair{position:absolute;inset:0;display:flex}
 .pp-pair .pp{position:relative;flex:1}
-.cv-portrait .door-in{background:none}
+.cv-k-portrait .door-in{background:none}
 /* lettering sits in the clear centre and upper area, never over the faces */
-.cv-portrait.cover{place-items:start center}
-.cv-portrait.cover .cv-face{padding:calc(var(--fi,14px) + 30px) 12% 0;width:min(100%,440px)}
-.cv-portrait .cv-text{max-width:72%;margin:0 auto}
-.cv-portrait .cv-open{white-space:nowrap;padding:0 22px}
-.cv-portrait .cv-names{font-size:max(11cqw,var(--fs-min,0px))}
-.cv-portrait .cv-sub,.cv-portrait .dv-cover{display:none}
-.cv-portrait .cv-date{margin:3cqw 0 3.4cqw}
-.cv-portrait .cv-guest{margin:3cqw 0 3cqw;padding:1.4cqw 4cqw;background:rgba(255,255,255,.55)}
-.cv-portrait .cv-open{box-shadow:0 4px 14px rgba(58,46,44,.25)}
-.cv-portrait.cv-thumb .cv-thumb-in{justify-content:flex-start;padding:13cqw 12cqw 0}
-.cv-portrait.cv-thumb .cv-text{flex:0 0 auto;max-width:none}
-.cv-portrait.cv-thumb .cv-names{font-size:11cqw}
-.cv-portrait.cv-thumb{background-image:none}
+.cv-k-portrait.cover{place-items:start center}
+.cv-k-portrait.cover .cv-face{padding:calc(var(--fi,14px) + 30px) 12% 0;width:min(100%,440px)}
+.cv-k-portrait .cv-text{max-width:72%;margin:0 auto}
+.cv-k-portrait .cv-open{white-space:nowrap;padding:0 22px}
+.cv-k-portrait .cv-names{font-size:max(11cqw,var(--fs-min,0px))}
+.cv-k-portrait .cv-sub,.cv-k-portrait .dv-cover{display:none}
+.cv-k-portrait .cv-date{margin:3cqw 0 3.4cqw}
+.cv-k-portrait .cv-guest{margin:3cqw 0 3cqw;padding:1.4cqw 4cqw;background:rgba(255,255,255,.55)}
+.cv-k-portrait .cv-open{box-shadow:0 4px 14px rgba(58,46,44,.25)}
+.cv-k-portrait.cv-thumb .cv-thumb-in{justify-content:flex-start;padding:13cqw 12cqw 0}
+.cv-k-portrait.cv-thumb .cv-text{flex:0 0 auto;max-width:none}
+.cv-k-portrait.cv-thumb .cv-names{font-size:11cqw}
+.cv-k-portrait.cv-thumb{background-image:none}
 .cv-thumb .pp-cap{display:none}
 .iv-music{position:fixed;top:60px;right:12px;z-index:25;display:grid;place-items:center;width:44px;height:44px;padding:0;border:1px solid var(--iv-accent);border-radius:50%;background:color-mix(in srgb,var(--iv-paper) 88%,transparent);color:var(--iv-label);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15)}
 .iv[data-embed] .iv-music{top:12px}
+
+/* =====================================================================================================
+   Cover compositions (one block per CoverKind) and opening panels. Art uses % and cqw only, so the same
+   composition renders full-screen, in the gallery tile and in the hero phone.
+   ===================================================================================================== */
+.cv-art{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.cv-art i,.cv-art b{position:absolute;display:block;font-style:normal}
+.door-in{container-type:inline-size}
+.pn-full{left:0;width:100%}
+.pn-full .door-in{width:100%}
+.pn-book{transform-origin:0 50%}
+.pn-up{transform-origin:50% 0}
+.pn-flap{top:0;bottom:auto;left:0;width:100%;height:36%;transform-origin:50% 0;clip-path:polygon(0 0,100% 0,100% 42%,50% 100%,0 42%)}
+.pn-flap .door-in{width:100%;height:277.8%;top:0}
+.pn-book::after,.pn-up::after,.pn-flap::after,.pn-pocket::after{display:none}
+.pn-book{box-shadow:2px 0 14px rgba(0,0,0,.25)}
+.pn-book .door-shade{background:linear-gradient(to right,rgba(20,14,10,.05),rgba(20,14,10,.5))}
+.pn-up .door-shade,.pn-flap .door-shade{background:linear-gradient(to bottom,rgba(20,14,10,.05),rgba(20,14,10,.5))}
+/* the ribbon that ties the oval design: a band behind the seal, fades with the lettering when the card opens */
+.cv-k-oval .seal{z-index:0}
+.cv-k-oval .seal::after{content:"";position:absolute;left:-100cqw;right:-100cqw;top:50%;height:4.6cqw;transform:translateY(-50%);background:var(--iv-seal);z-index:-1;box-shadow:0 1px 0 rgba(0,0,0,.25),inset 0 1px 0 rgba(255,255,255,.25)}
+
+/* ---- arch (Blush Rose): editorial window, large serif names bottom-left, book opening ---- */
+.cv-k-arch .cv-art{background:radial-gradient(80% 50% at 50% 26%,color-mix(in srgb,var(--iv-cover-line) 26%,transparent),transparent 70%),radial-gradient(60% 40% at 92% 96%,color-mix(in srgb,var(--iv-seal) 16%,transparent),transparent 70%)}
+.cv-k-arch .d-line{inset:3.4cqw;border:1px solid var(--iv-cover-line);opacity:.7}
+.cv-k-arch .d-arch{left:15%;right:15%;top:6%;height:50%;border:1px solid var(--iv-cover-line);border-radius:999px 999px 0 0;background:linear-gradient(to bottom,color-mix(in srgb,var(--iv-cover-line) 22%,transparent),color-mix(in srgb,var(--iv-cover-line) 6%,transparent))}
+.cv-k-arch .d-arch::after{content:"";position:absolute;inset:2.2cqw;border:1px solid var(--iv-cover-line);border-radius:999px 999px 0 0;opacity:.55}
+.cv-k-arch .d-script{left:0;right:0;top:calc(6% + 11cqw);text-align:center;font:italic 300 32cqw/1 var(--font-head);color:var(--iv-cover-line);opacity:.8}
+.cv-k-arch .cv-face{align-self:end;text-align:left;padding-bottom:10%}
+.cv-k-arch .cv-text{align-items:flex-start}
+.cv-k-arch .cv-text .cv-names{font-size:max(16cqw,var(--fs-min,0px));line-height:.96;font-style:italic;font-weight:300;text-align:left}
+.cv-k-arch .cv-join{display:inline;margin:0 .3em 0 0;font-size:.45em;font-style:normal;letter-spacing:0}
+.cv-k-arch .cv-kicker{text-align:left;padding-left:0;letter-spacing:.22em}
+.cv-k-arch .cv-date{text-align:left;padding-left:0;margin-top:3cqw}
+.cv-k-arch .dv-cover,.cv-k-arch .cv-sub,.cv-k-arch .seal{display:none}
+.cv-k-arch .cv-guest{align-self:flex-start}
+.cv-k-arch .cv-thumb-in{justify-content:flex-end;align-items:flex-start;padding:0 9cqw 10cqw}
+.cv-k-arch .cv-thumb-in .cv-text{flex:0 0 auto}
+.cv-k-arch .cv-thumb-in .cv-names{font-size:15cqw}
+
+/* ---- foil (Midnight Navy): stars, ring, envelope flap ---- */
+.cv-k-foil .cv-art{background:radial-gradient(60% 40% at 50% 62%,color-mix(in srgb,var(--iv-cover-line) 14%,transparent),transparent 72%)}
+.cv-k-foil .d-stars{inset:0;opacity:.85;background:
+  radial-gradient(circle at 12% 20%,var(--iv-cover-line) 0 1.3px,transparent 2px),radial-gradient(circle at 84% 14%,var(--iv-cover-line) 0 1.6px,transparent 2.4px),
+  radial-gradient(circle at 30% 48%,var(--iv-cover-line) 0 1px,transparent 1.6px),radial-gradient(circle at 92% 44%,var(--iv-cover-line) 0 1.2px,transparent 2px),
+  radial-gradient(circle at 8% 70%,var(--iv-cover-line) 0 1.5px,transparent 2.2px),radial-gradient(circle at 70% 82%,var(--iv-cover-line) 0 1px,transparent 1.6px),
+  radial-gradient(circle at 46% 90%,var(--iv-cover-line) 0 1.4px,transparent 2.1px),radial-gradient(circle at 60% 8%,var(--iv-cover-line) 0 1px,transparent 1.6px),
+  radial-gradient(circle at 22% 88%,var(--iv-cover-line) 0 1px,transparent 1.6px),radial-gradient(circle at 96% 92%,var(--iv-cover-line) 0 1.4px,transparent 2px),
+  radial-gradient(circle at 4% 40%,var(--iv-cover-line) 0 1px,transparent 1.6px),radial-gradient(circle at 78% 30%,var(--iv-cover-line) 0 1px,transparent 1.6px)}
+.cv-k-foil .d-vee{left:0;right:0;top:0;height:36%;background:var(--iv-cover-line);opacity:.85;clip-path:polygon(0 41%,50% 99%,100% 41%,100% 43%,50% 100%,0 43%)}
+.cv-k-foil .d-ring{left:50%;top:63%;width:74cqw;aspect-ratio:1;transform:translate(-50%,-50%);border:1px solid var(--iv-cover-line);border-radius:50%}
+.cv-k-foil .d-ring::after{content:"";position:absolute;inset:2.4cqw;border:1px solid var(--iv-cover-line);border-radius:50%;opacity:.5}
+.cv-k-foil .d-rule{left:12%;right:12%;height:1px;background:var(--iv-cover-line);opacity:.5}
+.cv-k-foil .d-rule-t{top:4.5%}.cv-k-foil .d-rule-b{bottom:4.5%}
+.cv-k-foil .cv-face{align-self:end;padding-bottom:6%}
+.cv-k-foil .cv-text .cv-names{font-size:max(11.5cqw,var(--fs-min,0px));letter-spacing:.03em}
+.cv-k-foil .cv-kicker{letter-spacing:.34em}
+.cv-k-foil .dv-cover,.cv-k-foil .cv-sub{display:none}
+.cv-k-foil .seal{--s:11cqw;margin-top:2cqw}
+.cv-k-foil .cv-thumb-in{justify-content:flex-end;padding:0 10cqw 12cqw}
+.cv-k-foil .cv-thumb-in .cv-text{flex:0 0 auto}
+.cv-k-foil .cv-thumb-in .cv-names{font-size:10cqw}
+
+/* ---- oval (Sage and Gold): botanical oval, ribbon ties the doors ---- */
+.cv-k-oval .d-oval{left:11%;right:11%;top:12%;bottom:15%;border:1px solid var(--iv-cover-line);border-radius:50%}
+.cv-k-oval .d-oval::after{content:"";position:absolute;inset:2.4cqw;border:1px solid var(--iv-cover-line);border-radius:50%;opacity:.5}
+.d-sprig{position:absolute;width:34cqw;height:auto;color:var(--iv-cover-line);opacity:.9}
+.d-sprig.s1{left:9%;top:calc(12% + 6cqw);transform:rotate(-8deg)}
+.d-sprig.s2{right:9%;bottom:calc(15% + 6cqw);transform:rotate(172deg)}
+.cv-k-oval .cv-text .cv-names{font-size:max(11.5cqw,var(--fs-min,0px))}
+.cv-k-oval .cv-face{padding-left:15%;padding-right:15%}
+.cv-k-oval .cv-sub,.cv-k-oval .dv-cover{display:none}
+.cv-k-oval .seal{--s:12cqw}
+.cv-k-oval .cv-guest{margin-top:2cqw;margin-bottom:2cqw}
+.cv-k-oval .cv-thumb-in{padding:20cqw 18cqw}
+
+/* ---- songket (Malay): woven bands, pintu gerbang arch, names in a cartouche, gate opening ---- */
+.cv-k-songket .d-band{left:0;right:0;height:11cqw;background:
+  linear-gradient(45deg,var(--iv-cover-line) 25%,transparent 25% 75%,var(--iv-cover-line) 75%) 0 0/5cqw 5cqw,
+  linear-gradient(45deg,var(--iv-cover-line) 25%,transparent 25% 75%,var(--iv-cover-line) 75%) 2.5cqw 2.5cqw/5cqw 5cqw,var(--iv-cover);
+  opacity:.9;border-top:1.2cqw solid var(--iv-cover-line);border-bottom:1.2cqw solid var(--iv-cover-line);box-sizing:border-box}
+.cv-k-songket .d-band-t{top:0}.cv-k-songket .d-band-b{bottom:0}
+.cv-k-songket .d-gate{left:9%;right:9%;top:16%;bottom:16%;border:1.5px solid var(--iv-cover-line);border-radius:999px 999px 0 0}
+.cv-k-songket .d-gate::after{content:"";position:absolute;inset:2.4cqw;border:1px solid var(--iv-cover-line);border-radius:999px 999px 0 0;opacity:.6}
+.cv-k-songket .cv-face{padding-left:16%;padding-right:16%}
+.cv-k-songket .cv-text .cv-names{display:block;padding:4cqw 3cqw;border:1px solid var(--iv-cover-line);border-radius:3cqw;box-shadow:inset 0 0 0 1.2cqw transparent,0 0 0 1.2cqw color-mix(in srgb,var(--iv-cover) 100%,transparent),0 0 0 1.6cqw color-mix(in srgb,var(--iv-cover-line) 55%,transparent);font-size:max(10.5cqw,var(--fs-min,0px))}
+.cv-k-songket .cv-sub,.cv-k-songket .dv-cover{display:none}
+.cv-k-songket .cv-kicker{margin-bottom:5cqw}
+.cv-k-songket .cv-date{margin-top:6cqw}
+.cv-k-songket .seal{--s:12cqw}
+.cv-k-songket .cv-thumb-in{padding:20cqw 14cqw}
+
+/* ---- modern (Minimal): huge monogram, thin lines, left-aligned, unfolds upward ---- */
+.cv-k-modern .d-vline{left:9%;top:0;bottom:0;width:1px;background:var(--iv-cover-line);opacity:.6}
+.cv-k-modern .d-hline{left:9%;right:9%;top:58%;height:1px;background:var(--iv-cover-line);opacity:.6}
+.cv-k-modern .d-mono{left:9%;top:6%;font:200 52cqw/.9 var(--font-body);letter-spacing:-.04em;color:var(--iv-cover-ink);opacity:.9;white-space:nowrap}
+.cv-k-modern .cv-face{align-self:end;text-align:left;padding-bottom:9%;padding-left:calc(9% + 5cqw)}
+.cv-k-modern .cv-text{align-items:flex-start}
+.cv-k-modern .cv-text .cv-names{font:300 max(9.5cqw,var(--fs-min,0px))/1.1 var(--font-body);letter-spacing:.12em;text-transform:uppercase;text-align:left}
+.cv-k-modern .cv-join{display:inline;margin:0 .4em 0 0;font:300 .6em var(--font-body)}
+.cv-k-modern .cv-kicker,.cv-k-modern .cv-date{text-align:left;padding-left:0;font-family:var(--font-body)}
+.cv-k-modern .cv-kicker{margin-top:0}
+.cv-k-modern .dv-cover,.cv-k-modern .cv-sub,.cv-k-modern .seal{display:none}
+.cv-k-modern .cv-guest{align-self:flex-start;border-radius:0}
+.cv-k-modern .cv-open{border-radius:0}
+.cv-k-modern .cv-thumb-in{justify-content:flex-end;align-items:flex-start;padding:0 9cqw 10cqw 14cqw}
+.cv-k-modern .cv-thumb-in .cv-text{flex:0 0 auto}
+.cv-k-modern .cv-thumb-in .cv-names{font-size:8.5cqw}
+
+/* ---- wreath (Garden watercolour): leaf wreath around the names, blooms open ---- */
+.cv-k-wreath .cv-art{background:radial-gradient(60% 38% at 20% 12%,color-mix(in srgb,var(--iv-cover-line) 26%,transparent),transparent 70%),radial-gradient(60% 38% at 85% 88%,color-mix(in srgb,var(--iv-seal) 22%,transparent),transparent 70%)}
+.d-wreath{position:absolute;left:50%;top:43%;width:88cqw;height:88cqw;opacity:.9;transform:translate(-50%,-50%);color:var(--iv-cover-line)}
+.cv-k-wreath .cv-face{padding-left:20%;padding-right:20%}
+.cv-k-wreath .cv-text .cv-names{font-size:max(11cqw,var(--fs-min,0px));font-style:italic;font-weight:300}
+.cv-k-wreath .cv-sub,.cv-k-wreath .dv-cover{display:none}
+.cv-k-wreath .seal{--s:11cqw}
+.cv-k-wreath .cv-thumb-in{padding:22cqw 20cqw}
+.cv-k-wreath .cv-thumb-in .cv-names{font-size:10cqw}
+
+/* ---- balloons (kids): bright balloons and confetti ---- */
+.cv-k-balloons .d-confetti{inset:0;background:
+  radial-gradient(circle at 10% 34%,var(--iv-cover-line) 0 1.2cqw,transparent 1.4cqw),radial-gradient(circle at 86% 40%,#fff 0 1cqw,transparent 1.2cqw),radial-gradient(circle at 24% 62%,#fff 0 .9cqw,transparent 1.1cqw),
+  radial-gradient(circle at 74% 66%,var(--iv-cover-line) 0 1.3cqw,transparent 1.5cqw),radial-gradient(circle at 92% 82%,var(--iv-cover-line) 0 1cqw,transparent 1.2cqw),radial-gradient(circle at 8% 88%,#fff 0 1.2cqw,transparent 1.4cqw),
+  radial-gradient(circle at 50% 38%,#fff 0 .8cqw,transparent 1cqw),radial-gradient(circle at 60% 94%,var(--iv-cover-line) 0 1cqw,transparent 1.2cqw)}
+.d-balloon{width:24cqw;height:30cqw;border-radius:50% 50% 48% 48%/55% 55% 45% 45%;box-shadow:inset -3cqw -3cqw 0 rgba(0,0,0,.12),inset 2cqw 2cqw 0 rgba(255,255,255,.28)}
+.d-balloon::after{content:"";position:absolute;left:50%;top:100%;width:1px;height:20cqw;background:rgba(255,255,255,.7)}
+.d-balloon.b1{left:12%;top:5%;background:var(--iv-cover-line);transform:rotate(-8deg)}
+.d-balloon.b2{left:38%;top:2%;background:#FF6B6B;transform:rotate(3deg);width:27cqw;height:33cqw}
+.d-balloon.b3{left:65%;top:6%;background:#4ECDC4;transform:rotate(9deg)}
+.cv-k-balloons .cv-face{align-self:end;padding-bottom:7%}
+.cv-k-balloons .cv-text .cv-names{font:800 max(19cqw,var(--fs-min,0px))/1 var(--font-body);letter-spacing:-.01em}
+.cv-k-balloons .cv-sub{font:700 max(5cqw,var(--fs-min,0px)) var(--font-body);letter-spacing:.06em;text-transform:none;padding-left:0}
+.cv-k-balloons .dv-cover,.cv-k-balloons .seal{display:none}
+.cv-k-balloons .cv-open{border-radius:14px}
+.cv-k-balloons .cv-thumb-in{justify-content:flex-end;padding:0 8cqw 10cqw}
+.cv-k-balloons .cv-thumb-in .cv-text{flex:0 0 auto}
+.cv-k-balloons .cv-thumb-in .cv-names{font-size:17cqw}
+
+/* ---- age (milestone): giant number in a disc, book opening ---- */
+.cv-k-age .d-disc{left:50%;top:30%;width:70cqw;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;background:color-mix(in srgb,var(--iv-cover-line) 22%,transparent);border:1px solid var(--iv-cover-line)}
+.cv-k-age .d-disc::after{content:"";position:absolute;inset:3cqw;border-radius:50%;border:1px solid var(--iv-cover-line);opacity:.55}
+.cv-k-age .d-num{left:0;right:0;top:30%;transform:translateY(-52%);text-align:center;font:700 52cqw/1 var(--font-head);color:var(--iv-cover-ink);letter-spacing:-.03em}
+.cv-k-age .cv-face{align-self:end;padding-bottom:8%}
+.cv-k-age .cv-text .cv-names{font-size:max(12cqw,var(--fs-min,0px))}
+.cv-k-age .seal,.cv-k-age .dv-cover{display:none}
+.cv-k-age .cv-thumb-in{justify-content:flex-end;padding:0 8cqw 8cqw}
+.cv-k-age .cv-thumb-in .cv-text{flex:0 0 auto}
+.cv-k-age .cv-thumb-in .cv-names{font-size:11cqw}
+
+/* ---- ticket (corporate): left-aligned text, perforated stub on the right, gate opening ---- */
+.cv-k-ticket .d-grid{inset:0;background:repeating-linear-gradient(0deg,transparent 0 8cqw,color-mix(in srgb,var(--iv-cover-line) 14%,transparent) 8cqw calc(8cqw + 1px))}
+.cv-k-ticket .d-stub{right:0;top:0;bottom:0;width:20%;border-left:2px dashed var(--iv-cover-line);background:color-mix(in srgb,var(--iv-cover-line) 14%,transparent)}
+.cv-k-ticket .d-notch{right:calc(20% - 3.2cqw);width:6.4cqw;aspect-ratio:1;border-radius:50%;background:var(--iv-paper)}
+.cv-k-ticket .d-notch.n1{top:-3.2cqw}.cv-k-ticket .d-notch.n2{bottom:-3.2cqw}
+.cv-k-ticket .cv-face{text-align:left;padding-right:24%;padding-left:9%}
+.cv-k-ticket .cv-text{align-items:flex-start}
+.cv-k-ticket .cv-text .cv-names{font:700 max(11cqw,var(--fs-min,0px))/1.05 var(--font-body);letter-spacing:-.01em;text-align:left}
+.cv-k-ticket .cv-kicker,.cv-k-ticket .cv-date,.cv-k-ticket .cv-sub{text-align:left;padding-left:0;font-family:var(--font-body)}
+.cv-k-ticket .dv-cover,.cv-k-ticket .seal{display:none}
+.cv-k-ticket .cv-guest{align-self:flex-start;border-radius:6px}
+.cv-k-ticket .cv-open{border-radius:6px}
+.cv-k-ticket .cv-thumb-in{align-items:flex-start;padding:10cqw 26cqw 10cqw 9cqw}
+.cv-k-ticket .cv-thumb-in .cv-names{font-size:10cqw}

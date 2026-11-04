@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { m, useReducedMotion } from 'motion/react';
-import { findDemo, type DemoInvite } from '../demos/data';
+import { findDemo, type CoverKind, type DemoInvite } from '../demos/data';
 import { useI18n } from '../lib/i18n';
 import { useSiteConfig } from '../lib/siteConfig';
 import { waHref } from '../lib/config';
 import { WhatsAppLink } from '../components/WhatsAppLink';
 import { LANGS } from '../types';
-import { CoverText, Divider, Frame, LoopClip, PortraitPanel, isLong, themeStyle } from '../components/card/parts';
+import { CoverArt, CoverText, Divider, Frame, LoopClip, PortraitPanel, coverKind, isLong, themeStyle } from '../components/card/parts';
 import { CatCtx, Countdown, EventBlock, Rsvp, Section } from '../components/card/sections';
 import { Contacts, Gallery, useGallery, Gift, Programme, Story, Wishes } from '../components/card/extras';
 import { MusicButton, useMusic } from '../components/card/music';
@@ -17,6 +17,11 @@ import '../invitation.css';
 const cleanGuest = (v: string | null): string => (v ?? '').replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, 60);
 
 type Phase = 'closed' | 'opening' | 'open';
+type Opening = 'fold' | 'gate' | 'book' | 'flap' | 'unfold' | 'bloom';
+const OPENING: Record<CoverKind, Opening> = {
+  classic: 'fold', portrait: 'fold', oval: 'fold', songket: 'gate', ticket: 'gate',
+  arch: 'book', age: 'book', foil: 'flap', modern: 'unfold', balloons: 'unfold', wreath: 'bloom'
+};
 
 function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite; guest: string; phase: Phase; embed: boolean; onOpen: () => void; onDone: () => void }) {
   const { t, lang } = useI18n();
@@ -28,27 +33,72 @@ function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite
   useEffect(() => { if (!embed) btn.current?.focus({ preventScroll: true }); }, [embed]);
   useEffect(() => {
     if (!opening) return;
-    const id = window.setTimeout(onDone, reduce ? 450 : 1900); // safety net if the animation callback never fires
+    const id = window.setTimeout(onDone, reduce ? 450 : 2300); // safety net if the animation callback never fires
     return () => window.clearTimeout(id);
   }, [opening, reduce, onDone]);
 
-  const door = (side: 'l' | 'r') => (
+  const kind = coverKind(demo);
+  const type = OPENING[kind];
+  const go = opening && !reduce;
+  const shade = (d: number, dur: number) => (
+    <m.span className="door-shade" animate={{ opacity: go ? 1 : 0 }} transition={{ duration: dur, delay: d, ease: 'easeIn' }} />
+  );
+  const art = () => <div className="door-in"><CoverArt demo={demo} /></div>;
+  const photo = (side: 'groom' | 'bride') => kind === 'portrait' && <PortraitPanel side={side} priority />;
+  const ease = [0.45, 0.05, 0.2, 1] as const;
+
+  /* One opening per cover kind: two panels hinged on the outer edges (fold, gate, bloom), a page turning
+     from the spine (book), an envelope flap lifting from the top (flap) or a card unfolding upward (unfold).
+     Transform and opacity only. */
+  const hinged = (side: 'l' | 'r', deg: number, dur: number, delay: number, extra: Record<string, number> = {}) => (
     <m.div key={side} className={`door door-${side}`} aria-hidden="true"
-      animate={{ rotateY: opening && !reduce ? (side === 'l' ? -105 : 105) : 0 }}
-      transition={{ duration: 1.1, delay: 0.3, ease: [0.45, 0.05, 0.2, 1] }}
+      animate={go ? { rotateY: side === 'l' ? -deg : deg, ...extra } : { rotateY: 0, scale: 1, opacity: 1 }}
+      transition={{ duration: dur, delay, ease }}
       onAnimationComplete={() => { if (opening && side === 'l') onDone(); }}>
-      {demo.portraits && <PortraitPanel side={side === 'l' ? 'groom' : 'bride'} priority />}
-      <div className="door-in"><Frame category={demo.category} bare={demo.portraits} /></div>
-      <m.span className="door-shade" animate={{ opacity: opening && !reduce ? 1 : 0 }} transition={{ duration: 0.9, delay: 0.3, ease: 'easeIn' }} />
+      {photo(side === 'l' ? 'groom' : 'bride')}
+      {art()}
+      {shade(delay, dur * 0.8)}
     </m.div>
   );
+  const panels = () => {
+    switch (type) {
+      case 'gate': return <>{hinged('l', 100, 1.3, 0.35)}{hinged('r', 100, 1.3, 0.35)}</>;
+      case 'bloom': return <>{hinged('l', 68, 1.2, 0.3, { scale: 1.14, opacity: 0 })}{hinged('r', 68, 1.2, 0.3, { scale: 1.14, opacity: 0 })}</>;
+      case 'book':
+        return (
+          <m.div className="door pn-full pn-book" aria-hidden="true" animate={{ rotateY: go ? -168 : 0 }} transition={{ duration: 1.4, delay: 0.3, ease }}
+            onAnimationComplete={() => { if (opening) onDone(); }}>
+            {art()}{shade(0.3, 1.1)}
+          </m.div>
+        );
+      case 'unfold':
+        return (
+          <m.div className="door pn-full pn-up" aria-hidden="true" animate={{ rotateX: go ? 104 : 0 }} transition={{ duration: 1.3, delay: 0.3, ease }}
+            onAnimationComplete={() => { if (opening) onDone(); }}>
+            {art()}{shade(0.3, 1)}
+          </m.div>
+        );
+      case 'flap':
+        return (
+          <>
+            <m.div className="door pn-full pn-pocket" aria-hidden="true" animate={{ y: go ? '5%' : 0, opacity: go ? 0 : 1 }} transition={{ duration: 0.5, delay: 0.95, ease: 'easeIn' }}
+              onAnimationComplete={() => { if (opening) onDone(); }}>
+              {art()}
+            </m.div>
+            <m.div className="door pn-flap" aria-hidden="true" animate={{ rotateX: go ? 172 : 0 }} transition={{ duration: 1, delay: 0.3, ease }}>
+              {art()}{shade(0.3, 0.8)}
+            </m.div>
+          </>
+        );
+      default: return <>{hinged('l', 105, 1.1, 0.3)}{hinged('r', 105, 1.1, 0.3)}</>;
+    }
+  };
 
   return (
-    <m.div className={`cover cv-page${demo.portraits ? ' cv-portrait' : ''}`} style={themeStyle(demo.theme)} role="region" aria-label={demo.kicker[lang]}
+    <m.div className={`cover cv-page cv-k-${kind}`} style={themeStyle(demo.theme)} role="region" aria-label={demo.kicker[lang]}
       animate={{ opacity: opening && reduce ? 0 : 1 }} transition={{ duration: 0.4 }}>
       <LoopClip category={demo.category} />
-      {door('l')}
-      {door('r')}
+      {panels()}
       <m.div className="cv cv-face" animate={opening ? { opacity: 0, scale: 1.04 } : { opacity: 1, scale: 1 }} transition={{ duration: 0.35 }}>
         <CoverText demo={demo} lang={lang} heading>
           {guest && (

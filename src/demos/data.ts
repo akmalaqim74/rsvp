@@ -26,6 +26,10 @@ export interface Theme {
 
 export type SealStyle = 'wax' | 'ring';
 
+/* Cover composition. Each kind has its own layout, frame shape, ornament and opening (see covers.css and
+   OPENING in InvitationPage). Adding a design = one DEMOS entry; a new kind = one CSS block + one case. */
+export type CoverKind = 'classic' | 'portrait' | 'arch' | 'foil' | 'oval' | 'songket' | 'modern' | 'wreath' | 'balloons' | 'age' | 'ticket';
+
 export interface DemoEvent {
   label: L;
   start: string;      // ISO with +08:00
@@ -52,7 +56,7 @@ export interface DemoInvite {
   countdown: boolean;
   note: L;            // parking, surau, dress code
   closing: L;         // doa or closing message
-  portraits?: boolean; // cover doors show the groom (left) and bride (right) photos; see public/art/portrait-*.webp
+  cover?: CoverKind;  // cover composition and opening; default 'classic'
   quiet: boolean;     // tahlil: no countdown flourish, respectful wording, single counter
   /* Optional sections. A design shows only the ones it defines. All content is sample. */
   story?: { when: L; title: L; text: L }[];
@@ -156,6 +160,7 @@ export const DEMOS: DemoInvite[] = [
     theme: { paper: '#FCF4F1', paper2: '#F6E7E2', ink: '#4A2C33', muted: '#6B4F55', accent: '#C08A86', accentText: '#8A3F49',
       cover: '#F0D9D4', coverInk: '#4A2C33', coverLine: '#A8605F', btn: '#6E2F3B', btnInk: '#FFF8F5', seal: '#8A2F3F', sealInk: '#FFF1EC' },
     seal: 'wax', monogram: 'N·F',
+    cover: 'arch',
     kicker: { en: 'Walimatul urus', ms: 'Walimatul urus' },
     names: ['Nadia', 'Farhan'], joiner: '&', guest: 'Puan Sri Hasnah',
     invite: { en: 'With joy in our hearts, we invite you to the wedding of our children.', ms: 'Dengan penuh kesyukuran, kami menjemput anda ke majlis perkahwinan anak-anak kami.' },
@@ -176,6 +181,7 @@ export const DEMOS: DemoInvite[] = [
     theme: { paper: '#F8F5EE', paper2: '#EEE9DC', ink: '#14233F', muted: '#4B5668', accent: '#C7A55A', accentText: '#74591B',
       cover: '#14233F', coverInk: '#F2E8CF', coverLine: '#C7A55A', btn: '#14233F', btnInk: '#F8F5EE', seal: '#C7A55A', sealInk: '#14233F' },
     seal: 'wax', monogram: 'S·A',
+    cover: 'foil',
     kicker: { en: 'The wedding of', ms: 'Majlis perkahwinan' },
     names: ['Sarah', 'Adam'], joiner: '&', guest: 'Encik Jeffri dan keluarga',
     invite: { en: 'Sarah and Adam request the pleasure of your company at their wedding dinner.', ms: 'Sarah dan Adam dengan hormatnya menjemput anda ke majlis makan malam perkahwinan mereka.' },
@@ -197,7 +203,7 @@ export const DEMOS: DemoInvite[] = [
     name: { en: 'Portrait Doors', ms: 'Pintu Potret' },
     theme: { paper: '#FCF8F2', paper2: '#F8ECE7', ink: '#3A2E2C', muted: '#5F504C', accent: '#B8935A', accentText: '#7A5A1E',
       cover: '#F4F2EF', coverInk: '#3A2E2C', coverLine: '#B8935A', btn: '#7A5A2A', btnInk: '#FCF8F2', seal: '#9C4F58', sealInk: '#FFF6F2' },
-    seal: 'wax', monogram: 'A·H', portraits: true,
+    seal: 'wax', monogram: 'A·H', cover: 'portrait',
     kicker: { en: 'The wedding of', ms: 'Majlis perkahwinan' },
     names: ['Aisyah', 'Hafiz'], joiner: '&', guest: 'Puan Sri Hasnah',
     invite: { en: 'Together with their families, Aisyah and Hafiz invite you to share in the joy of their wedding.', ms: 'Bersama keluarga, Aisyah dan Hafiz menjemput anda meraikan hari bahagia mereka.' },
@@ -220,6 +226,7 @@ export const DEMOS: DemoInvite[] = [
     theme: { paper: '#FBF7EE', paper2: '#F3EDDD', ink: '#2B3A33', muted: '#55625B', accent: '#B8975A', accentText: '#7A5E1F',
       cover: '#2F4A3F', coverInk: '#F4ECD8', coverLine: '#C9A96B', btn: '#2F4A3F', btnInk: '#FBF7EE', seal: '#C9A96B', sealInk: '#2B3A33' },
     seal: 'wax', monogram: 'H·I',
+    cover: 'oval',
     kicker: { en: 'The wedding of', ms: 'Majlis perkahwinan' },
     names: ['Hana', 'Irfan'], joiner: '&', guest: 'Datin Norlela',
     invite: { en: 'Together with their families, Hana and Irfan invite you to share in the joy of their wedding.', ms: 'Bersama keluarga, Hana dan Irfan menjemput anda meraikan hari bahagia mereka.' },
@@ -238,12 +245,80 @@ export const DEMOS: DemoInvite[] = [
     quiet: false
   },
 
+  {
+    category: 'wedding', id: 'id-6', ...weddingExtras('Nurul Ain', 'Haziq', ['19:00', '19:30', '20:00', '21:00', '21:30']), name: { en: 'Malay Songket', ms: 'Songket Melayu' },
+    theme: { paper: '#FBF3EA', paper2: '#F3E4D6', ink: '#3B1D1F', muted: '#5E4343', accent: '#B8893A', accentText: '#7A4F12',
+      cover: '#5B1A24', coverInk: '#F8E9C8', coverLine: '#D4A94F', btn: '#6E1F2B', btnInk: '#FBF3EA', seal: '#D4A94F', sealInk: '#4A1019' },
+    seal: 'wax', monogram: 'N·H', cover: 'songket',
+    kicker: { en: 'The wedding of', ms: 'Majlis perkahwinan' },
+    names: ['Nurul Ain', 'Haziq'], joiner: '&', guest: 'Puan Sri Rohani',
+    invite: { en: 'Together with their families, Nurul Ain and Haziq invite you to share in the joy of their wedding.', ms: 'Bersama keluarga, Nurul Ain dan Haziq menjemput anda meraikan hari bahagia mereka.' },
+    hosts: {
+      en: ['Daughter of Encik Kamal and Puan Zalina', 'Son of Encik Rosli and Puan Hasnah'],
+      ms: ['Puteri kepada Encik Kamal and Puan Zalina', 'Putera kepada Encik Rosli and Puan Hasnah']
+    },
+    events: [
+      { label: { en: 'Akad nikah', ms: 'Akad nikah' }, start: upcoming(6, 49, '11:00'), hours: 2,
+        venue: { en: 'Sample Mosque', ms: 'Masjid Contoh' }, address: 'Jalan Contoh 5, Seksyen 3, 40000 Shah Alam' },
+      { label: { en: 'Reception', ms: 'Majlis resepsi' }, start: upcoming(6, 49, '13:00'), hours: 4,
+        venue: { en: 'Sample Grand Hall', ms: 'Dewan Besar Contoh' }, address: 'Jalan Contoh 8, 50450 Kuala Lumpur' }
+    ],
+    countdown: true, note: SAMPLE_NOTE_PARK,
+    closing: { en: 'Your presence and your prayers are the best gift we could receive. May Allah bless this union.', ms: 'Kehadiran dan doa anda adalah hadiah terindah buat kami. Semoga Allah memberkati perkahwinan ini.' },
+    quiet: false
+  },
+  {
+    category: 'wedding', id: 'id-7', ...weddingExtras('Zara', 'Ilyas', ['19:00', '19:30', '20:00', '21:00', '21:30']), name: { en: 'Minimal Modern', ms: 'Moden Minimalis' },
+    theme: { paper: '#FAFAF8', paper2: '#F0F0EC', ink: '#1B1B1B', muted: '#4F4F4A', accent: '#BDBDB5', accentText: '#3F3F3A',
+      cover: '#F2F1EC', coverInk: '#1B1B1B', coverLine: '#8A8A82', btn: '#1B1B1B', btnInk: '#FAFAF8', seal: '#1B1B1B', sealInk: '#FAFAF8' },
+    seal: 'wax', monogram: 'Z·I', cover: 'modern',
+    kicker: { en: 'The wedding of', ms: 'Majlis perkahwinan' },
+    names: ['Zara', 'Ilyas'], joiner: '&', guest: 'Cik Aliya',
+    invite: { en: 'Together with their families, Zara and Ilyas invite you to share in the joy of their wedding.', ms: 'Bersama keluarga, Zara dan Ilyas menjemput anda meraikan hari bahagia mereka.' },
+    hosts: {
+      en: ['Daughter of Encik Haris and Puan Sarah', 'Son of Encik Ismail and Puan Mariana'],
+      ms: ['Puteri kepada Encik Haris and Puan Sarah', 'Putera kepada Encik Ismail and Puan Mariana']
+    },
+    events: [
+      { label: { en: 'Akad nikah', ms: 'Akad nikah' }, start: upcoming(6, 56, '10:30'), hours: 2,
+        venue: { en: 'Sample Chapel Hall', ms: 'Dewan Kapel Contoh' }, address: 'Jalan Contoh 11, 47500 Subang Jaya' },
+      { label: { en: 'Reception', ms: 'Majlis resepsi' }, start: upcoming(6, 56, '19:00'), hours: 4,
+        venue: { en: 'Sample Loft Venue', ms: 'Tempat Loft Contoh' }, address: 'Jalan Contoh 14, 50450 Kuala Lumpur' }
+    ],
+    countdown: true, note: SAMPLE_NOTE_PARK,
+    closing: { en: 'Your presence and your prayers are the best gift we could receive. May Allah bless this union.', ms: 'Kehadiran dan doa anda adalah hadiah terindah buat kami. Semoga Allah memberkati perkahwinan ini.' },
+    quiet: false
+  },
+  {
+    category: 'wedding', id: 'id-8', ...weddingExtras('Maya', 'Zulkifli', ['16:00', '16:30', '17:00', '18:00', '18:30']), name: { en: 'Garden Watercolour', ms: 'Taman Warna Air' },
+    theme: { paper: '#FBF7F5', paper2: '#F3EAF0', ink: '#3B3340', muted: '#5E5364', accent: '#B79CC2', accentText: '#6A4A7C',
+      cover: '#F6EEF3', coverInk: '#3B3340', coverLine: '#8E6FA0', btn: '#6A4A7C', btnInk: '#FBF7F5', seal: '#6A4A7C', sealInk: '#FFFFFF' },
+    seal: 'wax', monogram: 'M·Z', cover: 'wreath',
+    kicker: { en: 'The wedding of', ms: 'Majlis perkahwinan' },
+    names: ['Maya', 'Zulkifli'], joiner: '&', guest: 'Kak Intan',
+    invite: { en: 'Together with their families, Maya and Zulkifli invite you to share in the joy of their wedding.', ms: 'Bersama keluarga, Maya dan Zulkifli menjemput anda meraikan hari bahagia mereka.' },
+    hosts: {
+      en: ['Daughter of Encik Hasan and Puan Mastura', 'Son of Encik Bakar and Puan Salmah'],
+      ms: ['Puteri kepada Encik Hasan and Puan Mastura', 'Putera kepada Encik Bakar and Puan Salmah']
+    },
+    events: [
+      { label: { en: 'Akad nikah', ms: 'Akad nikah' }, start: upcoming(6, 63, '11:00'), hours: 2,
+        venue: { en: 'Sample Garden Pavilion', ms: 'Pavilion Taman Contoh' }, address: 'Jalan Contoh 3, 43000 Kajang' },
+      { label: { en: 'Reception', ms: 'Majlis resepsi' }, start: upcoming(6, 63, '16:00'), hours: 4,
+        venue: { en: 'Sample Garden Lawn', ms: 'Halaman Taman Contoh' }, address: 'Jalan Contoh 3, 43000 Kajang' }
+    ],
+    countdown: true, note: SAMPLE_NOTE_PARK,
+    closing: { en: 'Your presence and your prayers are the best gift we could receive. May Allah bless this union.', ms: 'Kehadiran dan doa anda adalah hadiah terindah buat kami. Semoga Allah memberkati perkahwinan ini.' },
+    quiet: false
+  },
+
   /* ---------- Birthday ---------- */
   {
     category: 'birthday', id: 'id-1', ...partyExtras(['15:00', '16:00', '16:30'], [{ en: 'Arrival and games', ms: 'Ketibaan dan permainan' }, { en: 'Cake and singing', ms: 'Kek dan nyanyian' }, { en: 'Goodie bags', ms: 'Beg cenderahati' }], 4), name: { en: 'Warm Terracotta', ms: 'Terakota Hangat' },
     theme: { paper: '#FFF7EC', paper2: '#F8EBDA', ink: '#3A2418', muted: '#6B4A38', accent: '#D98B4E', accentText: '#963F14',
       cover: '#9A431F', coverInk: '#FFF3E2', coverLine: '#F0C79B', btn: '#9A431F', btnInk: '#FFF7EC', seal: '#FFF3E2', sealInk: '#7A3213' },
     seal: 'wax', monogram: '7',
+    cover: 'age',
     kicker: { en: 'You are invited to celebrate', ms: 'Anda dijemput meraikan' },
     names: ['Aqil'], subtitle: { en: 'turns seven', ms: 'genap tujuh tahun' }, guest: 'Auntie Mei Ling',
     invite: { en: 'Please join us for cake, games and good company at Aqil’s seventh birthday.', ms: 'Jom sertai kami untuk kek, permainan dan bersama-sama meraikan hari lahir Aqil yang ketujuh.' },
@@ -262,6 +337,7 @@ export const DEMOS: DemoInvite[] = [
     theme: { paper: '#FAF5F0', paper2: '#F1E8DF', ink: '#2E1F2B', muted: '#5E4B5A', accent: '#D8BC8A', accentText: '#6B4B7A',
       cover: '#3E2A3F', coverInk: '#F6EBDD', coverLine: '#D8BC8A', btn: '#5B3A5C', btnInk: '#FAF5F0', seal: '#D8BC8A', sealInk: '#3E2A3F' },
     seal: 'wax', monogram: '30',
+    cover: 'foil',
     kicker: { en: 'An evening to celebrate', ms: 'Malam meraikan' },
     names: ['Sofea'], subtitle: { en: 'thirty and thriving', ms: 'tiga puluh tahun' }, guest: 'Kak Liyana',
     invite: { en: 'Dinner, music and a toast to Sofea’s 30th. Dress in your favourite jewel tone.', ms: 'Makan malam, muzik dan ucapan sempena ulang tahun ke-30 Sofea. Pakai warna permata kegemaran anda.' },
@@ -272,6 +348,41 @@ export const DEMOS: DemoInvite[] = [
     ],
     countdown: true, note: { en: 'Valet parking at the podium level. Halal menu.', ms: 'Valet di aras podium. Menu halal.' },
     closing: { en: 'Your company is the best present.', ms: 'Kehadiran anda adalah hadiah terbaik.' },
+    quiet: false
+  },
+
+  {
+    category: 'birthday', id: 'id-3', ...partyExtras(['14:00', '15:00', '16:00'], [{ en: 'Arrival and face painting', ms: 'Ketibaan dan lukisan muka' }, { en: 'Games and magic show', ms: 'Permainan dan persembahan silap mata' }, { en: 'Cake and goodie bags', ms: 'Kek dan beg cenderahati' }], 4), name: { en: 'Bright Balloons', ms: 'Belon Ceria' },
+    theme: { paper: '#FFFBF0', paper2: '#FFF1D6', ink: '#1F2A44', muted: '#46506B', accent: '#FF7A59', accentText: '#B2391A',
+      cover: '#2058C9', coverInk: '#FFFFFF', coverLine: '#FFD23F', btn: '#C73E1D', btnInk: '#FFFBF0', seal: '#FFD23F', sealInk: '#1F2A44' },
+    seal: 'wax', monogram: '5', cover: 'balloons',
+    kicker: { en: 'Come and celebrate', ms: 'Jom meriahkan' },
+    names: ['Danish'], subtitle: { en: 'is five!', ms: 'genap lima tahun!' }, guest: 'Mak Cik Rina',
+    invite: { en: 'Balloons, games and cake! Please join us for Danish’s fifth birthday party.', ms: 'Belon, permainan dan kek! Jom sertai majlis hari lahir Danish yang kelima.' },
+    hosts: { en: ['Hosted by Encik Zaki and Puan Dina'], ms: ['Tuan rumah: Encik Zaki dan Puan Dina'] },
+    events: [
+      { label: { en: 'Birthday party', ms: 'Majlis hari lahir' }, start: upcoming(0, 35, '14:00'), hours: 3,
+        venue: { en: 'Sample Play Hall', ms: 'Dewan Permainan Contoh' }, address: 'Jalan Contoh 6, 47301 Petaling Jaya' }
+    ],
+    countdown: true, note: { en: 'Wear comfortable clothes. Socks are needed in the bouncy castle.', ms: 'Pakai pakaian selesa. Stokin diperlukan di istana lantun.' },
+    closing: { en: 'Thank you for celebrating with us!', ms: 'Terima kasih kerana meraikan bersama kami!' },
+    quiet: false
+  },
+  {
+    category: 'birthday', id: 'id-4', ...partyExtras(['16:00', '16:30', '18:00'], [{ en: 'High tea', ms: 'Minum petang' }, { en: 'Garden games', ms: 'Permainan taman' }, { en: 'Cake and photos', ms: 'Kek dan bergambar' }], 4), name: { en: 'Garden Party', ms: 'Majlis Taman' },
+    theme: { paper: '#F8FAF4', paper2: '#EBF1E4', ink: '#2C3A2B', muted: '#4D5E4B', accent: '#9DBB98', accentText: '#35612F',
+      cover: '#EAF2E6', coverInk: '#2C3A2B', coverLine: '#5F8D5A', btn: '#3E6B3A', btnInk: '#F8FAF4', seal: '#3E6B3A', sealInk: '#FFFFFF' },
+    seal: 'wax', monogram: '25', cover: 'wreath',
+    kicker: { en: 'A garden party for', ms: 'Majlis taman untuk' },
+    names: ['Nadiah'], subtitle: { en: 'turns twenty-five', ms: 'genap dua puluh lima' }, guest: 'Kak Wani',
+    invite: { en: 'High tea on the lawn, flowers and a slice of cake. Please join us for Nadiah’s 25th.', ms: 'Minum petang di halaman, bunga dan sepotong kek. Sila sertai ulang tahun ke-25 Nadiah.' },
+    hosts: { en: ['Hosted by her sisters'], ms: ['Dianjurkan oleh adik-beradik'] },
+    events: [
+      { label: { en: 'Garden party', ms: 'Majlis taman' }, start: upcoming(6, 42, '16:00'), hours: 3,
+        venue: { en: 'Sample Tea Garden', ms: 'Taman Teh Contoh' }, address: 'Jalan Contoh 9, 50480 Kuala Lumpur' }
+    ],
+    countdown: true, note: { en: 'Floral or pastel dress code. The garden is outdoors, shaded.', ms: 'Pakaian bunga atau warna pastel. Taman ini terbuka dan beteduh.' },
+    closing: { en: 'Your company makes the day.', ms: 'Kehadiran anda menyerikan hari ini.' },
     quiet: false
   },
 
@@ -313,12 +424,32 @@ export const DEMOS: DemoInvite[] = [
     quiet: true
   },
 
+  {
+    category: 'funeral', id: 'id-3', programme: TAHLIL_PROG, name: { en: 'Warm Cream', ms: 'Krim Hangat' },
+    theme: { paper: '#F7F3EA', paper2: '#EEE8DA', ink: '#2F2A20', muted: '#58503F', accent: '#B8AD92', accentText: '#5A4E34',
+      cover: '#F3EDE0', coverInk: '#3A3226', coverLine: '#9B8E72', btn: '#5A4E3A', btnInk: '#F7F3EA', seal: '#5A4E3A', sealInk: '#F7F3EA' },
+    seal: 'ring', monogram: '',
+    kicker: { en: 'Doa and tahlil', ms: 'Doa dan tahlil' },
+    names: ['Allahyarham', 'Hj. Salleh bin Sample'], subtitle: { en: 'Al-Fatihah', ms: 'Al-Fatihah' }, guest: 'Keluarga Encik Yusof',
+    invite: { en: 'The family invites you to a doa and tahlil in remembrance of the late.', ms: 'Keluarga menjemput anda ke majlis doa dan tahlil untuk allahyarham.' },
+    hosts: { en: ['On behalf of the family'], ms: ['Bagi pihak keluarga'] },
+    events: [
+      { label: { en: 'Doa and tahlil', ms: 'Doa dan tahlil' }, start: upcoming(5, 6, '20:30'), hours: 2,
+        venue: { en: 'Sample Surau', ms: 'Surau Contoh' }, address: 'Lorong Contoh 2, Seksyen 11, 40100 Shah Alam' }
+    ],
+    countdown: false,
+    note: { en: 'Light refreshments will be served after the doa.', ms: 'Jamuan ringan disediakan selepas doa.' },
+    closing: { en: 'May Allah grant him mercy and a place in Jannah.', ms: 'Semoga Allah merahmatinya dan menempatkannya di dalam syurga.' },
+    quiet: true
+  },
+
   /* ---------- Other ---------- */
   {
     category: 'other', id: 'id-1', programme: [{ time: '19:00', label: { en: 'Registration', ms: 'Pendaftaran' } }, { time: '20:00', label: { en: 'Dinner', ms: 'Makan malam' } }, { time: '21:00', label: { en: 'Awards', ms: 'Anugerah' } }], gallery: 4, contacts: [{ name: 'Faizal (Sample)', role: { en: 'Organiser', ms: 'Penganjur' } }], name: { en: 'Ink Blue Dinner', ms: 'Makan Malam Biru Dakwat' },
     theme: { paper: '#F6F7FA', paper2: '#E9ECF3', ink: '#12203A', muted: '#46526B', accent: '#8A9BC4', accentText: '#2C4A8A',
       cover: '#1B2A4E', coverInk: '#EEF1F8', coverLine: '#9DB0DA', btn: '#1B2A4E', btnInk: '#F6F7FA', seal: '#9DB0DA', sealInk: '#12203A' },
     seal: 'wax', monogram: 'SC',
+    cover: 'ticket',
     kicker: { en: 'Annual dinner', ms: 'Makan malam tahunan' },
     names: ['Sample Company'], subtitle: { en: 'Celebrating our year together', ms: 'Meraikan setahun bersama' }, guest: 'Encik Faizal',
     invite: { en: 'Sample Company invites you and a guest to an evening of dinner, awards and a look back at the year.', ms: 'Syarikat Contoh menjemput anda dan seorang tetamu ke malam makan malam, anugerah dan imbasan tahun ini.' },
@@ -337,6 +468,7 @@ export const DEMOS: DemoInvite[] = [
     theme: { paper: '#F4F7FA', paper2: '#E6EDF3', ink: '#1E2F40', muted: '#475A6C', accent: '#9DB4C8', accentText: '#33607F',
       cover: '#4A6A85', coverInk: '#F4F8FB', coverLine: '#C3D4E3', btn: '#33546F', btnInk: '#F4F7FA', seal: '#F4F8FB', sealInk: '#33546F' },
     seal: 'wax', monogram: 'A',
+    cover: 'arch',
     kicker: { en: 'Aqiqah and doa selamat', ms: 'Majlis aqiqah dan doa selamat' },
     names: ['Adam'], subtitle: { en: 'Welcome to the world', ms: 'Selamat datang ke dunia' }, guest: 'Nenek Zawiyah',
     invite: { en: 'We are grateful for the arrival of our son. Please join us for the aqiqah and a doa of thanks.', ms: 'Kami bersyukur dengan kelahiran anak lelaki kami. Sila sertai majlis aqiqah dan doa kesyukuran.' },
@@ -348,7 +480,41 @@ export const DEMOS: DemoInvite[] = [
     countdown: true, note: { en: 'Lunch will be served after the doa.', ms: 'Makan tengah hari disediakan selepas doa.' },
     closing: { en: 'Your prayers for our little one mean the world to us.', ms: 'Doa anda untuk si kecil sangat bermakna buat kami.' },
     quiet: false
-  }
+  },
+  {
+    category: 'other', id: 'id-3', ...partyExtras(['11:00', '11:30', '12:30'], [{ en: 'Doa selamat', ms: 'Doa selamat' }, { en: 'Aqiqah and cukur jambul', ms: 'Aqiqah dan cukur jambul' }, { en: 'Lunch', ms: 'Makan tengah hari' }], 4), name: { en: 'Soft Pink Aqiqah', ms: 'Aqiqah Merah Jambu' },
+    theme: { paper: '#FFF8F8', paper2: '#FBEAEC', ink: '#432B33', muted: '#6B4D56', accent: '#E7A9B4', accentText: '#9A3F55',
+      cover: '#F9E1E5', coverInk: '#432B33', coverLine: '#C77A8C', btn: '#9A3F55', btnInk: '#FFF8F8', seal: '#9A3F55', sealInk: '#FFFFFF' },
+    seal: 'wax', monogram: 'A', cover: 'oval',
+    kicker: { en: 'Aqiqah and doa selamat', ms: 'Majlis aqiqah dan doa selamat' },
+    names: ['Aisyah'], subtitle: { en: 'Our little princess', ms: 'Puteri kecil kami' }, guest: 'Nenek Mariam',
+    invite: { en: 'With thanks to Allah for the arrival of our daughter, please join us for her aqiqah.', ms: 'Bersyukur ke hadrat Allah atas kelahiran puteri kami, sila sertai majlis aqiqahnya.' },
+    hosts: { en: ['Encik Shamil and Puan Dahlia'], ms: ['Encik Shamil dan Puan Dahlia'] },
+    events: [
+      { label: { en: 'Aqiqah and doa selamat', ms: 'Aqiqah dan doa selamat' }, start: upcoming(6, 25, '11:00'), hours: 3,
+        venue: { en: 'Sample Residence', ms: 'Kediaman Contoh' }, address: 'No. 5, Jalan Contoh 7, 47500 Subang Jaya' }
+    ],
+    countdown: true, note: { en: 'Lunch will be served after the doa.', ms: 'Makan tengah hari disediakan selepas doa.' },
+    closing: { en: 'Your prayers for our little girl mean the world.', ms: 'Doa anda buat puteri kecil kami amat bermakna.' },
+    quiet: false
+  },
+  {
+    category: 'other', id: 'id-4', ...partyExtras(['10:00', '11:00', '13:00'], [{ en: 'Guests are seated', ms: 'Tetamu dijemput duduk' }, { en: 'Ceremony', ms: 'Majlis konvokesyen' }, { en: 'Lunch and photos', ms: 'Makan tengah hari dan bergambar' }], 4), name: { en: 'Graduation Day', ms: 'Hari Konvokesyen' },
+    theme: { paper: '#FAFAF8', paper2: '#EFEFEA', ink: '#1B1B1B', muted: '#4F4F4A', accent: '#C2A45C', accentText: '#6F5412',
+      cover: '#1B1B1B', coverInk: '#F5F2EA', coverLine: '#C2A45C', btn: '#1B1B1B', btnInk: '#FAFAF8', seal: '#C2A45C', sealInk: '#1B1B1B' },
+    seal: 'wax', monogram: 'F', cover: 'modern',
+    kicker: { en: 'Graduation celebration', ms: 'Meraikan konvokesyen' },
+    names: ['Farah'], subtitle: { en: 'Bachelor of Science', ms: 'Ijazah Sarjana Muda Sains' }, guest: 'Pak Long Rashid',
+    invite: { en: 'After years of hard work, Farah graduates. Join us to celebrate this milestone.', ms: 'Selepas bertahun berusaha, Farah bergraduat. Jom raikan pencapaian ini bersama.' },
+    hosts: { en: ['From her family'], ms: ['Daripada keluarga'] },
+    events: [
+      { label: { en: 'Graduation ceremony', ms: 'Majlis konvokesyen' }, start: upcoming(6, 33, '10:00'), hours: 3,
+        venue: { en: 'Sample University Hall', ms: 'Dewan Universiti Contoh' }, address: 'Jalan Contoh 1, 43600 Bangi' }
+    ],
+    countdown: true, note: { en: 'Please be seated 30 minutes before the ceremony.', ms: 'Sila duduk 30 minit sebelum majlis bermula.' },
+    closing: { en: 'Thank you for being part of the journey.', ms: 'Terima kasih kerana bersama dalam perjalanan ini.' },
+    quiet: false
+  },
 ];
 
 export const findDemo = (category: string, id: string): DemoInvite | undefined =>

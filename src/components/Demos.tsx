@@ -43,7 +43,7 @@ export function Demos() {
           {types.map((ty) => (
             <button key={ty} id={`tab-${ty}`} role="tab" type="button" aria-selected={ty === active}
               aria-controls="demo-panel" tabIndex={ty === active ? 0 : -1} onClick={() => setPicked(ty)}>
-              {t(`event.${ty}.t`)}
+              {t(`event.${ty}.t`)} <span className="tab-n">{demosFor(ty).length}</span>
             </button>
           ))}
         </div>
