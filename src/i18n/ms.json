@@ -137,5 +137,7 @@
  "inv.photo.sample": "Gambar contoh",
  "inv.photo.yours": "Gambar anda",
  "inv.music.on": "Mainkan muzik",
- "inv.music.off": "Jeda muzik"
+ "inv.music.off": "Jeda muzik",
+ "inv.scroll.on": "Skrol automatik",
+ "inv.scroll.off": "Henti skrol automatik"
 }

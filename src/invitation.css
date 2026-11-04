@@ -732,3 +732,5 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 .iv[data-layout="soft"] .dv i{border-radius:50%;transform:none;width:5px;height:5px;background:currentColor}
 .iv[data-layout="soft"] .iv-names{font-style:italic;font-weight:300}
 .iv[data-layout="soft"] .iv-h{letter-spacing:.22em;font-weight:400}
+.iv-autoscroll{top:112px}
+.iv[data-embed] .iv-autoscroll{top:64px}

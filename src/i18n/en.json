@@ -137,5 +137,7 @@
  "inv.photo.sample": "Sample photo",
  "inv.photo.yours": "Your photo",
  "inv.music.on": "Play music",
- "inv.music.off": "Pause music"
+ "inv.music.off": "Pause music",
+ "inv.scroll.on": "Auto-scroll",
+ "inv.scroll.off": "Stop auto-scroll"
 }

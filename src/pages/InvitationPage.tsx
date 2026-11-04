@@ -13,6 +13,7 @@ import { CatCtx, Countdown, EventBlock, Rsvp, Section } from '../components/card
 import { Contacts, Gallery, useGallery, Gift, Programme, Story, Wishes } from '../components/card/extras';
 import { BIGDATE, BIGNUM, BigDate, BigNum, CoupleHeader } from '../components/card/layout';
 import { MusicButton, useMusic } from '../components/card/music';
+import { AutoScrollButton, useAutoScroll } from '../components/card/autoscroll';
 import '../invitation.css';
 
 /* Guest name comes from the link (?to=Name). It is text only, trimmed and capped. */
@@ -206,6 +207,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   const closed = phase === 'closed';
   const music = useMusic(demo);
   const art = useCoverBg(demo);
+  const auto = useAutoScroll(phase === 'open', reduce);
 
   /* Lock page scroll while the cover is shut, then start at the top. */
   useEffect(() => {
@@ -249,6 +251,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
       {phase !== 'open' && <MotionConfig reducedMotion="never"><Cover demo={demo} guest={guest} phase={phase} embed={embed} slow={slow} reduce={reduce} onOpen={onOpen} onDone={onDone} /></MotionConfig>}
       <Body demo={demo} guest={guest} hidden={closed} />
       {music.available && !closed && <MusicButton playing={music.playing} onToggle={music.toggle} />}
+      {phase === 'open' && <AutoScrollButton running={auto.running} onToggle={auto.running ? auto.stop : auto.start} />}
       {!embed && (
         <div className="iv-bar">
           <p>{t('inv.banner')}</p>
