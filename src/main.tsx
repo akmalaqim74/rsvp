@@ -4,6 +4,8 @@ import { LazyMotion, MotionConfig, domAnimation } from 'motion/react';
 import { App } from './App';
 import { I18nProvider } from './lib/i18n';
 import { ConfigProvider } from './lib/siteConfig';
+import '@fontsource-variable/fraunces/wght.css';
+import '@fontsource-variable/inter/wght.css';
 import './styles.css';
 
 const root = document.getElementById('root');

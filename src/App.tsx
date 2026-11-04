@@ -1,6 +1,7 @@
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
-import { How, Events, Demo, Get, Faq } from './components/Sections';
+import { Demos } from './components/Demos';
+import { How, Get, Faq } from './components/Sections';
 import { Booking } from './components/Booking';
 import { Footer } from './components/Footer';
 import { useI18n } from './lib/i18n';
@@ -13,9 +14,8 @@ export function App() {
       <Header />
       <main>
         <Hero />
+        <Demos />
         <How />
-        <Events />
-        <Demo />
         <Get />
         <Booking />
         <Faq />

@@ -11,7 +11,7 @@ export interface SiteConfig {
   whatsapp_msg_en: string;
   whatsapp_msg_ms: string;
   contact_email: string;
-  demo_url: string;
+  demo: Record<EventType, string>; // live demo link per event type, https only
   show: Record<EventType, boolean>;
   booking_open: boolean;
 }

@@ -5,8 +5,10 @@ Promotes our RSVP invitation product (weddings, birthdays, tahlil, any event). V
 The product itself (the invitation page guests open) is in `../rsvp-invite/`. This page links to it as the live demo.
 
 ## What the CEO controls from the Sheet (no redeploy)
-Everything in the **Config** tab: brand name, logo link, WhatsApp number and its pre-filled message (BM and EN), contact email, demo link, which event types show (`show_wedding`, `show_birthday`, `show_funeral`, `show_other`), `booking_open`, and `notify_email` (private, never sent to the page).
+Everything in the **Config** tab: brand name, logo link, WhatsApp number and its pre-filled message (BM and EN), contact email, one demo link per event type (`demo_wedding_url`, `demo_birthday_url`, `demo_funeral_url`, `demo_other_url`), which event types show (`show_wedding`, `show_birthday`, `show_funeral`, `show_other`), `booking_open`, and `notify_email` (private, never sent to the page).
 The page shows safe defaults until the Sheet answers. If the Sheet is down the WhatsApp buttons stay hidden (the page never guesses a number).
+
+The demo section shows one tab per enabled event type. A tab without a demo link says "Live demo coming soon" until you add its link in Config.
 
 ## Set up (about 20 minutes)
 1. Open **sheets.new**, name it "RSVP landing". **Extensions > Apps Script**, replace everything with `apps-script/Code.gs`, save.

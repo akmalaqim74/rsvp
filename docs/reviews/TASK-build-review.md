@@ -1,4 +1,4 @@
-# Review: React rebuild (Claude built and reviewed; no independent check)
+# Review: React rebuild + demo section (2026-11-04) (Claude built and reviewed; no independent check)
 
 Branch: `feature/react-frontend` (from `feature/landing-page`, which holds the plain HTML version). Gate was skipped for Gemini (`agy` broken); the CEO or Gemini should still look before launch.
 
@@ -17,3 +17,9 @@ Branch: `feature/react-frontend` (from `feature/landing-page`, which holds the p
 - If config fails, the error says "WhatsApp us" while the WhatsApp button is hidden. Fix later by showing the contact email.
 - Page `<title>`/meta in the HTML are English (the app swaps the title for BM).
 - No favicon or share image yet (visuals come from Gemini Flow).
+
+## Added 2026-11-04 (after Gemini UI/UX critique)
+- One demo section with tabs per event type, quiet Tahlil variant, per-type demo links from Config; old event cards removed; demo moved under the hero.
+- Hero: outcome headline, WhatsApp primary, Book now outline. Real fonts (Fraunces, Inter) bundled via npm, no third-party request.
+- Checked at 375px and 320px in BM (no overflow, buttons at least 44px) and on desktop; tabs, arrow-key navigation and Tahlil palette work.
+- Not verified: real demo links (none hosted yet), Lighthouse with the added fonts, Safari/real phone, screen reader pass.

@@ -17,7 +17,7 @@ export function Hero() {
         <m.p className="lead" {...item(1)}>{t('hero.sub')}</m.p>
         <m.div className="cta-row" {...item(2)}>
           <WhatsAppLink className="btn btn-wa">{t('cta.wa')}</WhatsAppLink>
-          <m.a className="btn btn-primary" href="#book" whileTap={{ scale: 0.97 }}>{t('cta.book')}</m.a>
+          <m.a className="btn btn-outline" href="#book" whileTap={{ scale: 0.97 }}>{t('cta.book')}</m.a>
         </m.div>
         <m.p className="price" {...item(3)}>{t('price.line')}</m.p>
       </div>
