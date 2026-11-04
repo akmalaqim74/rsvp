@@ -134,6 +134,12 @@ function Cover({ demo, guest, phase, embed, slow, reduce, onOpen, onDone }: { de
   );
 }
 
+/* dark or light cover colour: the art veil is pushed further that way so the lettering keeps its contrast over any art */
+const isDarkHex = (h: string): boolean => {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16) / 255);
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b < 0.35;
+};
+
 type Tone = 'art' | 'paper';
 const PREFERS_ART = new Set(['hero', 'count', 'gal', 'rsvp', 'wish', 'close']);
 const ART_POS = ['0%', '100%', '38%', '72%'];
@@ -265,7 +271,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   }, [phase]);
 
   return (
-    <div className="iv" data-cat={demo.category} data-look={demo.layout ?? coverKind(demo)} data-layout={art ? undefined : demo.layout ?? coverKind(demo)} data-quiet={demo.quiet || undefined} data-embed={embed || undefined} data-rm={reduce || undefined} data-phase={phase} style={art ? { ...themeStyle(demo.theme), '--iv-art': `url(${art})` } as CSSProperties : themeStyle(demo.theme)} data-led={art ? 'y' : undefined} lang={lang}>
+    <div className="iv" data-cat={demo.category} data-cover={isDarkHex(demo.theme.cover) ? 'dark' : 'light'} data-look={demo.layout ?? coverKind(demo)} data-layout={art ? undefined : demo.layout ?? coverKind(demo)} data-quiet={demo.quiet || undefined} data-embed={embed || undefined} data-rm={reduce || undefined} data-phase={phase} style={art ? { ...themeStyle(demo.theme), '--iv-art': `url(${art})` } as CSSProperties : themeStyle(demo.theme)} data-led={art ? 'y' : undefined} lang={lang}>
       {!embed && (
         <div className="iv-top">
           <Link to={{ pathname: '/', hash: 'demos' }}>← {t('inv.back')}</Link>

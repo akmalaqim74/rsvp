@@ -7,7 +7,9 @@
    ===================================================================================================== */
 
 /* paper tokens kept under other names so a panel inside an art section can switch back to paper */
-.iv{--p-paper:var(--iv-paper);--p-paper2:var(--iv-paper2);--p-ink:var(--iv-ink);--p-muted:var(--iv-muted);--p-accent:var(--iv-accent);--p-label:var(--iv-label);--p-btn:var(--iv-btn);--p-btn-ink:var(--iv-btn-ink);--p-field:var(--iv-field);--r:8px;--veil:80%}
+.iv{--p-paper:var(--iv-paper);--p-paper2:var(--iv-paper2);--p-ink:var(--iv-ink);--p-muted:color-mix(in srgb,var(--iv-ink) 90%,var(--iv-paper));--p-accent:var(--iv-accent);--p-label:color-mix(in srgb,var(--iv-label) 45%,var(--iv-ink));--p-btn:var(--iv-btn);--p-btn-ink:var(--iv-btn-ink);--p-field:var(--iv-field);--r:8px;--veil-col:var(--iv-cover)}
+.iv[data-cover="dark"]{--veil-col:color-mix(in srgb,var(--iv-cover) 35%,#000)}
+.iv[data-cover="light"]{--veil-col:color-mix(in srgb,var(--iv-cover) 40%,#fff)}
 
 /* page backdrop: the art, blurred and veiled, fixed behind the card (visible on desktop and between floating cards) */
 .iv[data-led]{isolation:isolate}
@@ -27,9 +29,9 @@
   --iv-muted:var(--iv-cover-ink);
   --iv-btn:var(--iv-cover-ink);--iv-btn-ink:var(--iv-cover);--iv-field:color-mix(in srgb,var(--iv-cover) 80%,#fff);
   background:
-    radial-gradient(ellipse closest-side at 50% 50%,color-mix(in srgb,var(--iv-cover) 89%,transparent) 0 88%,color-mix(in srgb,var(--iv-cover) 62%,transparent) 112%,color-mix(in srgb,var(--iv-cover) 34%,transparent) 150%),
+    radial-gradient(ellipse closest-side at 50% 50%,color-mix(in srgb,var(--veil-col) 97%,transparent) 0 88%,color-mix(in srgb,var(--veil-col) 74%,transparent) 112%,color-mix(in srgb,var(--veil-col) 34%,transparent) 150%),
     var(--iv-art) center var(--ap,50%)/cover no-repeat,var(--iv-cover)}
-.iv[data-led] .iv-sec.paper{background:linear-gradient(color-mix(in srgb,var(--p-paper) 90%,transparent),color-mix(in srgb,var(--p-paper) 90%,transparent)),var(--iv-art) center var(--ap,50%)/cover no-repeat,var(--p-paper)}
+.iv[data-led] .iv-sec.paper{--iv-muted:var(--p-muted);--iv-label:var(--p-label);background:linear-gradient(color-mix(in srgb,var(--p-paper) 90%,transparent),color-mix(in srgb,var(--p-paper) 90%,transparent)),var(--iv-art) center var(--ap,50%)/cover no-repeat,var(--p-paper)}
 .iv[data-led] .iv-sec.paper.bt{padding-top:150px}
 .iv[data-led] .iv-sec.paper.bb{padding-bottom:150px}
 .iv[data-led] .iv-sec.paper.bt::before,.iv[data-led] .iv-sec.paper.bb::after{content:"";position:absolute;height:124px;border:0;z-index:0;background:var(--iv-art) center top/cover no-repeat;pointer-events:none}
@@ -43,7 +45,7 @@
 
 /* ---------- hierarchy ---------- */
 .iv[data-led] .iv-h{margin:0 0 12px;padding:0;font:500 clamp(28px,8.8vw,36px)/1.15 var(--font-head);letter-spacing:.01em;text-transform:none;color:var(--iv-ink);text-wrap:balance}
-.iv[data-led] .iv-kicker{margin:0 0 22px;padding:0;font:500 13px/1.5 var(--font-head);letter-spacing:.3em;text-transform:uppercase;color:var(--iv-label)}
+.iv[data-led] .iv-kicker{margin:0 0 22px;padding:0;font:600 13px/1.5 var(--font-head);letter-spacing:.3em;text-transform:uppercase;color:var(--iv-label)}
 .iv[data-led] .iv-names{margin:0 0 14px;font:400 clamp(46px,14vw,60px)/1.02 var(--font-head);color:var(--iv-ink)}
 .iv[data-led] .iv-names.long{font-size:clamp(36px,11vw,48px)}
 .iv[data-led] .iv-sub{margin:0 0 18px;padding:0;font:500 13px/1.5 var(--font-head);letter-spacing:.24em;text-transform:uppercase;color:var(--iv-muted)}
