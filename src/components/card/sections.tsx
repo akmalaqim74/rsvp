@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { m } from 'motion/react';
 import { mapsUrl, wazeUrl, type DemoEvent, type DemoInvite } from '../../demos/data';
 import { useI18n } from '../../lib/i18n';
-import { WhatsAppLink } from '../WhatsAppLink';
+import type { EventType } from '../../types';
 import { reveal } from '../../motion';
-import { fmtDate } from './parts';
+import { Divider, fmtDate } from './parts';
 
 /* ---- Countdown ----------------------------------------------------------------------------- */
 function useCountdown(iso: string) {
@@ -183,23 +183,16 @@ export function Rsvp({ demo, guest }: { demo: DemoInvite; guest: string }) {
   );
 }
 
-/* ---- Paper section wrapper with gentle reveal ---------------------------------------------- */
+/* ---- Paper section: a "page" of the card with the divider art on top and a gentle reveal ---- */
+export const CatCtx = createContext<EventType>('wedding');
+
 export function Section({ title, children, alt, id, hero }: { title?: string; children: ReactNode; alt?: boolean; id?: string; hero?: boolean }) {
+  const cat = useContext(CatCtx);
   return (
     <m.section className={`iv-sec${alt ? ' alt' : ''}${hero ? ' iv-hero' : ''}`} id={id} {...reveal()} aria-label={title}>
+      {!hero && <Divider category={cat} />}
       {title && <h2 className="iv-h">{title}</h2>}
       {children}
     </m.section>
-  );
-}
-
-export function Contact() {
-  const { t } = useI18n();
-  return (
-    <>
-      <p className="iv-note">{t('inv.contact.d')}</p>
-      <WhatsAppLink className="iv-btn iv-btn-solid">{t('inv.contact.btn')}</WhatsAppLink>
-      <p className="iv-sim">{t('inv.contact.sample')}</p>
-    </>
   );
 }

@@ -39,8 +39,8 @@ function artExists(src: string): Promise<boolean> {
 }
 
 export type ArtKind = 'corner' | 'divider' | 'seal';
-export function useArt(kind: ArtKind, category: EventType): string | null {
-  const src = `/art/${kind}-${category}.webp`;
+export function useArt(kind: ArtKind, category: EventType, pos?: 'tl' | 'br'): string | null {
+  const src = `/art/${kind}-${category}${pos ? `-${pos}` : ''}.webp`;
   const [ok, setOk] = useState(false);
   useEffect(() => {
     let live = true;
@@ -90,14 +90,21 @@ function CornerFan() {
   );
 }
 
-/* Double border with four corners. `edge` keeps only one half when used on a door. */
+/* Double border. With art: a large botanical corner top-left and bottom-right, like a printed card
+   (either may be missing). Without art: four small geometric corners. */
 export function Frame({ category }: { category: EventType }) {
-  const art = useArt('corner', category);
+  const tl = useArt('corner', category, 'tl');
+  const br = useArt('corner', category, 'br');
+  const art = Boolean(tl || br);
+  const fan = (p: (typeof POS)[number]) => <span key={p} className={`fr-c fr-${p}`}><CornerFan /></span>;
   return (
-    <div className="fr" aria-hidden="true">
-      {POS.map((p) => art
-        ? <img key={p} className={`fr-c fr-${p}`} src={art} alt="" decoding="async" />
-        : <span key={p} className={`fr-c fr-${p}`}><CornerFan /></span>)}
+    <div className={`fr${art ? ' fr-art' : ''}`} aria-hidden="true">
+      {art ? (
+        <>
+          {tl ? <img className="fr-c fr-tl" src={tl} alt="" decoding="async" /> : fan('tl')}
+          {br ? <img className="fr-c fr-br" src={br} alt="" decoding="async" /> : fan('br')}
+        </>
+      ) : POS.map(fan)}
     </div>
   );
 }

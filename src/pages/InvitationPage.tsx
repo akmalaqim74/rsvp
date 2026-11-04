@@ -8,7 +8,8 @@ import { waHref } from '../lib/config';
 import { WhatsAppLink } from '../components/WhatsAppLink';
 import { LANGS } from '../types';
 import { CoverText, Divider, Frame, LoopClip, isLong, themeStyle } from '../components/card/parts';
-import { Contact, Countdown, EventBlock, Rsvp, Section } from '../components/card/sections';
+import { CatCtx, Countdown, EventBlock, Rsvp, Section } from '../components/card/sections';
+import { Contacts, Gallery, Gift, Programme, Story, Wishes } from '../components/card/extras';
 import '../invitation.css';
 
 /* Guest name comes from the link (?to=Name). It is text only, trimmed and capped. */
@@ -62,48 +63,53 @@ function Body({ demo, guest, hidden }: { demo: DemoInvite; guest: string; hidden
   const cfg = useSiteConfig();
   const hasWa = Boolean(waHref(cfg, lang));
   const first = demo.events[0];
+  const quiet = demo.quiet;
+  let alt = false;
+  const flip = () => (alt = !alt); // alternate paper tone page by page
   return (
-    <main className="iv-card" inert={hidden} aria-hidden={hidden || undefined} id="iv-main" tabIndex={-1}>
-      <Section hero>
-        <div className="paper-fr"><Frame category={demo.category} /></div>
-        <p className="iv-kicker">{demo.kicker[lang]}</p>
-        <p className={`iv-names${isLong(demo) ? ' long' : ''}`} aria-label={demo.names.join(demo.joiner ? ` ${demo.joiner} ` : ' ')}>
-          {demo.names.map((n, i) => (
-            <span key={n} aria-hidden="true">{i > 0 && demo.joiner && <i>{demo.joiner}</i>}{n}</span>
-          ))}
-        </p>
-        {demo.subtitle && <p className="iv-sub">{demo.subtitle[lang]}</p>}
-        <Divider category={demo.category} />
-        <p className="iv-lead">{demo.invite[lang]}</p>
-        <div className="iv-hosts">{demo.hosts[lang].map((h) => <p key={h}>{h}</p>)}</div>
-      </Section>
-
-      <Section title={t(demo.events.length > 1 ? 'inv.events' : 'inv.event')} alt>
-        {demo.events.map((e) => <EventBlock key={e.start + e.label.en} demo={demo} e={e} />)}
-        {demo.countdown && !demo.quiet && <Countdown iso={first.start} />}
-      </Section>
-
-      <Section title={t('inv.note')}>
-        <p className="iv-lead">{demo.note[lang]}</p>
-      </Section>
-
-      <Section title={t(demo.quiet ? 'inv.rsvp.quiet' : 'inv.rsvp')} alt id="rsvp">
-        <p className="iv-note">{t(demo.quiet ? 'inv.rsvp.sub.quiet' : 'inv.rsvp.sub')}</p>
-        <Rsvp demo={demo} guest={guest} />
-      </Section>
-
-      {hasWa && (
-        <Section title={t('inv.contact')}>
-          <Contact />
+    <CatCtx.Provider value={demo.category}>
+      <main className="iv-card" inert={hidden} aria-hidden={hidden || undefined} id="iv-main" tabIndex={-1}>
+        <Section hero>
+          <div className="paper-fr"><Frame category={demo.category} /></div>
+          <p className="iv-kicker">{demo.kicker[lang]}</p>
+          <p className={`iv-names${isLong(demo) ? ' long' : ''}`} aria-label={demo.names.join(demo.joiner ? ` ${demo.joiner} ` : ' ')}>
+            {demo.names.map((n, i) => (
+              <span key={n} aria-hidden="true">{i > 0 && demo.joiner && <i>{demo.joiner}</i>}{n}</span>
+            ))}
+          </p>
+          {demo.subtitle && <p className="iv-sub">{demo.subtitle[lang]}</p>}
+          <Divider category={demo.category} />
+          <p className="iv-lead">{demo.invite[lang]}</p>
+          <div className="iv-hosts">{demo.hosts[lang].map((h) => <p key={h}>{h}</p>)}</div>
+          <p className="iv-scroll" aria-hidden="true"><span>{t('inv.scroll')}</span><i /></p>
         </Section>
-      )}
 
-      <Section alt>
-        <Divider category={demo.category} />
-        <p className="iv-closing">{demo.closing[lang]}</p>
-        <p className="iv-sign">{demo.names.join(demo.joiner ? ` ${demo.joiner} ` : ' · ')}</p>
-      </Section>
-    </main>
+        {demo.story && <Section title={t('inv.story')} alt={flip()}><Story demo={demo} /></Section>}
+
+        <Section title={t(demo.events.length > 1 ? 'inv.events' : 'inv.event')} alt={flip()}>
+          {demo.events.map((e) => <EventBlock key={e.start + e.label.en} demo={demo} e={e} />)}
+          {demo.countdown && !quiet && <Countdown iso={first.start} />}
+          <p className="iv-note iv-park">{demo.note[lang]}</p>
+        </Section>
+
+        {demo.programme && <Section title={t('inv.programme')} alt={flip()}><Programme demo={demo} /></Section>}
+        {demo.gallery && !quiet && <Section title={t('inv.gallery')} alt={flip()}><Gallery count={demo.gallery} /></Section>}
+        {demo.gift && <Section title={t('inv.gift')} alt={flip()}><Gift demo={demo} /></Section>}
+
+        <Section title={t(quiet ? 'inv.rsvp.quiet' : 'inv.rsvp')} alt={flip()} id="rsvp">
+          <p className="iv-note">{t(quiet ? 'inv.rsvp.sub.quiet' : 'inv.rsvp.sub')}</p>
+          <Rsvp demo={demo} guest={guest} />
+        </Section>
+
+        {demo.wishes && !quiet && <Section title={t('inv.wishes')} alt={flip()}><Wishes demo={demo} guest={guest} /></Section>}
+        {hasWa && demo.contacts && <Section title={t('inv.contact')} alt={flip()}><Contacts demo={demo} /></Section>}
+
+        <Section alt={flip()}>
+          <p className="iv-closing">{demo.closing[lang]}</p>
+          <p className="iv-sign">{demo.names.join(demo.joiner ? ` ${demo.joiner} ` : ' · ')}</p>
+        </Section>
+      </main>
+    </CatCtx.Provider>
   );
 }
 

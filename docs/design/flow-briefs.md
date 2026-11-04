@@ -3,11 +3,11 @@
 _Rule (CEO): no AI slop. All icons, images and video come from Gemini Flow, made by the CEO. Claude builds with type, borders and CSS only. The cards already look finished without any art; the art below only lifts them._
 
 ## How the art plugs in
-Drop a file into `public/art/` with the exact name below. The cards use it automatically, nothing else to change. If a file is missing, the card shows its clean CSS/SVG fallback, so you can add art one category at a time.
+Weddings are no longer green by default: the lead design is ivory paper with gold and blush. Drop a file into `public/art/` with the exact name below. The cards use it automatically, nothing else to change. If a file is missing, the card shows its clean CSS/SVG fallback, so you can add art one category at a time.
 
 | File | Where it shows | Size and format |
 |---|---|---|
-| `corner-<category>.webp` | Four corners of the cover doors and the first inside section. **Draw only the top-left corner**; the code mirrors it for the other three | Transparent **WebP, 600 x 600 px**, ornament touching the top-left edges, leave about 10 percent clear margin |
+| `corner-<category>-tl.webp` and `corner-<category>-br.webp` | Large botanical corners of the cover (and the first inside page), like a printed card: top-left and bottom-right. **The two files may differ** (the code does not mirror them). Shown at about 35 to 45 percent of the card width | Transparent **WebP, 800 x 800 px** each, artwork anchored to its own corner (top-left for `-tl`, bottom-right for `-br`), tapering toward the centre with soft edges, about 10 percent clear margin. Either file may be missing (a small geometric corner shows in its place) |
 | `divider-<category>.webp` | Thin ornament between sections | Transparent **WebP, 900 x 120 px**, centred, lots of empty space either side |
 | `seal-<category>.webp` | The round seal at the bottom of the cover. **No letters on it**; the monogram is added by code so one seal fits every design | Transparent **WebP, 400 x 400 px**, a round or slightly irregular disc, top-lit |
 | `hero-card.webp` (optional, not wired yet) | A phone mock-up of a finished card for the hero, if you want it instead of the CSS phone | **WebP, 900 x 1600 px** |
@@ -25,7 +25,7 @@ Export tips: transparent background, no drop shadow baked in (the page adds its 
 ## Palettes per category
 | Category | Line colour (art) | Matches the card |
 |---|---|---|
-| wedding | muted gold `#C9A96B`, with sage `#8FA39A` leaves | Sage and Gold (also works on Navy) |
+| wedding | muted gold `#B8935A` with dusty-rose `#C98B8F` blossoms and a little sage-grey leaf `#8FA39A` | Ivory and Gold (lead design, light cover), Blush Rose; use `#C9A96B` gold on Midnight Navy |
 | wedding, Blush Rose variant | dusty rose `#A8605F` | Blush Rose |
 | birthday | warm peach `#F0C79B` on terracotta, champagne `#D8BC8A` on plum | Warm Terracotta, Plum |
 | funeral (Tahlil) | pale sage `#A9BDB3` or slate `#B2BDC8`, very thin | Quiet Green, Soft Slate |
@@ -37,17 +37,17 @@ Because the art sits on dark covers and light paper, ask for the **line colour o
 
 ## Prompts (paste into Flow)
 
-### 1. Corner floral, wedding (`corner-wedding.webp`)
-> A single top-left corner ornament for a wedding invitation border, delicate fine-line botanical drawing: a few olive branches and small leaves curving along both edges from the top-left corner, with two or three tiny buds. Muted gold line art (#C9A96B) on a fully transparent background, flat engraved style, thin consistent strokes, lots of empty space, elegant and restrained. No text, no shadow, no photorealism, no colour fill. Square canvas 600 x 600 px, the artwork anchored to the top-left corner.
+### 1. Corner floral, wedding (`corner-wedding-tl.webp`, then `corner-wedding-br.webp`)
+> A single top-left corner ornament for a wedding invitation border, delicate fine-line botanical drawing: a few olive branches and small leaves curving along both edges from the top-left corner, with two or three tiny buds. Muted gold line art (#C9A96B) on a fully transparent background, flat engraved style, thin consistent strokes, lots of empty space, elegant and restrained. No text, no shadow, no photorealism, no colour fill. Square canvas 800 x 800 px, the artwork anchored to the top-left corner, fading softly toward the centre. For `-br`, the same style anchored to the bottom-right with a slightly different arrangement.
 
-### 2. Corner, birthday (`corner-birthday.webp`)
-> A single top-left corner ornament for a refined birthday invitation: simple geometric line corner with a quarter-circle fan of three concentric arcs and a small diamond, plus two tiny leaf sprigs. Warm champagne line (#D8BC8A) on a fully transparent background, flat line art, thin strokes, minimal and grown-up, not childish. No balloons, no confetti, no cartoon, no text. Square canvas 600 x 600 px, anchored to the top-left.
+### 2. Corner, birthday (`corner-birthday-tl.webp` / `-br.webp`)
+> A single top-left corner ornament for a refined birthday invitation: simple geometric line corner with a quarter-circle fan of three concentric arcs and a small diamond, plus two tiny leaf sprigs. Warm champagne line (#D8BC8A) on a fully transparent background, flat line art, thin strokes, minimal and grown-up, not childish. No balloons, no confetti, no cartoon, no text. Square canvas 800 x 800 px, anchored to the top-left (or bottom-right for `-br`).
 
-### 3. Corner, Tahlil (`corner-funeral.webp`) (keep it very quiet)
-> A single top-left corner ornament for a respectful Islamic memorial (tahlil) invitation: extremely simple, two thin parallel lines that meet at the corner with one small, plain geometric eight-point star motif or a single thin curved leaf. Pale sage line (#A9BDB3) on a fully transparent background, very thin strokes, a lot of empty space, solemn and calm. No flowers in colour, no skulls, no crosses, no decorative flourishes, no text, no shadow. Square canvas 600 x 600 px, anchored to the top-left.
+### 3. Corner, Tahlil (`corner-funeral-tl.webp` / `-br.webp`) (keep it very quiet)
+> A single top-left corner ornament for a respectful Islamic memorial (tahlil) invitation: extremely simple, two thin parallel lines that meet at the corner with one small, plain geometric eight-point star motif or a single thin curved leaf. Pale sage line (#A9BDB3) on a fully transparent background, very thin strokes, a lot of empty space, solemn and calm. No flowers in colour, no skulls, no crosses, no decorative flourishes, no text, no shadow. Square canvas 800 x 800 px, anchored to the top-left (or bottom-right for `-br`).
 
-### 4. Corner, other (`corner-other.webp`)
-> A single top-left corner ornament for a formal event invitation (company dinner, aqiqah): clean art-deco style, three thin stepped lines forming a corner with a tiny diamond at the point. Pale ink-blue line (#9DB0DA) on a fully transparent background, flat, thin strokes, minimal. No text, no shadow, no gradients. Square canvas 600 x 600 px, anchored to the top-left.
+### 4. Corner, other (`corner-other-tl.webp` / `-br.webp`)
+> A single top-left corner ornament for a formal event invitation (company dinner, aqiqah): clean art-deco style, three thin stepped lines forming a corner with a tiny diamond at the point. Pale ink-blue line (#9DB0DA) on a fully transparent background, flat, thin strokes, minimal. No text, no shadow, no gradients. Square canvas 800 x 800 px, anchored to the top-left (or bottom-right for `-br`).
 
 ### 5. Divider (`divider-<category>.webp`)
 > A thin horizontal ornamental divider for an invitation, centred: a hairline that fades toward both ends, with a small refined motif in the middle (two mirrored leaves with a tiny diamond for wedding and other; just a tiny diamond for Tahlil). One line colour, transparent background, no text, no shadow, flat. Canvas 900 x 120 px, artwork centred with large empty margins left and right.
