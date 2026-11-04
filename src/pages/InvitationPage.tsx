@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
-import { m, useReducedMotion } from 'motion/react';
+import { m, MotionConfig, useReducedMotion } from 'motion/react';
 import { findDemo, type CoverKind, type DemoInvite } from '../demos/data';
 import { useI18n } from '../lib/i18n';
 import { useSiteConfig } from '../lib/siteConfig';
@@ -24,9 +24,8 @@ const OPENING: Record<CoverKind, Opening> = {
   arch: 'book', age: 'book', foil: 'flap', modern: 'unfold', balloons: 'unfold', wreath: 'bloom'
 };
 
-function Cover({ demo, guest, phase, embed, slow, onOpen, onDone }: { demo: DemoInvite; guest: string; phase: Phase; embed: boolean; slow: number; onOpen: () => void; onDone: () => void }) {
+function Cover({ demo, guest, phase, embed, slow, reduce, onOpen, onDone }: { demo: DemoInvite; guest: string; phase: Phase; embed: boolean; slow: number; reduce: boolean; onOpen: () => void; onDone: () => void }) {
   const { t, lang } = useI18n();
-  const reduce = useReducedMotion();
   const btn = useRef<HTMLButtonElement>(null);
   const opening = phase === 'opening';
   /* The tap is acknowledged first (press, 200 ms), then the swing starts. The cover is never removed before the
@@ -115,7 +114,7 @@ function Cover({ demo, guest, phase, embed, slow, onOpen, onDone }: { demo: Demo
 
   return (
     <m.div className={`cover cv-page cv-k-${kind} ${designClass(demo)}${led ? ' cv-led' : ''}`} style={themeStyle(demo.theme)} role="region" aria-label={demo.kicker[lang]}
-      animate={run && reduce ? { opacity: 0, y: -10 } : { opacity: 1, y: 0 }}
+      animate={run && reduce ? { opacity: 0, y: '-12%' } : { opacity: 1, y: 0 }}
       transition={{ duration: (reduce ? 1.1 : 0.4) * slow, ease: 'easeInOut' }}
       onAnimationComplete={() => { if (run && reduce) finish(); }}>
       <LoopClip category={demo.category} />
@@ -197,6 +196,9 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   const { t, lang, setLang } = useI18n();
   const [params] = useSearchParams();
   const embed = params.get('embed') === '1';
+  const full = params.get('anim') === 'full'; // dev/compare switch: force the full 3D swing even when the OS asks for reduced motion
+  const osReduce = useReducedMotion();
+  const reduce = Boolean(osReduce) && !full;
   const slow = params.get('anim') === 'slow' ? 3 : 1; // dev switch: 3x slower opening, for checking it by eye
   const guest = cleanGuest(params.get('to'));
   const [phase, setPhase] = useState<Phase>('closed');
@@ -232,7 +234,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   }, [phase]);
 
   return (
-    <div className="iv" data-cat={demo.category} data-layout={coverKind(demo)} data-quiet={demo.quiet || undefined} data-embed={embed || undefined} style={art ? { ...themeStyle(demo.theme), '--iv-art': `url(${art})` } as CSSProperties : themeStyle(demo.theme)} data-led={art ? 'y' : undefined} lang={lang}>
+    <div className="iv" data-cat={demo.category} data-layout={coverKind(demo)} data-quiet={demo.quiet || undefined} data-embed={embed || undefined} data-rm={reduce || undefined} data-phase={phase} style={art ? { ...themeStyle(demo.theme), '--iv-art': `url(${art})` } as CSSProperties : themeStyle(demo.theme)} data-led={art ? 'y' : undefined} lang={lang}>
       {!embed && (
         <div className="iv-top">
           <Link to={{ pathname: '/', hash: 'demos' }}>← {t('inv.back')}</Link>
@@ -243,7 +245,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
         </div>
       )}
       {art && <link rel="preload" as="image" href={art} fetchPriority="high" />}
-      {phase !== 'open' && <Cover demo={demo} guest={guest} phase={phase} embed={embed} slow={slow} onOpen={onOpen} onDone={onDone} />}
+      {phase !== 'open' && <MotionConfig reducedMotion="never"><Cover demo={demo} guest={guest} phase={phase} embed={embed} slow={slow} reduce={reduce} onOpen={onOpen} onDone={onDone} /></MotionConfig>}
       <Body demo={demo} guest={guest} hidden={closed} />
       {music.available && !closed && <MusicButton playing={music.playing} onToggle={music.toggle} />}
       {!embed && (

@@ -674,3 +674,8 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 .cv-open:disabled{cursor:default}
 /* Safari: keep the 3D panels on their own compositing layers */
 .door{-webkit-transform-style:flat;transform-style:flat}
+
+/* Reduced motion: the card eases in from 0.98 under the cover while the cover lifts and dissolves. */
+.iv[data-rm] .iv-card{transition:transform 1.1s ease .2s}
+.iv[data-rm][data-phase="closed"] .iv-card{transform:scale(.98)}
+.iv[data-rm][data-phase="opening"] .iv-card{transform:scale(1)}
