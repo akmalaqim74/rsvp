@@ -1,8 +1,10 @@
 import { useState, type KeyboardEvent } from 'react';
+import { Link } from 'react-router-dom';
 import { AnimatePresence, m } from 'motion/react';
 import { reveal } from '../motion';
 import { useI18n } from '../lib/i18n';
 import { useSiteConfig } from '../lib/siteConfig';
+import { firstDemo } from '../demos/data';
 import { EVENT_TYPES, type EventType } from '../types';
 
 /* All sample content below is labelled "Sample" on screen. The preview is plain CSS, no images. */
@@ -34,7 +36,7 @@ export function Demos() {
   const [picked, setPicked] = useState<EventType>('wedding');
   const active = types.includes(picked) ? picked : types[0];
   if (!active) return null;
-  const url = cfg.demo[active];
+  const demo = firstDemo(active);
 
   function onKeyDown(e: KeyboardEvent) {
     const i = types.indexOf(active);
@@ -69,8 +71,8 @@ export function Demos() {
               <div className="stage-text">
                 <h3>{t(`event.${active}.t`)}</h3>
                 <p>{t(`event.${active}.d`)}</p>
-                {url
-                  ? <a className="btn btn-primary" href={url} target="_blank" rel="noopener noreferrer">{t('demo.open')}</a>
+                {demo
+                  ? <Link className="btn btn-primary" to={`/${demo.category}/${demo.id}`}>{t('demo.open')}</Link>
                   : <p className="small">{t('demo.soon')}</p>}
               </div>
             </m.div>

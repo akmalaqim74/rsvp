@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { LazyMotion, MotionConfig, domAnimation } from 'motion/react';
+import { BrowserRouter } from 'react-router-dom';
 import { App } from './App';
 import { I18nProvider } from './lib/i18n';
 import { ConfigProvider } from './lib/siteConfig';
@@ -17,7 +18,9 @@ createRoot(root).render(
     <MotionConfig reducedMotion="user"><LazyMotion features={domAnimation} strict>
       <I18nProvider>
         <ConfigProvider>
-          <App />
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
         </ConfigProvider>
       </I18nProvider>
     </LazyMotion></MotionConfig>

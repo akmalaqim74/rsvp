@@ -1,0 +1,26 @@
+import { Header } from '../components/Header';
+import { Hero } from '../components/Hero';
+import { Demos } from '../components/Demos';
+import { How, Get, Faq } from '../components/Sections';
+import { Booking } from '../components/Booking';
+import { Footer } from '../components/Footer';
+import { useI18n } from '../lib/i18n';
+
+export function Landing() {
+  const { t } = useI18n();
+  return (
+    <>
+      <a className="skip" href="#book">{t('cta.book')}</a>
+      <Header />
+      <main>
+        <Hero />
+        <Demos />
+        <How />
+        <Get />
+        <Booking />
+        <Faq />
+      </main>
+      <Footer />
+    </>
+  );
+}

@@ -50,10 +50,7 @@ t('publicConfig is a whitelist and never leaks notify_email', () => {
   assert.strictEqual(out.show_funeral, true);
   assert.strictEqual(out.booking_open, true);
   assert.strictEqual(c.publicConfig_({ whatsapp_number: '12' }).whatsapp_number, '');
-  const d = c.publicConfig_({ demo_wedding_url: ' https://x.com/w ', demo_url: 'https://old.com' });
-  assert.strictEqual(d.demo_wedding_url, 'https://x.com/w');
-  assert.strictEqual(d.demo_birthday_url, '');
-  assert.strictEqual(d.demo_url, undefined);
+  assert.strictEqual(c.publicConfig_({ demo_url: 'https://old.com' }).demo_url, undefined);
 });
 
 t('validateBooking accepts a good booking', () => {

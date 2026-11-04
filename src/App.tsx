@@ -1,26 +1,27 @@
-import { Header } from './components/Header';
-import { Hero } from './components/Hero';
-import { Demos } from './components/Demos';
-import { How, Get, Faq } from './components/Sections';
-import { Booking } from './components/Booking';
-import { Footer } from './components/Footer';
-import { useI18n } from './lib/i18n';
+import { useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import { Landing } from './pages/Landing';
+import { InvitationPage } from './pages/InvitationPage';
+
+/* After a route change: jump to the #hash target if there is one, otherwise to the top. */
+function ScrollToHash() {
+  const { hash, pathname } = useLocation();
+  useEffect(() => {
+    if (hash) requestAnimationFrame(() => document.getElementById(hash.slice(1))?.scrollIntoView());
+    else window.scrollTo(0, 0);
+  }, [hash, pathname]);
+  return null;
+}
 
 export function App() {
-  const { t } = useI18n();
   return (
     <>
-      <a className="skip" href="#book">{t('cta.book')}</a>
-      <Header />
-      <main>
-        <Hero />
-        <Demos />
-        <How />
-        <Get />
-        <Booking />
-        <Faq />
-      </main>
-      <Footer />
+      <ScrollToHash />
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/:category/:id" element={<InvitationPage />} />
+        <Route path="*" element={<Landing />} />
+      </Routes>
     </>
   );
 }

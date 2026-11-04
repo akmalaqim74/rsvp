@@ -8,8 +8,7 @@ var MAX_PER_PHONE_PER_DAY = 3;
 var MAX_PER_DAY = 100;
 var EVENT_TYPES = ['wedding', 'birthday', 'funeral', 'other'];
 var EVENT_DEFAULTS = { wedding: true, birthday: true, funeral: false, other: true };
-var PUBLIC_TEXT_KEYS = ['brand_name', 'logo_url', 'whatsapp_msg_en', 'whatsapp_msg_ms', 'contact_email',
-  'demo_wedding_url', 'demo_birthday_url', 'demo_funeral_url', 'demo_other_url'];
+var PUBLIC_TEXT_KEYS = ['brand_name', 'logo_url', 'whatsapp_msg_en', 'whatsapp_msg_ms', 'contact_email'];
 var BOOKING_HEADERS = ['timestamp', 'name', 'phone', 'event_type', 'event_date', 'note', 'lang', 'status'];
 
 /* ---------- pure helpers (unit tested in tests/apps-script.test.js) ---------- */
@@ -168,7 +167,6 @@ function setupTabs() {
       ['whatsapp_msg_en', 'Hi, I would like to book an RSVP invitation.'],
       ['whatsapp_msg_ms', 'Hai, saya ingin tempah jemputan RSVP.'],
       ['contact_email', ''],
-      ['demo_wedding_url', ''], ['demo_birthday_url', ''], ['demo_funeral_url', ''], ['demo_other_url', ''],
       ['show_wedding', 'TRUE'], ['show_birthday', 'TRUE'], ['show_funeral', 'FALSE'], ['show_other', 'TRUE'],
       ['booking_open', 'TRUE'], ['notify_email', '']];
     cfg.getRange(1, 1, rows.length, 2).setValues(rows);
