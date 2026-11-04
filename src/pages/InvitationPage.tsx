@@ -24,26 +24,43 @@ const OPENING: Record<CoverKind, Opening> = {
   arch: 'book', age: 'book', foil: 'flap', modern: 'unfold', balloons: 'unfold', wreath: 'bloom'
 };
 
-function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite; guest: string; phase: Phase; embed: boolean; onOpen: () => void; onDone: () => void }) {
+function Cover({ demo, guest, phase, embed, slow, onOpen, onDone }: { demo: DemoInvite; guest: string; phase: Phase; embed: boolean; slow: number; onOpen: () => void; onDone: () => void }) {
   const { t, lang } = useI18n();
   const reduce = useReducedMotion();
   const btn = useRef<HTMLButtonElement>(null);
   const opening = phase === 'opening';
+  /* The tap is acknowledged first (press, 200 ms), then the swing starts. The cover is never removed before the
+     swing has had its full minimum time, whatever fires the completion callback. ?anim=slow multiplies all times by 3. */
+  const [armed, setArmed] = useState(false);
+  const t0 = useRef(0);
+  useEffect(() => {
+    if (!opening) return;
+    const id = window.setTimeout(() => { t0.current = performance.now(); setArmed(true); }, 200 * slow);
+    return () => window.clearTimeout(id);
+  }, [opening, slow]);
+  const finish = useCallback(() => {
+    const min = (reduce ? 1100 : 1400) * slow;
+    const left = min - (performance.now() - t0.current);
+    if (t0.current === 0 || left > 0) window.setTimeout(onDone, t0.current === 0 ? min : left);
+    else onDone();
+  }, [reduce, slow, onDone]);
 
   /* In the modal the close button keeps focus, so the dialog stays predictable. */
   useEffect(() => { if (!embed) btn.current?.focus({ preventScroll: true }); }, [embed]);
   useEffect(() => {
     if (!opening) return;
-    const id = window.setTimeout(onDone, reduce ? 1300 : 3000); // safety net only: must outlast the longest swing (~1.7 s incl. delay) and the 1.1 s reduced dissolve
+    // Safety net only: press + the longest swing (~1.7 s incl. delay) or the 1.1 s dissolve, plus margin.
+    const id = window.setTimeout(onDone, (200 + (reduce ? 1500 : 3200)) * slow);
     return () => window.clearTimeout(id);
-  }, [opening, reduce, onDone]);
+  }, [opening, reduce, slow, onDone]);
 
   const kind = coverKind(demo);
   const led = useCoverBg(demo) !== null;
   const type = OPENING[kind];
-  const go = opening && !reduce;
+  const run = opening && armed;
+  const go = run && !reduce;
   const shade = (d: number, dur: number) => (
-    <m.span className="door-shade" animate={{ opacity: go ? 1 : 0 }} transition={{ duration: dur, delay: d, ease: 'easeIn' }} />
+    <m.span className="door-shade" animate={{ opacity: go ? 1 : 0 }} transition={{ duration: dur * slow, delay: d * slow, ease: 'easeIn' }} />
   );
   const art = () => <div className="door-in"><CoverArt demo={demo} /></div>;
   const photo = (side: 'groom' | 'bride') => kind === 'portrait' && <PortraitPanel side={side} priority />;
@@ -55,8 +72,8 @@ function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite
   const hinged = (side: 'l' | 'r', deg: number, dur: number, delay: number, extra: Record<string, number> = {}) => (
     <m.div key={side} className={`door door-${side}`} aria-hidden="true"
       animate={go ? { rotateY: side === 'l' ? -deg : deg, ...extra } : { rotateY: 0, scale: 1, opacity: 1 }}
-      transition={{ duration: dur, delay, ease }}
-      onAnimationComplete={() => { if (go && side === 'l') onDone(); }}>
+      transition={{ duration: dur * slow, delay: delay * slow, ease }}
+      onAnimationComplete={() => { if (go && side === 'l') finish(); }}>
       {photo(side === 'l' ? 'groom' : 'bride')}
       {art()}
       {shade(delay, dur * 0.8)}
@@ -68,26 +85,26 @@ function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite
       case 'bloom': return <>{hinged('l', 68, 1.2, 0.3, { scale: 1.14, opacity: 0 })}{hinged('r', 68, 1.2, 0.3, { scale: 1.14, opacity: 0 })}</>;
       case 'book':
         return (
-          <m.div className="door pn-full pn-book" aria-hidden="true" animate={{ rotateY: go ? -168 : 0 }} transition={{ duration: 1.4, delay: 0.3, ease }}
-            onAnimationComplete={() => { if (go) onDone(); }}>
+          <m.div className="door pn-full pn-book" aria-hidden="true" animate={{ rotateY: go ? -168 : 0 }} transition={{ duration: 1.4 * slow, delay: 0.3 * slow, ease }}
+            onAnimationComplete={() => { if (go) finish(); }}>
             {art()}{shade(0.3, 1.1)}
           </m.div>
         );
       case 'unfold':
         return (
-          <m.div className="door pn-full pn-up" aria-hidden="true" animate={{ rotateX: go ? 104 : 0 }} transition={{ duration: 1.3, delay: 0.3, ease }}
-            onAnimationComplete={() => { if (go) onDone(); }}>
+          <m.div className="door pn-full pn-up" aria-hidden="true" animate={{ rotateX: go ? 104 : 0 }} transition={{ duration: 1.3 * slow, delay: 0.3 * slow, ease }}
+            onAnimationComplete={() => { if (go) finish(); }}>
             {art()}{shade(0.3, 1)}
           </m.div>
         );
       case 'flap':
         return (
           <>
-            <m.div className="door pn-full pn-pocket" aria-hidden="true" animate={{ y: go ? '5%' : 0, opacity: go ? 0 : 1 }} transition={{ duration: 0.5, delay: 0.95, ease: 'easeIn' }}
-              onAnimationComplete={() => { if (go) onDone(); }}>
+            <m.div className="door pn-full pn-pocket" aria-hidden="true" animate={{ y: go ? '5%' : 0, opacity: go ? 0 : 1 }} transition={{ duration: 0.5 * slow, delay: 0.95 * slow, ease: 'easeIn' }}
+              onAnimationComplete={() => { if (go) finish(); }}>
               {art()}
             </m.div>
-            <m.div className="door pn-flap" aria-hidden="true" animate={{ rotateX: go ? 172 : 0 }} transition={{ duration: 1, delay: 0.3, ease }}>
+            <m.div className="door pn-flap" aria-hidden="true" animate={{ rotateX: go ? 172 : 0 }} transition={{ duration: 1 * slow, delay: 0.3 * slow, ease }}>
               {art()}{shade(0.3, 0.8)}
             </m.div>
           </>
@@ -98,17 +115,17 @@ function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite
 
   return (
     <m.div className={`cover cv-page cv-k-${kind} ${designClass(demo)}${led ? ' cv-led' : ''}`} style={themeStyle(demo.theme)} role="region" aria-label={demo.kicker[lang]}
-      animate={opening && reduce ? { opacity: 0, y: -10 } : { opacity: 1, y: 0 }}
-      transition={{ duration: reduce ? 1.1 : 0.4, ease: 'easeInOut' }}
-      onAnimationComplete={() => { if (opening && reduce) onDone(); }}>
+      animate={run && reduce ? { opacity: 0, y: -10 } : { opacity: 1, y: 0 }}
+      transition={{ duration: (reduce ? 1.1 : 0.4) * slow, ease: 'easeInOut' }}
+      onAnimationComplete={() => { if (run && reduce) finish(); }}>
       <LoopClip category={demo.category} />
       {panels()}
-      <m.div className="cv cv-face" animate={opening ? { opacity: 0, scale: reduce ? 1 : 1.04 } : { opacity: 1, scale: 1 }} transition={{ duration: reduce ? 0.5 : 0.35 }}>
+      <m.div className="cv cv-face" animate={run ? { opacity: 0, scale: reduce ? 1 : 1.04 } : { opacity: 1, scale: 1 }} transition={{ duration: (reduce ? 0.5 : 0.35) * slow }}>
         <CoverText demo={demo} lang={lang} heading>
           {guest && (
             <p className="cv-guest"><span>{t('inv.invited')}</span><strong>{guest}</strong></p>
           )}
-          <button ref={btn} className="cv-open" type="button" onClick={onOpen} disabled={opening}>{t('inv.open')}</button>
+          <button ref={btn} className="cv-open" type="button" onClick={onOpen} disabled={opening} data-pressed={opening && !armed ? 'y' : undefined}>{t('inv.open')}</button>
         </CoverText>
       </m.div>
     </m.div>
@@ -180,6 +197,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   const { t, lang, setLang } = useI18n();
   const [params] = useSearchParams();
   const embed = params.get('embed') === '1';
+  const slow = params.get('anim') === 'slow' ? 3 : 1; // dev switch: 3x slower opening, for checking it by eye
   const guest = cleanGuest(params.get('to'));
   const [phase, setPhase] = useState<Phase>('closed');
   const closed = phase === 'closed';
@@ -204,9 +222,9 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   }, [embed]);
 
   function onOpen() {
-    music.start();
-    window.scrollTo(0, 0);
-    setPhase('opening');
+    setPhase('opening'); // first: nothing below may stop the animation from starting
+    try { window.scrollTo(0, 0); } catch { /* ignore */ }
+    try { music.start(); } catch { /* audio is optional */ }
   }
   const onDone = useCallback(() => setPhase((p) => (p === 'opening' ? 'open' : p)), []);
   useEffect(() => {
@@ -225,7 +243,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
         </div>
       )}
       {art && <link rel="preload" as="image" href={art} fetchPriority="high" />}
-      {phase !== 'open' && <Cover demo={demo} guest={guest} phase={phase} embed={embed} onOpen={onOpen} onDone={onDone} />}
+      {phase !== 'open' && <Cover demo={demo} guest={guest} phase={phase} embed={embed} slow={slow} onOpen={onOpen} onDone={onDone} />}
       <Body demo={demo} guest={guest} hidden={closed} />
       {music.available && !closed && <MusicButton playing={music.playing} onToggle={music.toggle} />}
       {!embed && (

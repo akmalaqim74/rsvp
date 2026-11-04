@@ -667,3 +667,10 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 .iv[data-led] .iv-band{height:100px;opacity:.34}
 
 .cv-d-birthday-1{--cv-veil:82%}.cv-d-wedding-6{--cv-veil:76%}.cv-d-wedding-5{--cv-veil:70%}
+
+/* Tap feedback: the button (and with it the seal area) presses in for 200 ms before the swing starts. */
+.cv-open{transition:transform .18s ease,filter .18s ease}
+.cv-open[data-pressed]{transform:scale(.92);filter:brightness(.9)}
+.cv-open:disabled{cursor:default}
+/* Safari: keep the 3D panels on their own compositing layers */
+.door{-webkit-transform-style:flat;transform-style:flat}
