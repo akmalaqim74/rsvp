@@ -139,5 +139,7 @@
  "inv.wish.sample": "Sample guestbook. Nothing is saved.",
  "err.msg": "Please write a message",
  "inv.scroll": "Scroll",
- "inv.wa": "WhatsApp"
+ "inv.wa": "WhatsApp",
+ "inv.photo.sample": "Sample photo",
+ "inv.photo.yours": "Your photo"
 }

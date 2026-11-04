@@ -52,6 +52,7 @@ export interface DemoInvite {
   countdown: boolean;
   note: L;            // parking, surau, dress code
   closing: L;         // doa or closing message
+  portraits?: boolean; // cover doors show the groom (left) and bride (right) photos; see public/art/portrait-*.webp
   quiet: boolean;     // tahlil: no countdown flourish, respectful wording, single counter
   /* Optional sections. A design shows only the ones it defines. All content is sample. */
   story?: { when: L; title: L; text: L }[];
@@ -192,7 +193,30 @@ export const DEMOS: DemoInvite[] = [
     quiet: false
   },
   {
-    category: 'wedding', id: 'id-4', ...weddingExtras('Hana', 'Irfan', ['19:00', '19:30', '20:00', '21:00', '21:30']), name: { en: 'Sage and Gold', ms: 'Hijau Sage dan Emas' },
+    category: 'wedding', id: 'id-4', ...weddingExtras('Aisyah', 'Hafiz', ['19:00', '19:30', '20:00', '21:00', '21:30']),
+    name: { en: 'Portrait Doors', ms: 'Pintu Potret' },
+    theme: { paper: '#FCF8F2', paper2: '#F8ECE7', ink: '#3A2E2C', muted: '#5F504C', accent: '#B8935A', accentText: '#7A5A1E',
+      cover: '#2B2220', coverInk: '#FBF3E6', coverLine: '#C9A96B', btn: '#7A5A2A', btnInk: '#FCF8F2', seal: '#9C4F58', sealInk: '#FFF6F2' },
+    seal: 'wax', monogram: 'A·H', portraits: true,
+    kicker: { en: 'The wedding of', ms: 'Majlis perkahwinan' },
+    names: ['Aisyah', 'Hafiz'], joiner: '&', guest: 'Puan Sri Hasnah',
+    invite: { en: 'Together with their families, Aisyah and Hafiz invite you to share in the joy of their wedding.', ms: 'Bersama keluarga, Aisyah dan Hafiz menjemput anda meraikan hari bahagia mereka.' },
+    hosts: {
+      en: ['Daughter of Encik Rashid and Puan Norma', 'Son of Encik Azman and Puan Faridah'],
+      ms: ['Puteri kepada Encik Rashid dan Puan Norma', 'Putera kepada Encik Azman dan Puan Faridah']
+    },
+    events: [
+      { label: { en: 'Akad nikah', ms: 'Akad nikah' }, start: upcoming(6, 42, '11:00'), hours: 2,
+        venue: { en: 'Sample Mosque', ms: 'Masjid Contoh' }, address: 'Jalan Contoh 4, Seksyen 14, 40000 Shah Alam' },
+      { label: { en: 'Reception', ms: 'Majlis resepsi' }, start: upcoming(6, 42, '19:30'), hours: 4,
+        venue: { en: 'Sample Hall', ms: 'Dewan Contoh' }, address: 'Jalan Contoh 9, 50450 Kuala Lumpur' }
+    ],
+    countdown: true, note: SAMPLE_NOTE_PARK,
+    closing: { en: 'Your presence and your prayers are the best gift we could receive. May Allah bless this union.', ms: 'Kehadiran dan doa anda adalah hadiah terindah buat kami. Semoga Allah memberkati perkahwinan ini.' },
+    quiet: false
+  },
+  {
+    category: 'wedding', id: 'id-5', ...weddingExtras('Hana', 'Irfan', ['19:00', '19:30', '20:00', '21:00', '21:30']), name: { en: 'Sage and Gold', ms: 'Hijau Sage dan Emas' },
     theme: { paper: '#FBF7EE', paper2: '#F3EDDD', ink: '#2B3A33', muted: '#55625B', accent: '#B8975A', accentText: '#7A5E1F',
       cover: '#2F4A3F', coverInk: '#F4ECD8', coverLine: '#C9A96B', btn: '#2F4A3F', btnInk: '#FBF7EE', seal: '#C9A96B', sealInk: '#2B3A33' },
     seal: 'wax', monogram: 'H·I',

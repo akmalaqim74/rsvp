@@ -7,7 +7,7 @@ import { useSiteConfig } from '../lib/siteConfig';
 import { waHref } from '../lib/config';
 import { WhatsAppLink } from '../components/WhatsAppLink';
 import { LANGS } from '../types';
-import { CoverText, Divider, Frame, LoopClip, isLong, themeStyle } from '../components/card/parts';
+import { CoverText, Divider, Frame, LoopClip, PortraitPanel, isLong, themeStyle } from '../components/card/parts';
 import { CatCtx, Countdown, EventBlock, Rsvp, Section } from '../components/card/sections';
 import { Contacts, Gallery, Gift, Programme, Story, Wishes } from '../components/card/extras';
 import '../invitation.css';
@@ -36,12 +36,13 @@ function Cover({ demo, guest, phase, embed, onOpen, onDone }: { demo: DemoInvite
       animate={{ x: opening && !reduce ? (side === 'l' ? '-102%' : '102%') : '0%' }}
       transition={{ duration: 1, delay: 0.3, ease: [0.65, 0, 0.35, 1] }}
       onAnimationComplete={() => { if (opening && side === 'l') onDone(); }}>
-      <div className="door-in"><Frame category={demo.category} /></div>
+      {demo.portraits && <PortraitPanel side={side === 'l' ? 'groom' : 'bride'} priority />}
+      <div className="door-in"><Frame category={demo.category} bare={demo.portraits} /></div>
     </m.div>
   );
 
   return (
-    <m.div className="cover cv-page" style={themeStyle(demo.theme)} role="region" aria-label={demo.kicker[lang]}
+    <m.div className={`cover cv-page${demo.portraits ? ' cv-portrait' : ''}`} style={themeStyle(demo.theme)} role="region" aria-label={demo.kicker[lang]}
       animate={{ opacity: opening && reduce ? 0 : 1 }} transition={{ duration: 0.4 }}>
       <LoopClip category={demo.category} />
       {door('l')}

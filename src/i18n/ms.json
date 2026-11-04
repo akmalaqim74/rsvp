@@ -139,5 +139,7 @@
  "inv.wish.sample": "Buku ucapan contoh. Tiada apa disimpan.",
  "err.msg": "Sila tulis ucapan",
  "inv.scroll": "Tatal",
- "inv.wa": "WhatsApp"
+ "inv.wa": "WhatsApp",
+ "inv.photo.sample": "Gambar contoh",
+ "inv.photo.yours": "Gambar anda"
 }

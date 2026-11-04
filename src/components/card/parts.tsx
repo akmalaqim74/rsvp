@@ -1,6 +1,7 @@
 import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 import type { DemoInvite, Theme } from '../../demos/data';
 import type { EventType, Lang } from '../../types';
+import { useI18n } from '../../lib/i18n';
 
 export const TZ = 'Asia/Kuala_Lumpur';
 
@@ -36,6 +37,18 @@ function artExists(src: string): Promise<boolean> {
     probe.set(src, p);
   }
   return p;
+}
+
+/* Portrait photos for the "Portrait Doors" design: public/art/portrait-groom.webp and portrait-bride.webp. */
+export function usePortrait(side: 'groom' | 'bride'): string | null {
+  const src = `/art/portrait-${side}.webp`;
+  const [ok, setOk] = useState(false);
+  useEffect(() => {
+    let live = true;
+    void artExists(src).then((v) => { if (live) setOk(v); });
+    return () => { live = false; };
+  }, [src]);
+  return ok ? src : null;
 }
 
 export type ArtKind = 'corner' | 'divider' | 'seal';
@@ -92,10 +105,11 @@ function CornerFan() {
 
 /* Double border. With art: a large botanical corner top-left and bottom-right, like a printed card
    (either may be missing). Without art: four small geometric corners. */
-export function Frame({ category }: { category: EventType }) {
+export function Frame({ category, bare }: { category: EventType; bare?: boolean }) {
   const tl = useArt('corner', category, 'tl');
   const br = useArt('corner', category, 'br');
   const art = Boolean(tl || br);
+  if (bare) return <div className="fr" aria-hidden="true" />;
   const fan = (p: (typeof POS)[number]) => <span key={p} className={`fr-c fr-${p}`}><CornerFan /></span>;
   return (
     <div className={`fr${art ? ' fr-art' : ''}`} aria-hidden="true">
@@ -148,11 +162,24 @@ export function CoverText({ demo, lang, heading, children }: { demo: DemoInvite;
   );
 }
 
+/* One half of the portrait cover. Missing photo: a quiet tonal panel with a thin outline and a caption. */
+export function PortraitPanel({ side, priority }: { side: 'groom' | 'bride'; priority?: boolean }) {
+  const { t } = useI18n();
+  const src = usePortrait(side);
+  return (
+    <div className={`pp pp-${side}${src ? '' : ' pp-empty'}`} aria-hidden="true">
+      {src && <img src={src} alt="" decoding="async" loading={priority ? 'eager' : 'lazy'} fetchPriority={priority ? 'high' : 'low'} />}
+      <span className="pp-cap">{t(src ? 'inv.photo.sample' : 'inv.photo.yours')}</span>
+    </div>
+  );
+}
+
 /* Static card cover used as a gallery thumbnail. Not interactive. */
 export function CoverThumb({ demo, lang }: { demo: DemoInvite; lang: Lang }) {
   return (
-    <div className="cv cv-thumb" style={themeStyle(demo.theme)} aria-hidden="true">
-      <Frame category={demo.category} />
+    <div className={`cv cv-thumb${demo.portraits ? ' cv-portrait' : ''}`} style={themeStyle(demo.theme)} aria-hidden="true">
+      {demo.portraits && <div className="pp-pair"><PortraitPanel side="groom" /><PortraitPanel side="bride" /></div>}
+      <Frame category={demo.category} bare={demo.portraits} />
       <div className="cv-thumb-in"><CoverText demo={demo} lang={lang} /></div>
     </div>
   );
