@@ -190,16 +190,12 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 @media (min-width:640px){.gal{grid-template-columns:repeat(3,1fr);gap:24px 20px}}
 .tile{display:block;width:100%;padding:0;border:0;background:none;text-align:left;color:var(--ink);font:inherit;cursor:pointer}
 .cv-thumb-in{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:11cqw 8cqw}
-.tile .cv-thumb,.phone .cv-thumb{--fi:3.4cqw;--fg:1.5cqw;--fc:11cqw;--fa:42cqw;position:relative;aspect-ratio:3/4;overflow:hidden;
+.tile .cv-thumb{--fi:3.4cqw;--fg:1.5cqw;--fc:11cqw;--fa:42cqw;position:relative;aspect-ratio:3/4;overflow:hidden;
   background-color:var(--iv-cover);border-radius:4px;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;
   background-image:radial-gradient(90% 70% at 50% 42%,rgba(255,255,255,.10),transparent 70%),repeating-linear-gradient(45deg,transparent 0 4cqw,color-mix(in srgb,var(--iv-cover-line) 9%,transparent) 4cqw calc(4cqw + 1px)),repeating-linear-gradient(-45deg,transparent 0 4cqw,color-mix(in srgb,var(--iv-cover-line) 9%,transparent) 4cqw calc(4cqw + 1px))}
-.tile .cv-thumb .cv-names,.phone .cv-thumb .cv-names{font-size:12cqw}.tile .cv-thumb .cv-names.long{font-size:7.6cqw}
-.tile .cv-thumb .cv-text,.phone .cv-thumb .cv-text{flex:1;justify-content:center}
-.tile .cv-thumb .cv-guest,.tile .cv-thumb .cv-open,.phone .cv-thumb .cv-guest{display:none}
-.phone .cv-thumb{box-shadow:none;border-radius:0;aspect-ratio:9/16;min-height:0}
-.phone .cv-thumb .cv-thumb-in{padding:12cqw 8cqw 24cqw}
-.phone-pill{position:absolute;left:50%;bottom:9cqw;transform:translateX(-50%);padding:3cqw 9cqw;border-radius:99px;background:var(--iv-cover-ink);color:var(--iv-cover);font:600 max(9px,3.6cqw)/1 var(--font-body);letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}
-.phone-sample{position:absolute;top:7cqw;left:0;right:0;text-align:center;font:500 max(8px,2.8cqw)/1 var(--font-body);letter-spacing:.14em;text-transform:uppercase;color:var(--iv-label);z-index:3}
+.tile .cv-thumb .cv-names{font-size:12cqw}.tile .cv-thumb .cv-names.long{font-size:7.6cqw}
+.tile .cv-thumb .cv-text{flex:1;justify-content:center}
+.tile .cv-thumb .cv-guest,.tile .cv-thumb .cv-open{display:none}
 .tile-cap{display:block;margin-top:10px;font:600 15px/1.3 var(--font-body)}
 .tile-cap small{display:block;margin-top:2px;font-weight:400;font-size:13px;color:var(--muted)}
 @media (hover:hover){.tile:hover .cv-thumb{transform:translateY(-4px);box-shadow:0 12px 28px rgba(27,42,65,.22)}}
@@ -310,7 +306,7 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 
 /* =====================================================================================================
    Cover compositions (one block per CoverKind) and opening panels. Art uses % and cqw only, so the same
-   composition renders full-screen, in the gallery tile and in the hero phone.
+   composition renders full-screen, and in the gallery tile.
    ===================================================================================================== */
 .cv-art{position:absolute;inset:0;overflow:hidden;pointer-events:none}
 .cv-art i,.cv-art b{position:absolute;display:block;font-style:normal}

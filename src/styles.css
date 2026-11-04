@@ -34,20 +34,12 @@ a{color:var(--accent)}
 .btn-block{width:100%}
 .btn[disabled]{opacity:.6;cursor:not-allowed}
 
-.hero{display:grid;gap:32px;padding-top:40px;padding-bottom:48px}
+.hero{padding-top:14px;padding-bottom:0}
+.hero h1{font-size:24px;line-height:1.2;margin:0 0 12px}
+.hero .cta-row{margin:0}
+.hero .btn{flex:1 1 0;min-width:0;padding:0 8px;font-size:15px;line-height:1.15;text-align:center}
 .lead{font-size:18px;color:var(--muted)}
 .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 12px}
-.price{color:var(--muted);font-size:14px}
-.phone{overflow:hidden;justify-self:center;width:230px;border:8px solid var(--ink);border-radius:32px;background:var(--surface);box-shadow:var(--shadow)}
-.phone-cover{position:relative;container-type:inline-size}
-.phone-in{position:relative;padding:36px 18px 24px;text-align:center;background:linear-gradient(var(--accent-soft),var(--surface))}
-.sample{position:absolute;top:10px;right:12px;font-size:12px;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:0 8px}
-.m-small{font-size:13px;color:var(--muted);margin:0 0 6px}
-.m-title{font:600 22px var(--font-head);margin:0 0 6px}
-.m-meta{font-size:13px;color:var(--muted);margin:0 0 16px}
-.m-btns{display:grid;gap:8px}
-.m-btns span{display:block;padding:10px;border-radius:10px;background:var(--accent);color:#fff;font-size:14px}
-.m-btns .alt{background:var(--surface);color:var(--ink);border:1px solid var(--line)}
 
 .band{padding-top:40px;padding-bottom:40px;scroll-margin-top:68px}
 .cards{list-style:none;margin:0;padding:0;display:grid;gap:16px}
@@ -83,7 +75,9 @@ details p{padding:0 16px;color:var(--muted)}
 
 @media (min-width:760px){
   h1{font-size:48px}h2{font-size:32px}
-  .hero{grid-template-columns:1.3fr 1fr;align-items:center;padding-top:72px;padding-bottom:72px}
+  .hero{padding-top:36px}
+  .hero h1{font-size:34px}
+  .hero .btn{flex:0 0 auto;padding:0 24px}
   .cards{grid-template-columns:repeat(3,1fr)}
   .cards-4{grid-template-columns:repeat(2,1fr)}
   .ticks{grid-template-columns:repeat(2,1fr)}
@@ -102,24 +96,23 @@ details p{padding:0 16px;color:var(--muted)}
 .tabs button{min-height:44px;padding:0 18px;border:1px solid var(--line);border-radius:99px;background:var(--surface);color:var(--ink);font:500 15px var(--font-body)}
 .tabs button[aria-selected="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
 @media (hover:hover){.tabs button[aria-selected="false"]:hover{background:var(--accent-soft)}}
-.stage{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:28px 20px;min-height:420px}
+.stage{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:14px 12px;min-height:0}
 .stage-in{display:grid;gap:28px;align-items:center}
 .stage-text h3{font-size:24px}
 .stage-text p{color:var(--muted)}
-.stage .phone{box-shadow:none}
-.m-chip{display:inline-block;margin:0 0 14px;padding:3px 10px;border-radius:99px;background:var(--accent-soft);color:var(--ink);font-size:12px;font-weight:500}
-.m-btns .map{font-size:13px}
-.phone.quiet .phone-in{background:linear-gradient(#E3ECE8,var(--surface))}
-.phone.quiet .m-btns span:first-child{background:#2F4858}
-.phone.quiet .m-chip{background:#D5E2DC}
 @media (min-width:760px){
-  .stage{padding:40px}
+  .stage{padding:40px;min-height:420px}
   .stage-in{grid-template-columns:auto 1fr;gap:56px}
   .stage-text{max-width:420px}
 }
 
 /* gallery panel */
-.stage-d{margin:0 0 24px;color:var(--muted);max-width:56ch}
+.stage-d{display:none;margin:0 0 24px;color:var(--muted);max-width:56ch}
 .stage li{list-style:none}.gal{list-style:none;margin:0;padding:0}
 .tabs .tab-n{display:inline-block;min-width:22px;margin-left:4px;padding:1px 6px;border-radius:99px;background:var(--accent-soft);color:var(--ink);font:600 12px/1.5 var(--font-body);text-align:center}
 .tabs button[aria-selected="true"] .tab-n{background:rgba(255,255,255,.22);color:var(--bg)}
+.band#demos{padding-top:14px}
+.band#demos .lead{display:none}
+.band#demos h2{font-size:20px;margin-bottom:0}
+.tabs{margin:12px 0}
+@media (min-width:760px){.band#demos .lead{display:block}.stage-d{display:block}.band#demos{padding-top:28px}.band#demos h2{font-size:28px}}
