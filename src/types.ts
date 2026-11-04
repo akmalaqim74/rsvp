@@ -1,7 +1,7 @@
-export type EventType = 'wedding' | 'engagement' | 'aqiqah' | 'birthday' | 'funeral' | 'other';
+export type EventType = 'wedding' | 'engagement' | 'baby' | 'birthday' | 'graduation' | 'anniversary' | 'corporate' | 'festive' | 'funeral' | 'other';
 export type Lang = 'ms' | 'en';
 
-export const EVENT_TYPES: EventType[] = ['wedding', 'engagement', 'aqiqah', 'birthday', 'funeral', 'other'];
+export const EVENT_TYPES: EventType[] = ['wedding', 'engagement', 'baby', 'birthday', 'graduation', 'anniversary', 'corporate', 'festive', 'funeral', 'other'];
 export const LANGS: Lang[] = ['ms', 'en'];
 
 export interface SiteConfig {

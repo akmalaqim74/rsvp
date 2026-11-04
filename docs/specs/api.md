@@ -9,7 +9,7 @@
 | A | timestamp | server time, Asia/Kuala_Lumpur |
 | B | name | 1 to 80 chars |
 | C | phone | digits only, normalised |
-| D | event_type | wedding / engagement / aqiqah / birthday / funeral / other |
+| D | event_type | wedding / engagement / baby / birthday / graduation / anniversary / corporate / festive / funeral / other |
 | E | event_date | yyyy-MM-dd or blank |
 | F | note | up to 300 chars |
 | G | lang | en / ms |

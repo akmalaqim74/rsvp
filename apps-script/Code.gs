@@ -6,8 +6,8 @@ var TAB_BOOKINGS = 'Bookings';
 var TZ = 'Asia/Kuala_Lumpur';
 var MAX_PER_PHONE_PER_DAY = 3;
 var MAX_PER_DAY = 100;
-var EVENT_TYPES = ['wedding', 'engagement', 'aqiqah', 'birthday', 'funeral', 'other'];
-var EVENT_DEFAULTS = { wedding: true, engagement: true, aqiqah: true, birthday: true, funeral: false, other: true };
+var EVENT_TYPES = ['wedding', 'engagement', 'baby', 'birthday', 'graduation', 'anniversary', 'corporate', 'festive', 'funeral', 'other'];
+var EVENT_DEFAULTS = { wedding: true, engagement: true, baby: true, birthday: true, graduation: true, anniversary: true, corporate: true, festive: true, funeral: false, other: true };
 var PUBLIC_TEXT_KEYS = ['brand_name', 'logo_url', 'whatsapp_msg_en', 'whatsapp_msg_ms', 'contact_email'];
 var BOOKING_HEADERS = ['timestamp', 'name', 'phone', 'event_type', 'event_date', 'note', 'lang', 'status'];
 
@@ -167,7 +167,7 @@ function setupTabs() {
       ['whatsapp_msg_en', 'Hi, I would like to book an RSVP invitation.'],
       ['whatsapp_msg_ms', 'Hai, saya ingin tempah jemputan RSVP.'],
       ['contact_email', ''],
-      ['show_wedding', 'TRUE'], ['show_engagement', 'TRUE'], ['show_aqiqah', 'TRUE'], ['show_birthday', 'TRUE'], ['show_funeral', 'FALSE'], ['show_other', 'TRUE'],
+      ['show_wedding', 'TRUE'], ['show_engagement', 'TRUE'], ['show_baby', 'TRUE'], ['show_birthday', 'TRUE'], ['show_graduation', 'TRUE'], ['show_anniversary', 'TRUE'], ['show_corporate', 'TRUE'], ['show_festive', 'TRUE'], ['show_funeral', 'FALSE'], ['show_other', 'TRUE'],
       ['booking_open', 'TRUE'], ['notify_email', '']];
     cfg.getRange(1, 1, rows.length, 2).setValues(rows);
     cfg.getRange('B:B').setNumberFormat('@');

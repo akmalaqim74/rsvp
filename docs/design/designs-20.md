@@ -79,3 +79,60 @@ Existing designs keep their ids: wedding 1-8, birthday 1-4, funeral 1-3, other 1
 | 18 | School Reunion | Reunion Sekolah | dark | centre | chalkboard green, school doodles, gold |
 | 19 | Charity Gala | Gala Amal | light | centre | deep red and gold, heart motif, elegant |
 | 20 | Hajj Send-off | Kenduri Doa Selamat Haji | dark | centre | white and gold, kaabah-inspired skyline, soft clouds |
+
+## New categories (5 each, ids 1-5). Art file: public/art/cover-<category>-<n>.webp. A design is listed only once its art exists.
+Ratio 9:16. Keep the middle calm for the lettering (place = where the calm area is). Tone: dark = dark ink on light art; light = light ink on dark art.
+
+### Engagement
+| id | EN | MS | tone | place | art |
+|---|---|---|---|---|---|
+| 1 | Pearl Blush | Mutiara Merah Jambu | dark | centre | pearl white and blush, soft florals, fine gold frame |
+| 2 | Navy and Gold | Biru Tua dan Emas | light | centre | deep navy, gold lines, subtle sparkle (international) |
+| 3 | Sage Garden | Taman Sage | dark | centre | sage green leaves, cream paper, small blossoms |
+| 4 | Terracotta Boho | Terakota Boho | dark | centre | terracotta and cream, dried grass, arch shapes (international) |
+| 5 | Emerald Hantaran | Hantaran Zamrud | light | centre | emerald and gold, hantaran tray motifs, elegant |
+
+### Baby (baby shower, newborn, aqiqah as a style)
+| id | EN | MS | tone | place | art |
+|---|---|---|---|---|---|
+| 1 | Soft Sage | Hijau Sage Lembut | dark | centre | sage watercolour wreath, crescent and stars (aqiqah) |
+| 2 | Baby Blue Clouds | Awan Biru Bayi | dark | centre | baby blue clouds, tiny stars, gentle (newborn) |
+| 3 | Blush Crescent | Bulan Sabit Merah Jambu | dark | centre | blush pink crescent moon, gold dots (aqiqah) |
+| 4 | Cream Boho | Krim Boho | dark | centre | cream neutrals, pampas grass, rainbow arch (baby shower) |
+| 5 | Night Stars | Bintang Malam | light | centre | deep blue night sky, gold stars and moon (newborn) |
+
+### Graduation
+| id | EN | MS | tone | place | art |
+|---|---|---|---|---|---|
+| 1 | Navy Convocation | Konvokesyen Biru | light | centre | navy and gold, scroll and mortarboard, formal |
+| 2 | Gold Cap and Gown | Jubah dan Topi Emas | dark | centre | cream paper, gold confetti, graduation cap |
+| 3 | Pastel Grad Party | Parti Graduasi Pastel | dark | upper-middle | pastel balloons, confetti, caps |
+| 4 | Green Campus | Kampus Hijau | dark | centre | green and white, campus arches, books |
+| 5 | Blue Sky Diploma | Diploma Langit Biru | dark | centre | light blue sky, clouds, thrown caps |
+
+### Anniversary
+| id | EN | MS | tone | place | art |
+|---|---|---|---|---|---|
+| 1 | Golden Fiftieth | Ulang Tahun Emas | light | centre | black and gold, art deco, "50" feel |
+| 2 | Silver Twenty-Fifth | Ulang Tahun Perak | dark | centre | silver and white, soft sparkle, champagne |
+| 3 | Ruby Fortieth | Ulang Tahun Delima | light | centre | deep ruby red, gold ornament |
+| 4 | Vow Renewal Roses | Mawar Pembaharuan Ikrar | dark | centre | blush roses wreath, garden light |
+| 5 | Pearl Thirtieth | Ulang Tahun Mutiara | dark | centre | pearls, ivory silk, calm |
+
+### Corporate
+| id | EN | MS | tone | place | art |
+|---|---|---|---|---|---|
+| 1 | Black Tie Dinner | Makan Malam Formal | light | centre | black and gold, chandeliers, stars |
+| 2 | Launch Night | Malam Pelancaran | light | centre | deep blue gradient, thin light lines, tech feel |
+| 3 | Team Offsite | Retreat Pasukan | dark | centre | green hills, light, clean shapes |
+| 4 | Awards Gala | Gala Anugerah | light | centre | navy and gold, spotlight, trophy hint |
+| 5 | Open Day | Hari Terbuka | dark | centre | clean white and pale blue, geometric, modern |
+
+### Festive open house
+| id | EN | MS | tone | place | art |
+|---|---|---|---|---|---|
+| 1 | Raya Open House | Rumah Terbuka Raya | light | centre | green and gold, ketupat, pelita lanterns |
+| 2 | Chinese New Year Red | Tahun Baru Cina Merah | light | centre | red and gold, lanterns, blossoms |
+| 3 | Deepavali Lights | Pelita Deepavali | light | centre | deep purple and gold, diyas, rangoli edge |
+| 4 | Christmas Evergreen | Krismas Malar Hijau | light | centre | evergreen, red berries, gold lights |
+| 5 | Lantern Open House | Rumah Terbuka Tanglung | dark | centre | warm paper lanterns, soft evening (any festival) |

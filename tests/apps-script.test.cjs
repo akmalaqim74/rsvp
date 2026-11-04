@@ -38,8 +38,8 @@ t('isValidDate', () => {
 });
 
 t('enabledTypes defaults hide funeral', () => {
-  assert.strictEqual(JSON.stringify(c.enabledTypes_({})), '["wedding","engagement","aqiqah","birthday","other"]');
-  assert.strictEqual(JSON.stringify(c.enabledTypes_({ show_funeral: 'TRUE', show_other: false })), '["wedding","engagement","aqiqah","birthday","funeral"]');
+  assert.strictEqual(JSON.stringify(c.enabledTypes_({})), '["wedding","engagement","baby","birthday","graduation","anniversary","corporate","festive","other"]');
+  assert.strictEqual(JSON.stringify(c.enabledTypes_({ show_funeral: 'TRUE', show_other: false })), '["wedding","engagement","baby","birthday","graduation","anniversary","corporate","festive","funeral"]');
 });
 
 t('publicConfig is a whitelist and never leaks notify_email', () => {

@@ -17,7 +17,7 @@ const FIRST = 8; // designs shown per category before "Show all"
 export function Demos() {
   const { t, lang } = useI18n();
   const cfg = useSiteConfig();
-  const types = EVENT_TYPES.filter((ty) => cfg.show[ty]);
+  const types = EVENT_TYPES.filter((ty) => cfg.show[ty] && demosFor(ty).length > 0); // a category with no art-led design is hidden
   const [picked, setPicked] = useState<EventType>('wedding');
   const [open, setOpen] = useState<DemoInvite | null>(null);
   const [showAll, setShowAll] = useState<EventType | null>(null); // category whose full list is expanded
