@@ -46,7 +46,12 @@ const WISHES_BY_CATEGORY: Partial<Record<EventType, NonNullable<DemoInvite['wish
 };
 const withWishes = (d: DemoInvite): DemoInvite => (d.wishes && WISHES_BY_CATEGORY[d.category] ? { ...d, wishes: WISHES_BY_CATEGORY[d.category] } : d);
 
-export const DEMOS: DemoInvite[] = [...BASE_DEMOS, ...OCCASION_DEMOS, ...MORE_DEMOS].filter(hasArt).map(withWishes);
+/* Gallery order: the lead design of a category comes first (wedding: Portrait Doors, the couple photo). */
+const FIRST = new Set(['wedding-id-4']);
+const rank = (d: DemoInvite): number => (FIRST.has(`${d.category}-${d.id}`) ? 0 : 1);
+
+export const DEMOS: DemoInvite[] = [...BASE_DEMOS, ...OCCASION_DEMOS, ...MORE_DEMOS].filter(hasArt).map(withWishes)
+  .map((d, i) => ({ d, i })).sort((a, b) => rank(a.d) - rank(b.d) || a.i - b.i).map(({ d }) => d);
 
 export const findDemo = (category: string, id: string): DemoInvite | undefined =>
   DEMOS.find((d) => d.category === category && d.id === id);
