@@ -57,7 +57,7 @@
     repeating-linear-gradient(45deg,transparent 0 26px,color-mix(in srgb,var(--iv-cover-line) 9%,transparent) 26px 27px),
     repeating-linear-gradient(-45deg,transparent 0 26px,color-mix(in srgb,var(--iv-cover-line) 9%,transparent) 26px 27px)}
 .door-l .door-in{left:0}.door-r .door-in{right:0}
-.cv-page .cv-face{--fs-min:11px;position:relative;z-index:2;width:min(100%,440px);padding:24px 28px}
+.cv-page .cv-face{--fs-min:13px;position:relative;z-index:2;width:min(100%,440px);padding:24px 28px}
 .iv[data-embed] .cover{inset:0}
 @media (min-width:760px){.door-in{--fi:26px;--fc:56px;--fa:min(260px,34svh)}}
 
@@ -76,6 +76,8 @@
 .cv-guest span{font:500 max(2.7cqw,10.5px)/1.4 var(--font-body);letter-spacing:.18em;text-transform:uppercase;color:var(--iv-cover-ink)}
 .cv-guest strong{font:500 max(4.4cqw,15px)/1.25 var(--font-head);overflow-wrap:anywhere}
 .cv-open{min-height:48px;padding:0 30px;border:0;border-radius:99px;background:var(--iv-cover-ink);color:var(--iv-cover);font:600 14px var(--font-body);letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:transform .2s,filter .2s}
+.cv-page :is(.cv-kicker,.cv-date,.cv-sub){letter-spacing:.32em;padding-left:.32em}
+.cv-page .cv-guest span{font-size:max(2.7cqw,12px)}
 .cv-open:disabled{cursor:default}
 @media (hover:hover){.cv-open:hover:not(:disabled){transform:translateY(-1px);filter:brightness(.94)}}
 
