@@ -47,3 +47,12 @@ Status: FIXED = changed in this pass (see `git log`); OPEN = needs art or a CEO 
 1. Text over faces on photo covers (item 7): regenerate art, or move lettering to the lower third.
 2. Dark-photo designs (item 8): keep the light milky cover, or switch to a dark cover with light ink (changes the whole interior colour).
 3. How much per-design variety to invest in (item 6): unique story and programme copy, and 2 to 3 section variants per category.
+
+## Round 2 (CEO decisions applied)
+
+- Item 7 FIXED (105dcb1): lettering moved to the calm third on graduation 1-4, engagement 2/4 (upper) and anniversary-1, wedding-4 (lower).
+- Item 8 FIXED (105dcb1): 16 dark-photo designs now have a dark cover and light ink; their interiors follow.
+- Item 9 FIXED (8284b22): cover kicker, date and subtitle at 13px minimum, tracking .32em.
+- Item 6 FIXED (aa681fc, 48aef9c): per-design story, programme, closing, note and gift pools (wedding, engagement, birthday, baby; other categories already had per-row copy); story, events and programme each have 3 layouts chosen per design.
+- Item 10 FIXED (48aef9c, a57cc8d): framed art moment per design (arch, oval, polaroid or double-line by occasion family; crop picked from the art's most detailed regions); section strips no longer repeat one crop.
+- Still open: pools mean copy is varied, not individually hand-written (wedding has 7 stories across 19 designs); photo covers with a dark flip still show the art through a scrim.
