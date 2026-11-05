@@ -12,6 +12,7 @@ import { CoverArt, CoverText, Frame, LoopClip, PortraitPanel, coverKind, designC
 import { CatCtx, Countdown, EventBlock, Orn, Rsvp, Section } from '../components/card/sections';
 import { Contacts, Gallery, useGallery, Gift, Programme, Story, Wishes } from '../components/card/extras';
 import { BIGDATE, BIGNUM, BigDate, BigNum, CoupleHeader } from '../components/card/layout';
+import { Moment, designNum } from '../components/card/moment';
 import { MusicButton, useMusic } from '../components/card/music';
 import { AutoScrollButton, useAutoScroll } from '../components/card/autoscroll';
 import '../invitation.css';
@@ -152,11 +153,12 @@ function Body({ demo, guest, hidden }: { demo: DemoInvite; guest: string; hidden
   const quiet = demo.quiet;
   const kind = coverKind(demo);
   const photos = useGallery(demo.category, demo.gallery ?? 0);
+  const art = useCoverBg(demo);
   const showGal = Boolean(demo.gallery) && !quiet && photos.some(Boolean);
 
   /* Section rhythm: the hero, countdown, gallery, RSVP, wishes and the closing sit on full-bleed cover art; story, events,
      programme and gift sit on paper. Never more than two paper sections in a row: the next one is promoted to art. */
-  const keys = ['hero', demo.countdown && !quiet && 'count', demo.story && 'story', 'events', demo.programme && 'prog', showGal && 'gal', demo.gift && 'gift', 'rsvp', demo.wishes && !quiet && 'wish', hasWa && demo.contacts && 'contact', 'close']
+  const keys = ['hero', demo.countdown && !quiet && 'count', demo.story && 'story', !quiet && art !== null && 'moment', 'events', demo.programme && 'prog', showGal && 'gal', demo.gift && 'gift', 'rsvp', demo.wishes && !quiet && 'wish', hasWa && demo.contacts && 'contact', 'close']
     .filter((k): k is string => typeof k === 'string');
   const plan: Record<string, { tone: Tone; bt: boolean; bb: boolean; ap: string }> = {};
   let run = 0;
@@ -200,6 +202,8 @@ function Body({ demo, guest, hidden }: { demo: DemoInvite; guest: string; hidden
         {plan.count && <Section title={t('inv.countdown')} {...sec('count')}><Countdown iso={first.start} /><p className="iv-note iv-after">{dateLine}</p></Section>}
 
         {demo.story && <Section title={t('inv.story')} {...sec('story')}><Story demo={demo} /></Section>}
+
+        {plan.moment && <Section {...sec('moment')}><Moment demo={demo} /></Section>}
 
         <Section title={t(demo.events.length > 1 ? 'inv.events' : 'inv.event')} {...sec('events')}>
           {demo.events.map((e) => <EventBlock key={e.start + e.label.en} demo={demo} e={e} />)}
@@ -271,7 +275,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   }, [phase]);
 
   return (
-    <div className={`iv ${designClass(demo)}`} data-cat={demo.category} data-cover={isDarkHex(demo.theme.cover) ? 'dark' : 'light'} data-look={demo.layout ?? coverKind(demo)} data-layout={art ? undefined : demo.layout ?? coverKind(demo)} data-quiet={demo.quiet || undefined} data-embed={embed || undefined} data-rm={reduce || undefined} data-phase={phase} style={art ? { ...themeStyle(demo.theme), '--iv-art': `url(${art})` } as CSSProperties : themeStyle(demo.theme)} data-led={art ? 'y' : undefined} lang={lang}>
+    <div className={`iv ${designClass(demo)}`} data-cat={demo.category} data-cover={isDarkHex(demo.theme.cover) ? 'dark' : 'light'} data-look={demo.layout ?? coverKind(demo)} data-layout={art ? undefined : demo.layout ?? coverKind(demo)} data-quiet={demo.quiet || undefined} data-vs={designNum(demo) % 3} data-ve={Math.floor(designNum(demo) / 3) % 3} data-vp={(designNum(demo) + Math.floor(designNum(demo) / 2)) % 3} data-embed={embed || undefined} data-rm={reduce || undefined} data-phase={phase} style={art ? { ...themeStyle(demo.theme), '--iv-art': `url(${art})` } as CSSProperties : themeStyle(demo.theme)} data-led={art ? 'y' : undefined} lang={lang}>
       {!embed && (
         <div className="iv-top">
           <Link to={{ pathname: '/', hash: 'demos' }}>← {t('inv.back')}</Link>

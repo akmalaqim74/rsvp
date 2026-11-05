@@ -2,6 +2,7 @@ import type { EventType } from '../types';
 import { BASE_DEMOS, type DemoInvite, type L } from './data';
 import { MORE_DEMOS, OCCASION_DEMOS } from './more';
 import { COVER_ART } from './coverArt';
+import { vary } from './variants';
 
 /* HARD RULE: a design is listed, tabbed, thumbnailed and routed only when public/art/cover-<category>-<n>.webp exists.
    No flat CSS covers ever reach a visitor. */
@@ -50,7 +51,7 @@ const withWishes = (d: DemoInvite): DemoInvite => (d.wishes && WISHES_BY_CATEGOR
 const FIRST = new Set(['wedding-id-4']);
 const rank = (d: DemoInvite): number => (FIRST.has(`${d.category}-${d.id}`) ? 0 : 1);
 
-export const DEMOS: DemoInvite[] = [...BASE_DEMOS, ...OCCASION_DEMOS, ...MORE_DEMOS].filter(hasArt).map(withWishes)
+export const DEMOS: DemoInvite[] = [...BASE_DEMOS, ...OCCASION_DEMOS, ...MORE_DEMOS].filter(hasArt).map(withWishes).map(vary)
   .map((d, i) => ({ d, i })).sort((a, b) => rank(a.d) - rank(b.d) || a.i - b.i).map(({ d }) => d);
 
 export const findDemo = (category: string, id: string): DemoInvite | undefined =>
