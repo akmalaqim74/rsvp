@@ -209,7 +209,7 @@
 
 /* songket: woven bands top and bottom of paper sections, framed names */
 .iv[data-look="songket"]{--r:6px}
-.iv[data-look="songket"] .iv-sec.paper{border-block:14px solid transparent;border-image:repeating-linear-gradient(90deg,var(--p-accent) 0 10px,transparent 10px 14px,var(--p-ink) 14px 16px,transparent 16px 24px) 14}
+.iv[data-look="songket"] .iv-sec.paper{box-shadow:inset 0 9px 0 var(--p-paper),inset 0 10px 0 var(--p-accent),inset 0 14px 0 var(--p-paper),inset 0 15px 0 color-mix(in srgb,var(--p-accent) 45%,transparent),inset 0 -9px 0 var(--p-paper),inset 0 -10px 0 var(--p-accent),inset 0 -14px 0 var(--p-paper),inset 0 -15px 0 color-mix(in srgb,var(--p-accent) 45%,transparent)}
 .iv[data-look="songket"] .iv-hero .iv-names{display:inline-block;align-self:center;padding:18px 28px;border:1px solid var(--iv-accent);border-radius:14px;box-shadow:0 0 0 5px color-mix(in srgb,var(--iv-cover) 70%,transparent),0 0 0 6px var(--iv-accent)}
 .iv[data-look="songket"] .iv-h{display:inline-block;align-self:center;border-bottom:1px solid var(--iv-accent);padding-bottom:8px}
 .iv[data-look="songket"] .iv-event{border-style:double;border-width:4px}
@@ -236,7 +236,7 @@
 .iv[data-look="ticket"] .iv-sec{text-align:left}
 .iv[data-look="ticket"] .iv-orn{margin-left:0}
 .iv[data-look="geo"]{--r:2px}
-.iv[data-look="geo"] .iv-sec.paper{border-block:12px solid transparent;border-image:repeating-conic-gradient(var(--p-accent) 0 25%,transparent 0 50%) 12/12px}
+.iv[data-look="geo"] .iv-sec.paper{box-shadow:inset 0 0 0 10px var(--p-paper),inset 0 0 0 11px var(--p-accent),inset 0 0 0 16px var(--p-paper),inset 0 0 0 17px color-mix(in srgb,var(--p-accent) 40%,transparent)}
 .iv[data-look="soft"]{--r:14px}
 .iv[data-look="soft"] .iv-orn{width:70px;opacity:.8}
 .iv[data-look="soft"] .iv-event{box-shadow:none;border-color:transparent;background:color-mix(in srgb,var(--p-paper2) 80%,var(--p-paper))}
