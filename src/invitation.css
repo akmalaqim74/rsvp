@@ -645,6 +645,10 @@ img.fr-c{width:var(--fa,120px);height:auto;object-fit:contain;opacity:1;transfor
 .cv-led .door::after{display:none}
 .cv-led.cv-led.cv-led .cv-face{padding-top:var(--cv-pt,24px);padding-bottom:var(--cv-pb,24px)}
 .cv-led .cv-date{margin-top:1.6cqw}
+.cv-led.cv-led.cv-led .cv-face{align-self:var(--cv-as,center)}
+/* photo covers with a subject in the middle: the lettering moves to the calm third (upper = sky, trees, bokeh; lower = water) */
+.cv-d-graduation-1,.cv-d-graduation-2,.cv-d-graduation-3,.cv-d-graduation-4,.cv-d-engagement-2,.cv-d-engagement-4{--cv-as:start;--cv-pt:12svh}
+.cv-d-anniversary-1,.cv-d-wedding-4{--cv-as:end;--cv-pb:13svh}
 .cv-d-birthday-3{--cv-pb:34svh}
 .cv-d-other-2{--cv-pt:16svh}
 .cv-d-other-3{--cv-pt:12svh}
