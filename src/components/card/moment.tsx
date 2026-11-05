@@ -12,7 +12,13 @@ const SHAPES: FrameShape[] = ['arch', 'polaroid', 'oval', 'double'];
 const CROPS: [string, string][] = [['50% 30%', '240%'], ['20% 70%', '240%'], ['80% 40%', '240%'], ['50% 90%', '240%']];
 
 export const designNum = (d: DemoInvite): number => parseInt(d.id.replace(/\D/g, ''), 10) || 1;
-export const frameShape = (d: DemoInvite): FrameShape => SHAPES[(designNum(d) + d.category.length) % SHAPES.length];
+/* frame families: restrained occasions get the double line, tender ones the arch or oval, playful ones the polaroid */
+const FAMILY: Partial<Record<DemoInvite['category'], FrameShape[]>> = {
+  corporate: ['double'], anniversary: ['double', 'arch'], festive: ['double', 'arch'], funeral: ['double'],
+  wedding: ['arch', 'double', 'oval'], engagement: ['arch', 'oval', 'double'], baby: ['oval', 'arch', 'double'],
+  birthday: ['polaroid', 'oval', 'double'], graduation: ['polaroid', 'double'], other: ['polaroid', 'oval', 'arch', 'double']
+};
+export const frameShape = (d: DemoInvite): FrameShape => { const f = FAMILY[d.category] ?? SHAPES; return f[designNum(d) % f.length]; };
 
 export function Moment({ demo }: { demo: DemoInvite }) {
   const { lang } = useI18n();
