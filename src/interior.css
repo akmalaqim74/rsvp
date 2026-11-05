@@ -132,6 +132,18 @@
 .iv:not([data-embed]) .iv-sec:last-child{padding-bottom:340px}
 .iv:not([data-embed]) .iv-foot{bottom:92px}
 
+/* ---------- type pairing: the interior speaks in the same voice as the cover (names face and heading face per design) ---------- */
+.iv.cv-f-cormorant{--hf:'Cormorant Garamond',serif;--hs:1.12;--hw:600}
+.iv.cv-f-greatvibes,.iv.cv-f-pinyon{--hf:'Cormorant Garamond',serif;--hs:1.12;--hw:600}
+.iv.cv-f-playfair{--hf:'Playfair Display Variable',serif;--hs:.94;--hw:500}
+.iv.cv-f-jost{--hf:'Jost',sans-serif;--hs:.96;--hw:500}
+.iv.cv-f-fredoka{--hf:'Fredoka Variable',sans-serif;--hs:.98;--hw:600}
+.iv[data-led] .iv-names{font-family:var(--cv-nf,var(--font-head));font-weight:var(--cv-nw,400);letter-spacing:var(--cv-nl,.01em);font-size:calc(clamp(46px,14vw,60px)*var(--cv-ns,1))}
+.iv[data-led] .iv-names.long{font-size:calc(clamp(36px,11vw,48px)*var(--cv-ns,1))}
+.iv[data-led] .iv-h{font-family:var(--hf,var(--font-head));font-weight:var(--hw,500);font-size:calc(clamp(28px,8.8vw,36px)*var(--hs,1))}
+.iv[data-led] .iv-when,.iv[data-led] .iv-story h3,.iv[data-led] .iv-herodate,.iv[data-led] .iv-after{font-family:var(--hf,var(--font-head))}
+.iv[data-led] .iv-herodate{font-size:calc(clamp(20px,6vw,24px)*var(--hs,1))}
+
 /* =============================== looks (one per cover family) =============================== */
 /* classic: double frame on paper, centred, star divider */
 .iv[data-look="classic"] .iv-sec.paper{box-shadow:inset 0 0 0 12px var(--p-paper),inset 0 0 0 13px color-mix(in srgb,var(--p-accent) 70%,transparent),inset 0 0 0 17px var(--p-paper),inset 0 0 0 18px color-mix(in srgb,var(--p-accent) 35%,transparent)}

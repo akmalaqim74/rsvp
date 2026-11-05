@@ -271,7 +271,7 @@ function Invitation({ demo }: { demo: DemoInvite }) {
   }, [phase]);
 
   return (
-    <div className="iv" data-cat={demo.category} data-cover={isDarkHex(demo.theme.cover) ? 'dark' : 'light'} data-look={demo.layout ?? coverKind(demo)} data-layout={art ? undefined : demo.layout ?? coverKind(demo)} data-quiet={demo.quiet || undefined} data-embed={embed || undefined} data-rm={reduce || undefined} data-phase={phase} style={art ? { ...themeStyle(demo.theme), '--iv-art': `url(${art})` } as CSSProperties : themeStyle(demo.theme)} data-led={art ? 'y' : undefined} lang={lang}>
+    <div className={`iv ${designClass(demo)}`} data-cat={demo.category} data-cover={isDarkHex(demo.theme.cover) ? 'dark' : 'light'} data-look={demo.layout ?? coverKind(demo)} data-layout={art ? undefined : demo.layout ?? coverKind(demo)} data-quiet={demo.quiet || undefined} data-embed={embed || undefined} data-rm={reduce || undefined} data-phase={phase} style={art ? { ...themeStyle(demo.theme), '--iv-art': `url(${art})` } as CSSProperties : themeStyle(demo.theme)} data-led={art ? 'y' : undefined} lang={lang}>
       {!embed && (
         <div className="iv-top">
           <Link to={{ pathname: '/', hash: 'demos' }}>← {t('inv.back')}</Link>
