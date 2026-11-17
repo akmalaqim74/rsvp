@@ -1,7 +1,8 @@
 import { useState, type FormEvent } from 'react';
 import { AnimatePresence, m } from 'motion/react';
 import { reveal } from '../motion';
-import { submitBooking } from '../lib/booking';
+import { bookingMessage } from '../lib/booking';
+import { CONTACTS, waLink } from '../lib/config';
 import { useI18n } from '../lib/i18n';
 import { useSiteConfig } from '../lib/siteConfig';
 import { EVENT_TYPES, type BookingPayload, type EventType } from '../types';
@@ -9,7 +10,7 @@ import { WhatsAppLink } from './WhatsAppLink';
 
 interface FormState { name: string; phone: string; eventType: EventType | ''; eventDate: string; note: string; website: string }
 type Errors = Partial<Record<'name' | 'phone' | 'eventType' | 'eventDate', string>>;
-type Status = { kind: 'idle' } | { kind: 'sending' } | { kind: 'ok' } | { kind: 'fail' };
+type Status = { kind: 'idle' } | { kind: 'sent'; text: string };
 
 const EMPTY: FormState = { name: '', phone: '', eventType: '', eventDate: '', note: '', website: '' };
 
@@ -20,7 +21,6 @@ export function Booking() {
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<Status>({ kind: 'idle' });
   const open = cfg.booking_open;
-  const sending = status.kind === 'sending';
 
   const set = (k: keyof FormState) => (e: { target: { value: string } }) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
@@ -35,23 +35,21 @@ export function Booking() {
     return errs;
   }
 
-  async function onSubmit(e: FormEvent) {
+  function onSubmit(e: FormEvent) {
     e.preventDefault();
-    if (sending || !open) return;
+    if (!open) return;
     const errs = validate();
     setErrors(errs);
     if (Object.keys(errs).length > 0 || form.eventType === '') return;
-    setStatus({ kind: 'sending' });
+    if (form.website) { setForm(EMPTY); return; } // honeypot: a bot filled the hidden field
     const payload: BookingPayload = {
       name: form.name.trim(), phone: form.phone.trim(), eventType: form.eventType,
-      eventDate: form.eventDate, note: form.note.trim(), lang, website: form.website
+      eventDate: form.eventDate, note: form.note.trim(), lang, website: ''
     };
-    try {
-      const ok = await submitBooking(payload);
-      if (ok) { setForm(EMPTY); setStatus({ kind: 'ok' }); } else setStatus({ kind: 'fail' });
-    } catch {
-      setStatus({ kind: 'fail' });
-    }
+    const text = bookingMessage(payload, t(`event.${form.eventType}.t`));
+    setStatus({ kind: 'sent', text });
+    // Same tap as the submit, so the browser lets WhatsApp open in a new tab.
+    window.open(waLink(CONTACTS[0].number, text), '_blank', 'noopener,noreferrer');
   }
 
   const field = (id: keyof Errors) => `field${errors[id] ? ' bad' : ''}`;
@@ -66,7 +64,7 @@ export function Booking() {
       </m.div>
       <m.form onSubmit={onSubmit} noValidate {...reveal(0.1)}>
         {!open && <p className="notice">{t('form.closed')}</p>}
-        <fieldset disabled={!open || sending} style={{ border: 0, margin: 0, padding: 0, minWidth: 0 }}>
+        <fieldset disabled={!open} style={{ border: 0, margin: 0, padding: 0, minWidth: 0 }}>
           <div className={field('name')}>
             <label htmlFor="f-name">{t('form.name')}</label>
             <input id="f-name" autoComplete="name" maxLength={80} value={form.name} onChange={set('name')} />
@@ -98,16 +96,22 @@ export function Booking() {
             <label>Website <input tabIndex={-1} autoComplete="off" value={form.website} onChange={set('website')} /></label>
           </div>
           <m.button className="btn btn-primary btn-block" type="submit" whileTap={{ scale: 0.98 }}>
-            {sending ? t('form.sending') : t('form.submit')}
+            {t('form.submit')}
           </m.button>
         </fieldset>
         <div role="status" aria-live="polite">
           <AnimatePresence mode="wait">
-            {(status.kind === 'ok' || status.kind === 'fail') && (
-              <m.p key={status.kind} className={`status ${status.kind === 'ok' ? 'ok' : 'fail'}`}
-                initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-                {status.kind === 'ok' ? t('form.ok') : t('form.err')}
-              </m.p>
+            {status.kind === 'sent' && (
+              <m.div key="sent" className="status ok" initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+                <p>{t('form.wa.sent')}</p>
+                <div className="cta-row">
+                  {CONTACTS.map((c) => (
+                    <a key={c.number} className="btn btn-wa" href={waLink(c.number, status.text)} target="_blank" rel="noopener noreferrer">
+                      {t('cta.wa.short')} {c.label}
+                    </a>
+                  ))}
+                </div>
+              </m.div>
             )}
           </AnimatePresence>
         </div>

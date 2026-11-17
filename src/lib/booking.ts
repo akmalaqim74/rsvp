@@ -22,3 +22,18 @@ export async function submitBooking(payload: BookingPayload, retried = false): P
   }
   return body.status === true;
 }
+
+/* The form no longer needs a backend: the details become a pre-filled WhatsApp message the visitor sends themselves.
+   Nothing is stored on our side. The text goes only to the wa.me link the visitor opens. */
+export function bookingMessage(p: BookingPayload, eventLabel: string): string {
+  const ms = p.lang === 'ms';
+  const lines = [
+    ms ? 'Hai, saya nak tempah jemputan digital.' : 'Hi, I want to book a digital invitation.',
+    `${ms ? 'Nama' : 'Name'}: ${p.name}`,
+    `${ms ? 'Telefon' : 'Phone'}: ${p.phone}`,
+    `${ms ? 'Jenis majlis' : 'Event'}: ${eventLabel}`
+  ];
+  if (p.eventDate) lines.push(`${ms ? 'Tarikh' : 'Date'}: ${p.eventDate}`);
+  if (p.note) lines.push(`${ms ? 'Catatan' : 'Note'}: ${p.note}`);
+  return lines.join('\n');
+}
