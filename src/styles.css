@@ -37,6 +37,8 @@ a{color:var(--accent)}
 .hero{padding-top:14px;padding-bottom:0}
 .hero h1{font-size:24px;line-height:1.2;margin:0 0 12px}
 .hero .cta-row{margin:0}
+.hero .cta-row .btn{white-space:nowrap}
+@media (max-width:560px){.hero .cta-row{flex-direction:column}.hero .cta-row .btn{width:100%}}
 .hero .btn{flex:1 1 0;min-width:0;padding:0 8px;font-size:15px;line-height:1.15;text-align:center}
 .lead{font-size:18px;color:var(--muted)}
 .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin:24px 0 12px}

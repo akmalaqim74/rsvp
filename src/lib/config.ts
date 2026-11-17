@@ -50,10 +50,20 @@ export function normalizeConfig(raw: unknown): SiteConfig {
   };
 }
 
+/* The two public sales lines shown as buttons on the homepage (CEO, 2026-11-17). The Sheet's whatsapp_number,
+   when set, still wins for the single WhatsApp links elsewhere; until then the first line is the fallback. */
+export const CONTACTS: ReadonlyArray<{ number: string; label: string }> = [
+  { number: '60179850722', label: '017-985 0722' },
+  { number: '60149934665', label: '014-993 4665' }
+];
+
+export function waLink(number: string, msg: string): string {
+  return number ? `https://wa.me/${number}${msg ? `?text=${encodeURIComponent(msg)}` : ''}` : '';
+}
+
 export function waHref(cfg: SiteConfig, lang: Lang): string {
-  if (!cfg.whatsapp_number) return '';
   const msg = lang === 'ms' ? cfg.whatsapp_msg_ms : cfg.whatsapp_msg_en;
-  return `https://wa.me/${cfg.whatsapp_number}${msg ? `?text=${encodeURIComponent(msg)}` : ''}`;
+  return waLink(cfg.whatsapp_number || CONTACTS[0].number, msg);
 }
 
 export async function loadConfig(): Promise<unknown> {
