@@ -154,5 +154,6 @@
  "inv.music.on": "Mainkan muzik",
  "inv.music.off": "Jeda muzik",
  "inv.scroll.on": "Skrol automatik",
- "inv.scroll.off": "Henti skrol automatik"
+ "inv.scroll.off": "Henti skrol automatik",
+ "cta.wa.short": "WhatsApp"
 }
